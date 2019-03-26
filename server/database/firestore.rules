@@ -1,0 +1,31 @@
+service cloud.firestore {
+    match /databases/{database}/documents {
+        function isSignedIn() {
+            return request.auth.uid != null
+        }
+        
+        function isUsersOwnData(userId) {
+        	return request.auth.uid == userId
+        }
+
+        // HelpRequest
+        //
+        // users can read & create help requests
+        // users can update & delete their own help requests
+        match /helpRequest/{requestId} {
+            allow read, create: if isSignedIn()
+            allow update, delete: if isSignedIn() && isUsersOwnData(resource.data.userId)
+        }
+
+        // Users
+        //
+        // users can read their own profile
+        // users can create their own profile if it doesn't already exist
+        //
+        // TODO allow users to update some fields in their profile
+        match /users/{userId} {
+            allow read: if isSignedIn() && isUsersOwnData(userId)
+            allow create: if isSignedIn() && isUsersOwnData(userId) && !exists(/databases/$(database)/documents/users/$(userId))
+        }
+    }
+}
