@@ -1,0 +1,12 @@
+{
+  "name": "server",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "test": "FIREBASE_FIRESTORE_EMULATOR_ADDRESS='127.0.0.1:8080' jest --watch"
+  },
+  "devDependencies": {
+    "@firebase/testing": "^0.7.7",
+    "jest": "^24.5.0"
+  }
+}

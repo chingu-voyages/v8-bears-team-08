@@ -1,0 +1,7 @@
+{
+  "projects": {
+    "default": "kindnest-dev-nh",
+    "prod": "kindnest-nh",
+    "dev": "kindnest-dev-nh"
+  }
+}
