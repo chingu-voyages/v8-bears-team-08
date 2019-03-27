@@ -1,7 +1,7 @@
 const admin = require('firebase-admin')
 const db = admin.firestore();
 
-async function getPublicUserData(userId) {
+async function getUserData(userId) {
     const userDoc = db.collection('users').doc(userId)
     try {
         let user = await userDoc.get()
@@ -9,12 +9,8 @@ async function getPublicUserData(userId) {
         return user.data()
     } catch (error) {
         console.log('error', error)
+        return {error: error}
     }
 }
 
-function getPrivateUserData(userId) {
-    
-}
-
-module.exports.getPublicUserData = getPublicUserData
-module.exports.getPrivateUserData = getPrivateUserData
+module.exports.getUserData = getUserData
