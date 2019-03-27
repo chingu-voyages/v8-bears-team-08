@@ -1,35 +1,42 @@
 'use strict';
 
 const admin = require('firebase-admin')
-admin.initializeApp()
 const functions = require('firebase-functions')
 const express = require('express')
 const cors = require('cors')({origin: true})
-const dao = require('./dao')
+admin.initializeApp()
 
 const app = express()
 app.use(cors)
 app.use(validateFirebaseIdToken)
 
+app.use('/users', require('./users/users-router'))
 
-app.get('/users/:userId', (req, res) => {
-    console.log(req.params)
-    let userId = req.params.userId
-    
-    if (req.user.uid === req.params.userId) {
-        userData = dao.getPrivateUserData(userId)
+app.use(jsonErrorHandler)
+
+
+/*
+ * Custom Middleware functions
+ */
+function jsonErrorHandler (err, req, res, next) {
+    const errResponse = {}
+
+    if (err.code && err.message) {
+        // specific errors
+        errResponse.error.code = err.code
+        errResponse.error.message = err.message
+        if (err.code === 404) {
+            errResponse.error.status = "NOT_FOUND"
+        }
     } else {
-        dao.getPublicUserData(userId)
-            .then((userData) => {
-                console.log('userdata', userData)
-                res.status(200).send(userData)
-            })
-            .catch(() => {
-                res.status(500).send('Internal server error')
-            })
+        // other generic errors
+        errResponse.error.code = 500
+        errResponse.error.message = "Internal Server Error"
+        errResponse.error.status = "INTERNAL_ERROR"
     }
-        
-})
+
+    res.status(err.code).send(errResponse)
+}
 
 function validateFirebaseIdToken(req, res, next) {
     console.log('Check if request is authorized with Firebase ID token')
