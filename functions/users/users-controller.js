@@ -1,4 +1,7 @@
+'use strict'
+
 const dao = require('../dao')
+const Error = require('../helpers/error')
 
 
 module.exports.createUser = function(req, res) {
@@ -21,9 +24,10 @@ module.exports.getUserById = async function(req, res, next) {
 
             res.status(200).send(userData)
         } else {
-            next({code: 404, message: 'User not found'})
+            next(Error(404, 'User not found'))
         }
     } catch (error) {
-        next(error)
+        console.error(error)
+        next(Error())
     }
 }
