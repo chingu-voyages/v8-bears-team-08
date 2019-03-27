@@ -15,9 +15,13 @@ module.exports = function createJsonErrorResponse(errorCode, errorMessage) {
     }
     
     switch(errResponse.error.code) {
-        case 403:
+        case 401:
             errResponse.error.status = 'UNAUTHORIZED'
             errResponse.error.message = 'Unauthorized'
+            break
+        case 403:
+            errResponse.error.status = 'FORBIDDEN'
+            errResponse.error.message = 'Forbidden'
             break
         case 404: 
             errResponse.error.status = 'NOT_FOUND'

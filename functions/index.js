@@ -28,7 +28,7 @@ function validateFirebaseIdToken(req, res, next) {
   
     if (!req.headers.authorization || !req.headers.authorization.startsWith('Bearer ')) {
         console.error('No Firebase ID token was passed as a Bearer token in the Authorization header')
-        return next(Error(403))
+        return next(Error(401))
     }
   
     let idToken = req.headers.authorization.split('Bearer ')[1]
@@ -40,7 +40,7 @@ function validateFirebaseIdToken(req, res, next) {
         })
         .catch((error) => {
             console.error('Error while verifying Firebase ID token:', error)
-            return next(Error(403))
+            return next(Error(401))
         })
 }
 
