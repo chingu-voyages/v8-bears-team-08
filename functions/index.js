@@ -11,16 +11,16 @@ const app = express()
 app.use(cors)
 app.use(validateFirebaseIdToken)
 
-app.use('/users', require('./users/users-router'))
+app.use('/users', require('./users/users-controller'))
 
-app.use(errorHandler)
+app.use(httpResponseHandler)
 
 
 /*
  * Custom Middleware functions
  */
-function errorHandler (errResponse, req, res, next) {
-    res.status(errResponse.error.code).send(errResponse)
+function httpResponseHandler(response, req, res, next) {
+    res.status(response.code).send(errResponse)
 }
 
 function validateFirebaseIdToken(req, res, next) {
