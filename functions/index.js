@@ -4,7 +4,7 @@ const admin = require('firebase-admin')
 const functions = require('firebase-functions')
 const express = require('express')
 const cors = require('cors')({origin: true})
-const Error = require('./helpers/error')
+const Error = require('./helpers/http-response')
 admin.initializeApp()
 
 const app = express()
