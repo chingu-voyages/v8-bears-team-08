@@ -20,7 +20,7 @@ app.use(httpResponseHandler)
  * Custom Middleware functions
  */
 function httpResponseHandler(response, req, res, next) {
-    res.status(response.code).send(errResponse)
+    res.status(response.code).send(response)
 }
 
 function validateFirebaseIdToken(req, res, next) {
