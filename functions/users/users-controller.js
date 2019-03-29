@@ -1,33 +1,50 @@
 'use strict'
 
-const dao = require('../dao')
-const Error = require('../helpers/error')
+const express = require('express')
+const router = express.Router()
+const usersService = require('./users-service')
+const Response = require('../helpers/http-response')
+const { UserAlreadyExistsException } = require('../helpers/exceptions')
+
+// routes
+router.use(canRequestorAccessResorce)
+router.post('/', newUser)
+router.get('/:uid', getById)
+//router.get('/:uid/public', getById)
+//router.get('/:uid/private', getById)
+router.put('/:uid', updateUser)
+
+module.exports = router
 
 
-module.exports.createUser = function(req, res) {
-
+// route handlers
+function newUser(req, res, next) {
+    usersService.create(req.user)
+        .then(user => res.status(200).send(user))
+        .catch(e => e instanceof UserAlreadyExistsException ? 
+            next(Response(200, e.message)) : next(Response(e)))
 }
 
-module.exports.getUserById = async function(req, res, next) {
-    let userIdToGet = req.params.userId
-    console.log('Checking for user:', userIdToGet)
-    
-    try {
-        let userData = await dao.getUserData(userIdToGet)
-        if (userData) {
-            // never send the created time back to the client.
-            // only send sensitive data such as email if the user is getting their own user details
-            delete userData.created
-            if (req.user.uid !== userIdToGet) {
-                delete userData.email
-            }
+function getById(req, res, next) {
+    usersService.getById(req.params.uid)
+        .then(user => user ? res.status(200).send(user) : next(Response(404, 'User not found')))
+        .catch(e => next(Response(e)))
+}
 
-            res.status(200).send(userData)
-        } else {
-            next(Error(404, 'User not found'))
-        }
-    } catch (error) {
-        console.error(error)
-        next(Error())
+function updateUser(req, res, next) {
+    usersService.update(req.params.uid, req.body)
+        .then()
+        .catch(e => console.error(e))
+}
+
+function canRequestorAccessResorce(req, res, next) {
+    requestorId = req.user.uid
+    if (req.params.uid && requestorId !== req.params.uid && (req.method == "POST" || req.method == "PUT")) {
+        return next(Response(403))
     }
+    if (req.params.uid && requestorId !== req.params.uid && req.path.includes('/private')) {
+        return next(Response(403))
+    }
+    
+    return next()
 }
