@@ -20,13 +20,6 @@ test('should respond with a 404 for all unknown urls', () => {
         .expect(404)
 })
 
-test('should respond with a 404 for all unknown urls', () => {
-    return request(app)
-        .get('/test')
-        .set('Authorization', 'Bearer ' + validToken)
-        .expect(404)
-})
-
 test('should respond with a 401 for all requests with an invalid Bearer token', () => {
     return request(app)
         .get('/')
