@@ -15,10 +15,15 @@ async function create(userData) {
     return user
 }
 
-async function getById(uid) {
+async function getById(uid, isUserRequestingTheirOwnInfo = true) {
     const userDoc = await db.collection('users').doc(uid).get()
+
     if (userDoc.data()) {
-        return User(userDoc.data())
+        const user = User(userDoc.data())
+        if (!isUserRequestingTheirOwnInfo) {
+            user.stripPrivateData()
+        }
+        return user
     } else {
         return undefined
     }

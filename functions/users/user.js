@@ -18,4 +18,8 @@ User.prototype.update = function({name, photoURL, about}) {
     if (about) this.about = about
 }
 
+User.prototype.stripPrivateData = function() {
+    delete this.email
+}
+
 module.exports = User

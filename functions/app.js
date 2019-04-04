@@ -9,6 +9,7 @@ const app = express()
 app.use(express.json())
 app.use(cors)
 app.use(firebaseHelper.validateFirebaseIdToken)
+app.use(canRequestorAccessResource)
 
 app.use('/users', require('./users/users-controller'))
 app.use(function(req, res, next) {
@@ -24,4 +25,17 @@ function httpResponseHandler(response, req, res, next) {
     res.status(response.code).send(response)
 }
 
+function canRequestorAccessResource(req, res, next) {
+    const requestorId = req.user.uid
+
+    if (req.params.uid && requestorId !== req.params.uid && (req.method == "POST" || req.method == "PUT" || req.method == "DELETE")) {
+        return next(Response(403))
+    }
+
+    // if (req.params.uid && requestorId !== req.params.uid && req.path.includes('/private')) {
+    //     return next(Response(403))
+    // }
+    
+    return next()
+}
 module.exports = app

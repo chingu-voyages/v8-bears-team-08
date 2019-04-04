@@ -47,7 +47,6 @@ function doc(docId) {
         set: jest.fn((userData) => {
             const user = User(userData)
             users.set(user.uid, user)
-            
             return Promise.resolve(user)
         }),
         update: jest.fn((userData) => {
