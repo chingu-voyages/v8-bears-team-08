@@ -2,7 +2,7 @@
 
 const User = require('../users/user')
 
-const users = new Map()
+const dbData = new Map()
 
 function initializeApp(config) {
 
@@ -18,7 +18,7 @@ function firestore() {
 }
 
 function clear() {
-    users.clear()
+    dbData.clear()
 }
 
 firestore.Timestamp = {
@@ -33,11 +33,12 @@ function collection(collection) {
 
 function doc(docId) {
     return {
+        id: docId || makeRandomFirestoreId(),
         get: jest.fn(function() {
             return Promise.resolve({
                 data: jest.fn(() => {
-                    if (users.has(docId)) {
-                        return users.get(docId)
+                    if (dbData.has(docId)) {
+                        return dbData.get(docId)
                     } else {
                         return undefined
                     }
@@ -46,16 +47,27 @@ function doc(docId) {
         }),
         set: jest.fn((userData) => {
             const user = User(userData)
-            users.set(user.uid, user)
+            dbData.set(user.uid, user)
             return Promise.resolve(user)
         }),
         update: jest.fn((userData) => {
-            const user = users.get(userData.uid)
+            const user = dbData.get(userData.uid)
             user.update(userData)
 
             return Promise.resolve(user)
         })
     }
+}
+
+function makeRandomFirestoreId() {
+    const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    const length = 20
+    let id = "";
+  
+    for (var i = 0; i < length; i++)
+    id += possible.charAt(Math.floor(Math.random() * possible.length));
+  
+    return id;
 }
 
 module.exports = {
