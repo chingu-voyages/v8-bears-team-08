@@ -4,10 +4,12 @@ function User(userData) {
     const user = Object.create(User.prototype)
     user.uid = userData.uid
     user.name = userData.name
-    user.photoURL = userData.picture || userData.photoURL
     user.email = userData.email
-    user.about = userData.about
     user.created = userData.created || new Date().toISOString()
+    
+    // optional
+    user.photoURL = userData.picture || userData.photoURL
+    user.about = userData.about
 
     return user
 }
@@ -20,6 +22,17 @@ User.prototype.update = function({name, photoURL, about}) {
 
 User.prototype.stripPrivateData = function() {
     delete this.email
+}
+
+User.prototype.prepareForDb = function() {
+    return {
+        uid: this.uid,
+        name: this.name,
+        photoURL: this.photoURL,
+        email: this.email,
+        ...(this.about && { about: this.about }),
+        ...(this.created && { about: this.created })
+    }
 }
 
 module.exports = User

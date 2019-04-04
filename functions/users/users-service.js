@@ -11,7 +11,7 @@ async function create(userData) {
     }
 
     const user = User(userData)
-    await db.collection('users').doc(user.uid).set(user)
+    await db.collection('users').doc(user.uid).set(user.prepareForDb())
     return user
 }
 
@@ -36,7 +36,7 @@ async function update(uid, userData) {
     }
 
     user.update(userData)
-    await db.collection('users').doc(uid).update(user)
+    await db.collection('users').doc(uid).update(user.prepareForDb())
     return user
 }
 
