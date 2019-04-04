@@ -22,6 +22,10 @@ module.exports = function createJsonResponse(code, message) {
             responseStatus = "CREATED"
             responseMessage = "Created"
             break
+        case 400:
+            responseStatus = "BAD_REQUEST"
+            responseMessage = "Bad request"
+            break
         case 401:
             responseStatus = "UNAUTHORIZED"
             responseMessage = "Unauthorized"
