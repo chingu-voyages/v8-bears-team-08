@@ -12,6 +12,7 @@ app.use(firebaseHelper.validateFirebaseIdToken)
 app.use(canRequestorAccessResource)
 
 app.use('/users', require('./users/users-controller'))
+app.use('/help-requests', require('./help-requests/help-requests-controller'))
 app.use(function(req, res, next) {
     res.status(404).send()
 })
