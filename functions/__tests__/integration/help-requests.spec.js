@@ -5,32 +5,18 @@
  * Tests for the /helps-requests route
  * 
  */
+const { validToken, user1, user2, helpRequest1 } = require('../../test-global-data')
 const request = require('supertest')
 const app = require('../../app')
-//const User = require('../../users/user')
-// this is the mocked version of firebase-admin
-const db = require('firebase-admin').firestore()
+const firebaseHelper = require('../../helpers/firebase-helper')
 jest.mock('../../helpers/firebase-helper')
+const HelpRequest = require('../../help-requests/help-request')
 
-const validToken = "1234567890"
-// This is the user that is being added to req.user during token validation
-const user = {
-    uid: "user-id1",
-    name: "John Doe",
-    photoURL: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg",
-    email: "johndoe@fake-email.com"
-}
-
-const helpRequest = {
-    title: "a ride to the dentist in Long Island",
+const helpRequest3 = HelpRequest({
+    title: "a jump start",
     location: "11221",
-    userId: user.uid,
-    tags: ["Urgent", "Transportation"]
-}
-
-beforeEach(() => {
-    // clear the helpsRequests from the "db"
-    db.clear()
+    userId: user1.uid,
+    tags: ["Urgent"]
 })
 
 async function createHelpRequest(helpRequestToCreate) {
@@ -46,11 +32,15 @@ async function createHelpRequest(helpRequestToCreate) {
 }
 
 test('POST /help-requests should create a new Help Request', async () => {
-    const response = await createHelpRequest(helpRequest)
+    const response = await createHelpRequest(helpRequest3.toJson())
     expect(response.body.uid).toBeDefined()
-    expect(response.body.title).toEqual(helpRequest.title)
-    expect(response.body.location).toEqual(helpRequest.location)
-    expect(response.body.userId).toEqual(helpRequest.userId)
-    expect(response.body.tags).toEqual(helpRequest.tags)
+    expect(response.body.title).toEqual(helpRequest3.title)
+    expect(response.body.location).toEqual(helpRequest3.location)
+    expect(response.body.userId).toEqual(helpRequest3.userId)
+    expect(response.body.tags).toEqual(helpRequest3.tags)
     expect(response.body.created).toBeDefined()
+})
+
+test('GET /help-requests should return a list of help requests sorted by creation date in desc order', async () => {
+
 })

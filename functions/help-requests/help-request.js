@@ -14,6 +14,11 @@ function HelpRequest(data) {
     return helpRequest
 }
 
+HelpRequest.prototype.update = function({title, location}) {
+    if (title) this.title = title
+    if (location) this.location = location
+}
+
 HelpRequest.prototype.hasRequiredFields = function() {
     return this.uid
            && this.title
@@ -22,7 +27,7 @@ HelpRequest.prototype.hasRequiredFields = function() {
            && this.userId
 }
 
-HelpRequest.prototype.prepareForDb = function() {
+HelpRequest.prototype.toJson = function() {
     return {
         uid: this.uid,
         title: this.title,
