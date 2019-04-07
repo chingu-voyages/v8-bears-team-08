@@ -24,14 +24,14 @@ User.prototype.stripPrivateData = function() {
     delete this.email
 }
 
-User.prototype.prepareForDb = function() {
+User.prototype.toJson = function() {
     return {
         uid: this.uid,
         name: this.name,
         photoURL: this.photoURL,
         email: this.email,
         ...(this.about && { about: this.about }),
-        ...(this.created && { about: this.created })
+        ...(this.created && { created: this.created })
     }
 }
 
