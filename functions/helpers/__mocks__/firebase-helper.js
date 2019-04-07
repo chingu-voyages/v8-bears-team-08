@@ -2,9 +2,11 @@
 
 const Response = require('../http-response')
 
-const requestingUser = {
+let requestingUser = {
+    "uid": "user-id1",
     "name": "John Doe",
     "picture": "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg",
+    "email": "johndoe@fake-email.com",
     "iss": "https://securetoken.google.com/kindnest-dev-nh2",
     "aud": "kindnest-dev-nh2",
     "auth_time": 1553734463,
@@ -12,20 +14,18 @@ const requestingUser = {
     "sub": "user-id1",
     "iat": 1553734463,
     "exp": 1553738063,
-    "email": "johndoe@fake-email.com",
     "email_verified": true,
     "firebase": {
-    "identities": {
-        "google.com": [
-            "123456789012345678901"
-        ],
-        "email": [
-            "johndoe@fake-email.com"
-        ]
-    },
-    "sign_in_provider": "google.com"
-    },
-    "uid": "user-id1"
+        "identities": {
+            "google.com": [
+                "123456789012345678901"
+            ],
+            "email": [
+                "johndoe@fake-email.com"
+            ]
+        },
+        "sign_in_provider": "google.com"
+    }
 }
 
 function validateFirebaseIdToken(req, res, next) {
@@ -33,6 +33,7 @@ function validateFirebaseIdToken(req, res, next) {
         console.error('No Firebase ID token was passed as a Bearer token in the Authorization header')
         return next(Response(401))
     }
+
     let idToken = req.headers.authorization.split('Bearer ')[1]
     if (idToken == "1234567890") {
         req.user = requestingUser
@@ -42,6 +43,11 @@ function validateFirebaseIdToken(req, res, next) {
     }
 }
 
+function setRequestingUser(user) {
+    requestingUser = {...requestingUser, ...user }
+}
+
 module.exports = {
-    validateFirebaseIdToken
+    validateFirebaseIdToken,
+    setRequestingUser
 }

@@ -1,24 +1,27 @@
 'use strict'
 
-const User = require('../users/user')
-
-const dbData = new Map()
-
+// Mock of the firebase-admin api
 function initializeApp(config) {
 
 }
 
 // Mock of the firestore api.
 // Also include an extra 'clear' function which can be called from tests to empty the "db"
+const dbCollections = {
+    users: new Map(),
+    'help-requests': new Map()
+}
+
 function firestore() {
     return { 
         collection, 
-        clear 
+        clear
     }
 }
 
 function clear() {
-    dbData.clear()
+    dbCollections.users.clear()
+    dbCollections['help-requests'].clear()
 }
 
 firestore.Timestamp = {
@@ -28,34 +31,35 @@ firestore.Timestamp = {
 }
 
 function collection(collection) {
-    return { doc }
+    return { doc: doc(collection) }
 }
 
-function doc(docId) {
-    return {
-        id: docId || makeRandomFirestoreId(),
-        get: jest.fn(function() {
-            return Promise.resolve({
-                data: jest.fn(() => {
-                    if (dbData.has(docId)) {
-                        return dbData.get(docId)
-                    } else {
-                        return undefined
-                    }
-                })
-            })
-        }),
-        set: jest.fn((userData) => {
-            const user = User(userData)
-            dbData.set(user.uid, user)
-            return Promise.resolve(user)
-        }),
-        update: jest.fn((userData) => {
-            const user = dbData.get(userData.uid)
-            user.update(userData)
+function doc(collection) {
+    return function doc(documentId) {
+        const docId = documentId || makeRandomFirestoreId()
 
-            return Promise.resolve(user)
-        })
+        return {
+            id: docId,
+            get: jest.fn(function() {
+                return Promise.resolve({
+                    data: jest.fn(() => {
+                        if (dbCollections[collection].has(docId)) {
+                            return dbCollections[collection].get(docId)
+                        } else {
+                            return undefined
+                        }
+                    })
+                })
+            }),
+            set: jest.fn((data) => {
+                dbCollections[collection].set(docId, data)
+                return Promise.resolve(data)
+            }),
+            update: jest.fn((data) => {
+                dbCollections[collection].set(docId, data)
+                return Promise.resolve(data)
+            })
+        }
     }
 }
 
