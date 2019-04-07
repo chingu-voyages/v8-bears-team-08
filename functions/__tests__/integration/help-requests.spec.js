@@ -41,6 +41,15 @@ test('POST /help-requests should create a new Help Request', async () => {
     expect(response.body.created).toBeDefined()
 })
 
-test('GET /help-requests should return a list of help requests sorted by creation date in desc order', async () => {
-
-})
+// test('GET /help-requests?sort=created should return a list of help requests sorted by creation date in desc order', async () => {
+//     request(app)
+//         .get('/help-requests')
+//         .set('Authorization', 'Bearer ' + validToken)
+//         .set('Content-Type', 'application/json')
+//         .set('Accept', 'application/json')
+//         .expect('Content-Type', /json/)
+//         .expect(200)
+//         .then(response => {
+//
+//         })
+// })
