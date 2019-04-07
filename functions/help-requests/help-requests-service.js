@@ -2,8 +2,8 @@
 
 const admin = require('firebase-admin')
 const db = admin.firestore()
-const HelpRequest = require('./help-request')
 const { InvalidDataException } = require('../helpers/exceptions')
+const HelpRequest = require('./help-request')
 
 async function create(data) {
     const docRef = db.collection('help-requests').doc()
@@ -13,8 +13,7 @@ async function create(data) {
         throw InvalidDataException("Invalid or missing data")
     }
 
-    await db.collection('help-requests').doc(helpRequest.uid).set(helpRequest.prepareForDb())
-    return helpRequest
+    return await db.collection('help-requests').doc(helpRequest.uid).set(helpRequest.toJson())
 }
 
 module.exports = {
