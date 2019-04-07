@@ -11,8 +11,7 @@ async function create(userData) {
     }
 
     const user = User(userData)
-    await db.collection('users').doc(user.uid).set(user.prepareForDb())
-    return user
+    return await db.collection('users').doc(user.uid).set(user.toJson())
 }
 
 async function getById(uid, isUserRequestingTheirOwnInfo = true) {
@@ -23,21 +22,20 @@ async function getById(uid, isUserRequestingTheirOwnInfo = true) {
         if (!isUserRequestingTheirOwnInfo) {
             user.stripPrivateData()
         }
-        return user
+        return user.toJson()
     } else {
         return undefined
     }
 }
 
 async function update(uid, userData) {
-    const user = await getById(uid)
+    const user = User(await getById(uid))
     if (!user) {
         throw UserNotFoundException(uid)
     }
 
     user.update(userData)
-    await db.collection('users').doc(uid).update(user.prepareForDb())
-    return user
+    return await db.collection('users').doc(uid).update(user.toJson())
 }
 
 module.exports = {
