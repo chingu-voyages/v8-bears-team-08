@@ -1,0 +1,5 @@
+{
+    "scripts": {
+        "deploy-firestore": "firebase deploy --only firestore:rules"
+    }
+}
