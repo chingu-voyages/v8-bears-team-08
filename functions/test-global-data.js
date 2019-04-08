@@ -19,15 +19,21 @@ const user2 = {
 const helpRequest1 = {
     title: "a ride to the dentist in Long Island",
     location: "11221",
-    userId: user1.uid,
-    tags: ["Urgent", "Transportation"]
+    tags: ["Urgent", "Transportation"],
+    user: {
+        uid: user1.uid,
+        name: user1.name
+    }
 }
 
 const helpRequest2 = {
     title: "help moving a couch",
     location: "11222",
-    userId: user2.uid,
-    tags: ["Physical"]
+    tags: ["Physical"],
+    user: {
+        uid: user2.uid,
+        name: user2.name
+    }
 }
 
 

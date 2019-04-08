@@ -6,7 +6,9 @@ function HelpRequest(data) {
     helpRequest.title = data.title
     helpRequest.location = data.location
     helpRequest.created = data.created || new Date().toISOString()
-    helpRequest.userId = data.userId
+    helpRequest.user = {}
+    helpRequest.user.uid = data.user.uid
+    helpRequest.user.name = data.user.name
     
     // optional
     helpRequest.tags = data.tags
@@ -24,7 +26,8 @@ HelpRequest.prototype.hasRequiredFields = function() {
            && this.title
            && this.location
            && this.created
-           && this.userId
+           && this.user.uid
+           && this.user.name
 }
 
 HelpRequest.prototype.toJson = function() {
@@ -33,7 +36,10 @@ HelpRequest.prototype.toJson = function() {
         title: this.title,
         location: this.location,
         created: this.created,
-        userId: this.userId,
+        user: {
+            uid: this.user.uid,
+            name: this.user.name
+        },
         ...(this.tags && { tags: this.tags })
     }
 }

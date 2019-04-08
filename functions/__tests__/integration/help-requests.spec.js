@@ -15,8 +15,11 @@ const HelpRequest = require('../../help-requests/help-request')
 const helpRequest3 = HelpRequest({
     title: "a jump start",
     location: "11221",
-    userId: user1.uid,
-    tags: ["Urgent"]
+    tags: ["Urgent"],
+    user: {
+        uid: user1.uid,
+        name: user1.name
+    }
 })
 
 async function createHelpRequest(helpRequestToCreate) {
@@ -36,7 +39,8 @@ test('POST /help-requests should create a new Help Request', async () => {
     expect(response.body.uid).toBeDefined()
     expect(response.body.title).toEqual(helpRequest3.title)
     expect(response.body.location).toEqual(helpRequest3.location)
-    expect(response.body.userId).toEqual(helpRequest3.userId)
+    expect(response.body.user.uid).toEqual(helpRequest3.user.uid)
+    expect(response.body.user.name).toEqual(helpRequest3.user.name)
     expect(response.body.tags).toEqual(helpRequest3.tags)
     expect(response.body.created).toBeDefined()
 })
