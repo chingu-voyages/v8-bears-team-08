@@ -17,7 +17,7 @@ function validateFirebaseIdToken(req, res, next) {
     let idToken = req.headers.authorization.split('Bearer ')[1]
     admin.auth().verifyIdToken(idToken)
         .then((decodedIdToken) => {
-            console.log('ID Token correctly decoded', JSON.stringify(decodedIdToken, null, 2))
+            console.log('ID Token correctly decoded')
             req.user = decodedIdToken
             return next()
         })
