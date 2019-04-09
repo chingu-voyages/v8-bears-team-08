@@ -1,28 +1,67 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import config from './config'
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import Login from './components/Login'
 import './App.css';
 
+firebase.initializeApp(config.firebase)
+
+
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+    state = {
+        isSignedIn: undefined
+    }
+
+    componentDidMount() {
+        this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
+            (user) => this.setState({isSignedIn: !!user})
+        )
+    }
+      
+    // Make sure we un-register Firebase observers when the component unmounts.
+    componentWillUnmount() {
+        this.unregisterAuthObserver()
+    }
+
+    render() {
+        // this avoids the initial flash of the login screen when the user is actually logged in
+        if (this.state.isSignedIn === undefined) {
+            return null
+        }
+
+        if (this.state.isSignedIn) {
+            return (
+                <div>
+                    <header className='topbar'>
+                        Kindnest <a href='#' onClick={() => firebase.auth().signOut()}>Sign-out</a>
+                    </header>
+
+                    <div className='container d-flex'>
+                        <div className='sidebar'>
+                            <ul>
+                                <li>Home</li>
+                                <li>Add New</li>
+                                <li>Messages</li>
+                                <li>Profile</li>
+                            </ul>
+                        </div>
+                        
+                        <main className='flex-grow'>
+                            Welcome {firebase.auth().currentUser.displayName}! You are now signed-in!   
+                        </main>
+                    </div>
+                </div>
+            )
+        } else {
+            return (
+                <main>
+                    <h1>Kindnest</h1>
+                    <Login />
+                </main>
+            )
+        }
+    }
 }
 
 export default App;
