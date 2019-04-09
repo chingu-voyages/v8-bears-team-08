@@ -17,11 +17,11 @@ main {
     padding: 8px;
 }
 
-@media all and (max-width: 839px) { 
+/* Anchor sidebar to the bottom for mobile */
+@media all and (max-width: 768px) { 
     .container {
         flex-direction: column;
         flex-direction: column-reverse;
-        position: relative;
     }
     .sidebar {
         position: fixed;
