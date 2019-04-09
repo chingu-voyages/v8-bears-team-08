@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
-import config from './config'
-import firebase from 'firebase/app'
-import 'firebase/auth'
+import firebase from './helpers/firebase'
 import Login from './components/Login'
 import './App.css';
-
-firebase.initializeApp(config.firebase)
 
 
 class App extends Component {
@@ -48,7 +44,7 @@ class App extends Component {
                         </div>
                         
                         <main className='flex-grow'>
-                            Welcome {firebase.auth().currentUser.displayName}! You are now signed-in!   
+                            Welcome {firebase.auth().currentUser.displayName}! You are now signed-in!
                         </main>
                     </div>
                 </div>

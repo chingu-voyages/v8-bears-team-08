@@ -1,8 +1,6 @@
 import config from './config'
-import * as firebase from 'firebase/app'
-import 'firebase/firestore'
+import firebase from './helpers/firebase'
 
-firebase.initializeApp(config.firebase)
 const db = firebase.firestore()
 const apiUrl = config.backendUrl
 
