@@ -18,21 +18,27 @@ const user2 = {
 
 const helpRequest1 = {
     title: "a ride to the dentist in Long Island",
+    description: "I can get my own ride home.  Thanks!",
     location: "11221",
-    tags: ["Urgent", "Transportation"],
+    tags: ["Transportation"],
+    neededDatetime: new Date().toISOString(),
     user: {
         uid: user1.uid,
-        name: user1.name
+        name: user1.name,
+        photoURL: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg"
     }
 }
 
 const helpRequest2 = {
     title: "help moving a couch",
+    description: "The couch is light but I can't move it myself",
     location: "11222",
-    tags: ["Physical"],
+    tags: ["Physical", "Furniture"],
+    neededAsap: true,
     user: {
         uid: user2.uid,
-        name: user2.name
+        name: user2.name,
+        photoURL: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg"
     }
 }
 

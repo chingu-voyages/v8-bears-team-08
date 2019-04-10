@@ -14,11 +14,14 @@ const HelpRequest = require('../../help-requests/help-request')
 
 const helpRequest3 = HelpRequest({
     title: "a jump start",
+    description: "I left my lights on.  Can you help?",
     location: "11221",
     tags: ["Urgent"],
+    neededDatetime: new Date().toISOString(),
     user: {
         uid: user1.uid,
-        name: user1.name
+        name: user1.name,
+        photoURL: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg"
     }
 })
 
