@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import firebase from './helpers/firebase'
 import Login from './components/Login'
+import HelpRequests from './components/HelpRequests'
 import './App.css';
 
 
@@ -44,7 +45,7 @@ class App extends Component {
                         </div>
                         
                         <main className='flex-grow'>
-                            Welcome {firebase.auth().currentUser.displayName}! You are now signed-in!
+                            <HelpRequests /> 
                         </main>
                     </div>
                 </div>
