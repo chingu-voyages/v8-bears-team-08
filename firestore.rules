@@ -22,7 +22,8 @@ service cloud.firestore {
         // users can read & create help requests
         // users can update & delete their own help requests
         match /help-requests/{requestId} {
-            allow read, create: if isSignedIn()
+            allow read;
+            allow create: if isSignedIn()
             //allow update, delete: if isUsersOwnData(resource.data.userId)
         }
 
