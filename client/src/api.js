@@ -11,17 +11,17 @@ let unsubscribe = null
  *  full list every time the dataset changes
  * @param {function} callback - The function to call with the list of help requests
  */
-export function subscribeToHelpRequests(callback) {
-    unsubscribe = db.collection('help-requests').where('status', '==', 'active')
+export function subscribeToHelpRequests(successCallback, errorCallback) {
+    unsubscribe = db.collection('help-requests').where('status', '==', 'active').orderBy('created', 'desc')
         .onSnapshot(querySnapshot => {
             const helpRequests = []
 
-            querySnapshot.forEach(doc => {
-                const helpRequest = doc.data()
-                helpRequests.push(helpRequest)
+            querySnapshot.forEach(document => {
+                helpRequests.push(document.data())
             })
-            callback(helpRequests)
-    })
+            
+            successCallback(helpRequests)
+        }, error => errorCallback(error))
 }
 
 export function unsubscribeFromHelpRequests() {
