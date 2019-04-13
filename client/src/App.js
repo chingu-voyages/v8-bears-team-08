@@ -45,7 +45,7 @@ class App extends Component {
                         </div>
                         
                         <main className='flex-grow'>
-                            <HelpRequests /> 
+                            <HelpRequests location={'11221'} /> 
                         </main>
                     </div>
                 </div>

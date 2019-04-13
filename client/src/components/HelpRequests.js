@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react'
 import * as api from '../api'
 import '../styles/loader.css'
 import '../styles/HelpRequest.css'
+import moment from 'moment'
 
 
-function HelpRequests() {
+function HelpRequests(props) {
     const [helpRequests, setHelpRequests] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
@@ -20,7 +21,7 @@ function HelpRequests() {
         }
         
         setIsLoading(true)
-        api.subscribeToHelpRequests(handleHelpRequests, handleErrorResponse)
+        api.subscribeToHelpRequests(props.location, handleHelpRequests, handleErrorResponse)
 
         return function unsubscribe() {
             api.unsubscribeFromHelpRequests()
@@ -29,7 +30,7 @@ function HelpRequests() {
 
     return (
         <div className='d-flex flex-col'>
-            <h2 style={{ margin: 0, paddingBottom: 16+'px'}}>Neighbors near 11221:</h2>
+            <h2 style={{ margin: 0, paddingBottom: 16+'px'}}>Neighbors near {props.location}:</h2>
             <ul className='help-request__list d-flex flex-col'>
                 { helpRequests.map(helpRequest => (
                     <HelpRequest key={helpRequest.uid} helpRequest={helpRequest} />
@@ -42,9 +43,26 @@ function HelpRequests() {
 }
 
 function HelpRequest({ helpRequest }) {
+    // Display only the first character of the user's last name
     const nameParts = helpRequest.user.name.split(' ')
     const lastInitial = nameParts.pop().substring(0, 1) + '.'
     const firstName = nameParts.join(' ')
+    
+    let neededAt
+    if (helpRequest.neededAsap) {
+        neededAt = 'ASAP'
+    } else {
+        // get dates in local timezone
+        const now = moment(new Date())
+        const requestNeededDatetime = moment(new Date(helpRequest.neededDatetime))
+        
+        // convert to relative date/time string
+        if (requestNeededDatetime.diff(now, 'hours') <= 4) {
+            neededAt = requestNeededDatetime.fromNow()
+        } else {
+            neededAt = requestNeededDatetime.calendar()
+        }
+    }
     
     return (
         <li className='help-request__list-item d-flex flex-row'>
@@ -55,7 +73,7 @@ function HelpRequest({ helpRequest }) {
                     <span className='help-request-list-item__title'>{helpRequest.title}</span>
                 </div>
 
-                <div className='help-request-list-item__tags'>{helpRequest.tags && helpRequest.tags.join(', ')}</div>
+                <div className='help-request-list-item__tags'>{neededAt} {helpRequest.tags && helpRequest.tags.join(', ')}</div>
             </div>
             
             <img
