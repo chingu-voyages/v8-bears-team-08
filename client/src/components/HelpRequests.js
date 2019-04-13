@@ -13,9 +13,14 @@ function HelpRequests() {
             setIsLoading(false)
             setHelpRequests(helpRequests)
         }
+
+        function handleErrorResponse(error) {
+            setIsLoading(false)
+            console.log(error)
+        }
         
         setIsLoading(true)
-        api.subscribeToHelpRequests(handleHelpRequests)
+        api.subscribeToHelpRequests(handleHelpRequests, handleErrorResponse)
 
         return function unsubscribe() {
             api.unsubscribeFromHelpRequests()
