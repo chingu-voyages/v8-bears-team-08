@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import firebase from './helpers/firebase'
 import Login from './components/Login'
 import HelpRequests from './components/HelpRequests'
+import Topbar from './components/Topbar'
 import './App.css';
 
 
@@ -30,9 +31,7 @@ class App extends Component {
         if (this.state.isSignedIn) {
             return (
                 <div>
-                    <header className='topbar'>
-                        Kindnest <a href='#' onClick={() => firebase.auth().signOut()}>Sign-out</a>
-                    </header>
+                    <Topbar />
 
                     <div id='container' className='d-flex'>
                         <div className='sidebar'>
