@@ -34,7 +34,7 @@ class App extends Component {
                         Kindnest <a href='#' onClick={() => firebase.auth().signOut()}>Sign-out</a>
                     </header>
 
-                    <div className='container d-flex'>
+                    <div id='container' className='d-flex'>
                         <div className='sidebar'>
                             <ul>
                                 <li>Home</li>

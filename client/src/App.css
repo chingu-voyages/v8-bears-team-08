@@ -1,7 +1,7 @@
-.container {
-    margin: 0 auto;
+#container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .topbar {
@@ -10,11 +10,13 @@
 }
 
 .sidebar {
-    width: 250px;
+    width: 200px;
+    height: 100%;
+    background-color: #f5f5f5;
 }
 
 main {
-    padding: 8px;
+    padding: 16px;
 }
 
 /* Anchor sidebar to the bottom for mobile */
@@ -36,4 +38,7 @@ main {
         display: inline-block;
         padding-left: 16px;
     }
-} 
+    main {
+        margin-bottom: 50px;
+    }
+}
