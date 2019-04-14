@@ -1,0 +1,65 @@
+@import "../../styles/_variables.scss";
+
+.login { 
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;   
+    height: 100vh;  
+}
+.top {
+    height: 45vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.bottom {
+    height: 55vh;
+    display: flex;
+    flex-direction: column;
+    padding-top: 100px;
+}
+.logo img {
+    height: 55px;	
+    width: 246px;
+}
+.logo {
+    padding: 10px;
+    margin: 0 auto;
+}
+.tagline {
+    color: white;
+    text-align: center;
+    padding: 0 10px 10px 10px;
+}
+.create-button {	
+    margin: 10px 0;
+    height: 60px;	
+    width: 300px;	
+    border-radius: 8px;	
+    background-color: $pale-blue;
+    color: white;
+    border: 0;
+    &:hover {
+        color: black;
+    }
+}
+
+.login-button {	
+    padding: 10px;
+    height: 40px;	
+    width: 300px;	
+    border-radius: 8px;	
+    background-color: $blue;
+    color: white;
+    border: 0;
+    &:hover {
+        color: black;
+    }
+}
+.forgot {
+    text-align: center;
+    padding-top: 40px;
+    font-size: 14px;
+    color: #303030;
+}
