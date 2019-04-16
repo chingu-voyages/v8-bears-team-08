@@ -1,63 +1,32 @@
 import React, { Component } from 'react';
-import firebase from './helpers/firebase'
-import Login from './components/Login'
-import HelpRequests from './components/HelpRequests'
-import Topbar from './components/Topbar'
-import './App.css';
+import Welcome from './pages/Welcome/Welcome'
 
 
 class App extends Component {
-    state = {
-        isSignedIn: undefined
-    }
+  constructor(){
+    super()
 
-    componentDidMount() {
-        this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
-            (user) => this.setState({isSignedIn: !!user})
-        )
-    }
-      
-    // Make sure we un-register Firebase observers when the component unmounts.
-    componentWillUnmount() {
-        this.unregisterAuthObserver()
-    }
+    this.handleLoginClick = this.handleLoginClick.bind(this)
+    this.handleCreateClick = this.handleCreateClick.bind(this)
+  }
 
-    render() {
-        // this avoids the initial flash of the login screen when the user is actually logged in
-        if (this.state.isSignedIn === undefined) {
-            return null
-        }
+  handleLoginClick() {
+    console.log('login clicked');
+  }
+  handleCreateClick() {
+    console.log('create account clicked');
+  }
 
-        if (this.state.isSignedIn) {
-            return (
-                <div>
-                    <Topbar />
-
-                    <div id='container' className='d-flex'>
-                        <div className='sidebar'>
-                            <ul>
-                                <li>Home</li>
-                                <li>Add New</li>
-                                <li>Messages</li>
-                                <li>Profile</li>
-                            </ul>
-                        </div>
-                        
-                        <main className='flex-grow'>
-                            <HelpRequests location={'11221'} /> 
-                        </main>
-                    </div>
-                </div>
-            )
-        } else {
-            return (
-                <main>
-                    <h1>Kindnest</h1>
-                    <Login />
-                </main>
-            )
-        }
-    }
+  render() {
+    return (
+      <div className="app">
+        <Welcome 
+          onLoginClick={this.handleLoginClick} 
+          onCreateClick={this.handleCreateClick} 
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
