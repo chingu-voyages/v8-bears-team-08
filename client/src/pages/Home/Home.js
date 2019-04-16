@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import * as api from '../api'
-import '../styles/loader.css'
-import '../styles/HelpRequest.css'
 import moment from 'moment'
+import * as api from '../../api'
+import './Home.scss'
+import '../../styles/loader.css'
 
-
-function HelpRequests(props) {
+function Home(props) {
     const [helpRequests, setHelpRequests] = useState([])
     const [isLoading, setIsLoading] = useState(false)
 
@@ -31,6 +30,7 @@ function HelpRequests(props) {
     return (
         <div className='d-flex flex-col'>
             <h2 style={{ margin: 0, paddingBottom: 16+'px'}}>Neighbors near {props.location}:</h2>
+
             <ul className='help-request__list d-flex flex-col'>
                 { helpRequests.map(helpRequest => (
                     <HelpRequest key={helpRequest.uid} helpRequest={helpRequest} />
@@ -67,13 +67,13 @@ function HelpRequest({ helpRequest }) {
     return (
         <li className='help-request__list-item d-flex flex-row'>
             <div className='help-request-list-item__info'>
-                <div style={{padding: '16px'}}>
+                <div>
                     {firstName} {lastInitial}<br />
                     needs<br />
-                    <span className='help-request-list-item__title'>{helpRequest.title}</span>
+                    <span className='help-request-list-item__title'>{helpRequest.title}</span><br />
+                    {neededAt}<br />
+                    {helpRequest.tags && helpRequest.tags.join(', ')}
                 </div>
-
-                <div className='help-request-list-item__tags'>{neededAt} {helpRequest.tags && helpRequest.tags.join(', ')}</div>
             </div>
             
             <img
@@ -84,4 +84,4 @@ function HelpRequest({ helpRequest }) {
     )
 }
 
-export default HelpRequests
+export default Home

@@ -1,0 +1,13 @@
+@import "../styles/variables";
+
+#topbar {
+    height: 72px;
+    background-color: $pale-blue;
+    margin-bottom: 24px;
+    position: relative;
+}
+
+.logo img {
+    height: 35px;	
+    width: 246px;
+}

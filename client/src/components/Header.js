@@ -1,12 +1,16 @@
 import React from 'react'
 import firebase from '../helpers/firebase'
-import '../styles/Topbar.css'
+import './Header.scss'
 
 
-function Topbar() {
+function Header() {
     return (
         <header id='topbar' className='d-flex flex-row flex-center'>
-            <span className='logo'>kind</span><span className='nest'>nest</span>
+            <div className="logo">
+               <img src='./images/kindnest.svg' />
+            </div>
+            
+            {/* temporary to allow signout until this is built properly */}
             <div style={{position: 'absolute', right: '10px'}}>
                 <a href='#' onClick={() => firebase.auth().signOut()}>Sign-out</a>
             </div>
@@ -14,4 +18,4 @@ function Topbar() {
     )
 }
 
-export default Topbar
+export default Header
