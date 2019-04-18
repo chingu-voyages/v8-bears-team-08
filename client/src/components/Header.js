@@ -5,7 +5,7 @@ import './Header.scss'
 
 function Header() {
     return (
-        <header id='topbar' className='d-flex flex-row flex-center'>
+        <header id='header' className='d-flex flex-row flex-center'>
             <div className="logo">
                <img src='./images/kindnest.svg' />
             </div>
