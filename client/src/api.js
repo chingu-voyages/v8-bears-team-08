@@ -26,8 +26,8 @@ export function subscribeToHelpRequests(location, successCallback, errorCallback
                     helpRequests.push(document.data())
                 })
                 
-                successCallback(helpRequests)
-            }, error => errorCallback(error))
+                successCallback({ helpRequests })
+            }, error => errorCallback({ error: error }))
 }
 
 export function unsubscribeFromHelpRequests() {
