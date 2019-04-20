@@ -9,6 +9,7 @@ const { UserAlreadyExistsException, UserNotFoundException } = require('../helper
 // routes
 router.post('/', createUser)
 router.get('/:uid', getById)
+router.get('/:uid/profile', getProfileById)
 router.put('/:uid', updateUser)
 
 // route handlers
@@ -21,6 +22,12 @@ function createUser(req, res, next) {
 
 function getById(req, res, next) {
     usersService.getById(req.params.uid, req.params.uid == req.user.uid)
+        .then(user => user ? res.status(200).send(user) : next(Response(404, 'User not found')))
+        .catch(e => next(Response(e)))
+}
+
+function getProfileById(req, res, next) {
+    usersService.getProfileById(req.params.uid, req.params.uid == req.user.uid)
         .then(user => user ? res.status(200).send(user) : next(Response(404, 'User not found')))
         .catch(e => next(Response(e)))
 }

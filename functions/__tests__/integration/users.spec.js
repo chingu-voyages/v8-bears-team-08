@@ -5,7 +5,7 @@
  * Tests for the /users route
  * 
  */
-const { validToken, user1, user2} = require('../../test-global-data')
+const { validToken, user1, user2, helpRequest2 } = require('../../test-global-data')
 const request = require('supertest')
 const app = require('../../app')
 const User = require('../../users/user')
@@ -120,5 +120,22 @@ test('PUT /users/:uid should update the user', async () => {
             expect(response.body.email).toBe(user1.email)
             expect(response.body.about).toBe(about)
             expect(response.body.created).toBeDefined()
+        })
+})
+
+test('GET /users/:uid/profile should get the full user profile including helprequests and compliments', async () => {
+    firebaseHelper.setRequestingUser(user1)
+
+    return request(app)
+        .get('/users/' + user2.uid + '/profile')
+        .set('Authorization', 'Bearer ' + validToken)
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then(response => {
+            expect(response.body.uid).toBe(user2.uid)
+            expect(response.body.email).toBeUndefined()
+            expect(response.body.helpRequests).toEqual(expect.arrayContaining([helpRequest2]))
         })
 })

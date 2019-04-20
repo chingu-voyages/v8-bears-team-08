@@ -9,7 +9,8 @@ function initializeApp(config) {
 // Also include an extra 'clear' function which can be called from tests to empty the "db"
 const dbCollections = {
     users: new Map(),
-    'help-requests': new Map()
+    'help-requests': new Map(),
+    compliments: new Map()
 }
 
 function firestore() {
@@ -31,7 +32,35 @@ firestore.Timestamp = {
 }
 
 function collection(collection) {
-    return { doc: doc(collection) }
+    return { 
+        doc: doc(collection),
+        where: jest.fn((field, operator, value) => {
+            return { 
+                get: jest.fn(() => {
+                    const matchingDocuments = []
+                    dbCollections[collection].forEach((v,k,m) => {
+                        if (evaluateBy[operator](leaf(v, field), value)) {
+                            matchingDocuments.push(v)
+                        }
+                    })
+                    
+                    return Promise.resolve(matchingDocuments.map(document => {
+                        const doc = {
+                            id: document.uid,
+                            data: () => document
+                        }
+                        return doc
+                    }))
+                })
+            }
+        })
+    }
+}
+const evaluateBy = {
+    '==': (a, b) => a == b
+}
+function leaf(obj, path) {
+    return path.split('.').reduce((value,el) => value[el], obj)
 }
 
 function doc(collection) {
