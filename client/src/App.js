@@ -58,7 +58,8 @@ class App extends Component {
                                 <li>New</li>
                                 <li>Discover</li>
                                 <li>Messages</li>
-                                <li><Link to='/users/:uid/profile'>Profile</Link></li>
+                                {/* TODO: replace the uid below with the user's uid from the firebase auth once user login is setup */}
+                                <li><Link to='/users/9vqLlEez3VlFIsDy2MXr/profile'>Profile</Link></li>
                             </ul>
                         </div>
                         
@@ -69,7 +70,7 @@ class App extends Component {
                                     <Home {...routeProps} {...this.state.home} onHelpRequestsResponse={this.handleHelpRequestsResponse} />
                                 )}
                             />
-                            <Route path='/users/:uid/profile'  component={UserProfile} />
+                            <Route path='/users/:uid/profile' component={UserProfile} />
                         </main>
                     </div>
                 </Router>
