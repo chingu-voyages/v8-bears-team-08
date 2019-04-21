@@ -7,7 +7,7 @@ function Header() {
     return (
         <header id='header' className='d-flex flex-row flex-center'>
             <div className="logo">
-               <img src='./images/kindnest.svg' />
+               <img src='/images/kindnest.svg' />
             </div>
             
             {/* temporary to allow signout until this is built properly */}
