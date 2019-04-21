@@ -3,7 +3,7 @@ import * as api from '../../api'
 import '../../styles/loader.css'
 import './UserProfile.scss'
 import * as util from '../../helpers/util'
-
+import HelpRequest from '../Home/HelpRequest';
 
 
 function UserProfile(props) {
@@ -12,47 +12,69 @@ function UserProfile(props) {
     const [isError, setIsError] = useState(false)
 
     useEffect(() => {
-        console.log('useEffect')
         api.getUserProfile(props.match.params.uid)
             .then(response => {
-                console.log('r', response.data)
+                console.log(response.data)
                 response.data.displayName = util.getDisplayName(response.data.name)
                 setuserProfile(response.data)
                 setIsLoaded(true)
             })
             .catch(e => {
-                console.log('e', e)
                 setIsError(true)
             })
     }, [props.match.params.uid])
 
     if (isLoaded && userProfile) {
         return (
-            <div>
-                <div className='d-flex flex-row'>
-                    <img className='profile__pic' src={userProfile.photoURL} />
-                    <div className='profile--info d-flex flex-col flex-space-between'>
-                        <div className='d-flex flex-col'>
-                            <span className='profile--info__name'>{userProfile.displayName}</span>
-                            <span className='profile--info__about'>"{userProfile.about}"</span>
+            <>
+                <div className='profile'>
+                    <img className='profile-pic' src={userProfile.photoURL} />
+
+                    <div className='profile-details'>
+                        <div className='profile-name-about'>
+                            <span className='profile-name'>{userProfile.displayName}</span>
+                            <span className='profile-about'>"{userProfile.about}"</span>
                         </div>
-                        <button>Write a compliment</button>
+                        <button id='profile-compliment-button'>Write a Compliment</button>
                     </div>
                 </div>
-                <div>    
-                    <hr />
-                    Requests<br />
 
-                    <hr />
-                    Compliments
+                <div>    
+                    <hr className='profile-separator' />
+                    <h2 className='profile-section-text'>Requests</h2>
+                    <ul>
+                        { userProfile.helpRequests.map(helpRequest => (
+                            <HelpRequest key={helpRequest.uid} helpRequest={helpRequest} />
+                        ))}
+                    </ul>
+
+                    <hr className='profile-separator' />
+                    <h2 className='profile-section-text'>Compliments</h2>
+                    <ul>
+                        { userProfile.compliments.map(compliment => (
+                            <Compliment key={compliment.uid} compliment={compliment} />
+                        ))}
+                    </ul>
                 </div>
-            </div>
+            </>
         )
     } else if (isError) {
         return <div>Error</div>
     } else {
         return <div className='loading'></div>
     }
+}
+
+function Compliment({ compliment }) {
+    return (
+        <li id="temp" className='d-flex flex-row'>
+            <img className='compliment-user-pic' src={compliment.complimenter.photoURL} />
+            <div className='d-flex flex-col'>
+                <span className='compliment-user-name'>{ compliment.complimenter.name }</span>
+                <span className='compliment-text'>{ compliment.compliment }</span>
+            </div>
+        </li>
+    )
 }
 
 export default UserProfile

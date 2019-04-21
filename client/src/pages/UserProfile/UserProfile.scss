@@ -1,4 +1,23 @@
-.profile__pic {
+@import "../../styles/_variables.scss";
+
+.profile {
+    display: flex;
+    flex-direction: row;
+}
+
+.profile-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8px 0;
+}
+
+.profile-name-about {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-pic {
     border-radius: 50%;
     border: 2px solid #eee;
     width: 120px;
@@ -7,10 +26,59 @@
     margin-right: 24px;
     object-fit: cover;
 }
-.profile--info {
-    padding: 8px 0;
-}
-.profile--info__name {
+
+.profile-name {
     font-size: 28px;
     padding-bottom: 8px;
+}
+
+.profile-separator {
+    border-color: $light-blue;
+    border: 0;
+    height: 1px;
+    width: 80%;
+    margin-top: 42px;
+    margin-bottom: 42px;
+    color: $light-blue;
+    background-color: $light-blue;
+}
+
+.profile-section-text {
+    color: $pale-blue;
+    font-size: 24px;
+    margin-bottom: 24px;
+}
+
+#profile-compliment-button {
+    width: 175px;
+}
+
+/* layout the user's details as a column on mobile */
+@media all and (max-width: 768px) {
+    .profile {
+        flex-direction: column;
+        align-items: center;
+    }
+    .profile-details {
+        height: 125px;
+        align-items: center;
+    }
+    .profile-name-about {
+        align-items: center;
+    }
+}
+
+
+.compliment-user-pic {
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    margin-right: 12px;
+}
+.compliment-user-name {
+    font-size: 110%;
+    margin-bottom: 8px;
+}
+.compliment-text {
+    max-width: 68vw;
 }
