@@ -82,3 +82,6 @@
 .compliment-text {
     max-width: 68vw;
 }
+.compliment-list-item:not(:last-child) {
+    margin-bottom: 24px;
+}

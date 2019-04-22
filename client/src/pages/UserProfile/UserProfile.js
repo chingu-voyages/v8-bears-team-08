@@ -67,7 +67,7 @@ function UserProfile(props) {
 
 function Compliment({ compliment }) {
     return (
-        <li id="temp" className='d-flex flex-row'>
+        <li id="temp" className='compliment-list-item d-flex flex-row'>
             <img className='compliment-user-pic' src={compliment.complimenter.photoURL} />
             <div className='d-flex flex-col'>
                 <span className='compliment-user-name'>{ compliment.complimenter.name }</span>
