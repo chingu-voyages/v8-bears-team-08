@@ -14,7 +14,6 @@ function UserProfile(props) {
     useEffect(() => {
         api.getUserProfile(props.match.params.uid)
             .then(response => {
-                console.log(response.data)
                 response.data.displayName = util.getDisplayName(response.data.name)
                 setuserProfile(response.data)
                 setIsLoaded(true)
@@ -24,7 +23,7 @@ function UserProfile(props) {
             })
     }, [props.match.params.uid])
 
-    if (isLoaded && userProfile) {
+    if (isLoaded) {
         return (
             <>
                 <div className='profile'>
