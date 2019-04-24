@@ -29,7 +29,7 @@ function clear() {
 function collection(collection) {
     return { 
         doc: doc(collection),
-        where: jest.fn((field, operator, value) => {
+        where: (field, operator, value) => {
             const matchingDocuments = []
             dbCollections[collection].forEach((v, k, m) => {
                 if (evaluateBy[operator](leaf(v, field), value)) {
@@ -40,7 +40,7 @@ function collection(collection) {
             return { 
                 get: getMultipleDocs(matchingDocuments)
             }
-        })
+        }
     }
 }
 
