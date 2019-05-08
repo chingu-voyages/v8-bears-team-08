@@ -3,7 +3,7 @@
 const db = require('firebase-admin').firestore()
 const User = require('./users/user')
 const HelpRequest = require('./help-requests/help-request')
-const { user1, user2, helpRequest1, helpRequest2, compliment1 } = require('./test-global-data')
+const { user1, user2, helpRequest1, helpRequest2, compliment1, conversation1, conversation1Messages } = require('./test-global-data')
 
 async function initializeTestDb() {
     db.clear()
@@ -12,6 +12,8 @@ async function initializeTestDb() {
     await db.collection('help-requests').doc(helpRequest1.uid).set(HelpRequest(helpRequest1).toJson())
     await db.collection('help-requests').doc(helpRequest2.uid).set(HelpRequest(helpRequest2).toJson())
     await db.collection('compliments').doc(compliment1.uid).set(compliment1)
+    await db.collection('inbox').doc(conversation1.uid).set(conversation1)
+    await db.collection('messages').doc().set(conversation1Messages)
 }
 
 initializeTestDb()

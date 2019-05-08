@@ -11,7 +11,8 @@ const dbCollections = {
     users: new Map(),
     'help-requests': new Map(),
     compliments: new Map(),
-    inbox: new Map()
+    inbox: new Map(),
+    messages: new Map() // subcollection
 }
 
 function firestore() {
@@ -24,6 +25,9 @@ function firestore() {
 function clear() {
     dbCollections.users.clear()
     dbCollections['help-requests'].clear()
+    dbCollections.compliments.clear()
+    dbCollections.inbox.clear()
+    dbCollections.messages.clear()
 }
 
 function collection(collection) {
@@ -31,7 +35,7 @@ function collection(collection) {
         doc: doc(collection),
         where: (field, operator, value) => {
             const matchingDocuments = []
-            dbCollections[collection].forEach((v, k, m) => {
+            dbCollections[collection].forEach(v => {
                 if (evaluateBy[operator](leaf(v, field), value)) {
                     matchingDocuments.push(v)
                 }
@@ -97,7 +101,8 @@ firestore.Timestamp = {
 }
 
 const evaluateBy = {
-    '==': (a, b) => a == b
+    '==': (a, b) => a == b,
+    'array-contains': (arr, items) => arr.includes(items) 
 }
 
 function leaf(obj, path) {
