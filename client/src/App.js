@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Welcome from './pages/Welcome/Welcome'
 import Home from './pages/Home/Home'
+import UserProfile from './pages/UserProfile/UserProfile'
 import Header from './components/Header'
 import './App.scss'
 
@@ -57,7 +58,8 @@ class App extends Component {
                                 <li>New</li>
                                 <li>Discover</li>
                                 <li>Messages</li>
-                                <li>Profile</li>
+                                {/* TODO: replace the uid below with the user's uid from the firebase auth once user login is setup */}
+                                <li><Link to='/users/9vqLlEez3VlFIsDy2MXr/profile'>Profile</Link></li>
                             </ul>
                         </div>
                         
@@ -68,6 +70,7 @@ class App extends Component {
                                     <Home {...routeProps} {...this.state.home} onHelpRequestsResponse={this.handleHelpRequestsResponse} />
                                 )}
                             />
+                            <Route path='/users/:uid/profile' component={UserProfile} />
                         </main>
                     </div>
                 </Router>

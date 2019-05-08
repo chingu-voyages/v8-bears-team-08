@@ -1,9 +1,16 @@
 import config from './config'
 import firebase from './helpers/firebase'
+import axios from 'axios'
 
 const db = firebase.firestore()
 const apiUrl = config.backendUrl
 let unsubscribe = null
+
+const httpRequestConfig = {
+    headers: {
+        'Authorization': "Bearer " + firebase.auth().currentUser.getIdToken()
+    }
+}
 
 /**
  * Gets a list of Help Requests directly from the database. 
@@ -34,4 +41,8 @@ export function unsubscribeFromHelpRequests() {
     if (unsubscribe != null) {
         unsubscribe()
     }
+}
+
+export async function getUserProfile(userId) {
+    return await axios.get(apiUrl + '/users/' + userId + '/profile', httpRequestConfig)
 }
