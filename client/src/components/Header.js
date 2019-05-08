@@ -1,5 +1,5 @@
 import React from 'react'
-import firebase from '../helpers/firebase'
+import * as firebase from '../helpers/firebase'
 import './Header.scss'
 
 
@@ -12,7 +12,7 @@ function Header() {
             
             {/* temporary to allow signout until this is built properly */}
             <div style={{position: 'absolute', right: '10px'}}>
-                <a href='#' onClick={() => firebase.auth().signOut()}>Sign-out</a>
+                <a href='#' onClick={() => firebase.signOut()}>Sign-out</a>
             </div>
         </header>
     )

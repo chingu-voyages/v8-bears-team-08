@@ -1,14 +1,14 @@
 import config from './config'
-import firebase from './helpers/firebase'
+import * as firebase from './helpers/firebase'
 import axios from 'axios'
 
-const db = firebase.firestore()
+const db = firebase.getDb()
 const apiUrl = config.backendUrl
 let unsubscribe = null
 
 const httpRequestConfig = {
     headers: {
-        'Authorization': "Bearer " + firebase.auth().currentUser.getIdToken()
+        'Authorization': "Bearer " + firebase.getUserIdToken()
     }
 }
 
