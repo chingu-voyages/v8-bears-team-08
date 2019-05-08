@@ -8,7 +8,7 @@ let unsubscribe = null
 
 const httpRequestConfig = {
     headers: {
-        'Authorization': "Bearer " + firebase.getUserIdToken()
+        Authorization: "Bearer "
     }
 }
 
@@ -44,5 +44,11 @@ export function unsubscribeFromHelpRequests() {
 }
 
 export async function getUserProfile(userId) {
+    await setToken()
     return await axios.get(apiUrl + '/users/' + userId + '/profile', httpRequestConfig)
+}
+
+async function setToken() {
+    const idToken = await firebase.getUserIdToken()
+    httpRequestConfig.headers.Authorization = "Bearer " + idToken
 }

@@ -4,6 +4,7 @@ import Welcome from './pages/Welcome/Welcome'
 import Home from './pages/Home/Home'
 import UserProfile from './pages/UserProfile/UserProfile'
 import Header from './components/Header'
+import Login from './components/Login'
 import './App.scss'
 
 class App extends Component {
@@ -60,6 +61,8 @@ class App extends Component {
                                 <li>Messages</li>
                                 {/* TODO: replace the uid below with the user's uid from the firebase auth once user login is setup */}
                                 <li><Link to='/users/9vqLlEez3VlFIsDy2MXr/profile'>Profile</Link></li>
+                                {/* TODO: remove this once login flow is complete */}
+                                <li><Link to='/login'>Login</Link></li>
                             </ul>
                         </div>
                         
@@ -71,6 +74,7 @@ class App extends Component {
                                 )}
                             />
                             <Route path='/users/:uid/profile' component={UserProfile} />
+                            <Route path='/login' component={Login} />
                         </main>
                     </div>
                 </Router>

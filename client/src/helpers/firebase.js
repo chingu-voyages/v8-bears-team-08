@@ -24,9 +24,9 @@ export function signOut() {
 
 export function getUserIdToken() {
     if (!isUserLoggedIn()) {
-        return ""
+        return Promise.resolve("")
     }
-    return firebase.auth().currentUser.getIdToken()
+    return firebase.auth().currentUser.getIdToken(true)
 }
 
-//export default firebase
+export default firebase
