@@ -4,7 +4,9 @@ import Welcome from './pages/Welcome/Welcome'
 import Home from './pages/Home/Home'
 import UserProfile from './pages/UserProfile/UserProfile'
 import Header from './components/Header'
+import Inbox from './pages/Inbox/Inbox'
 import Login from './components/Login'
+import * as firebase from './helpers/firebase'
 import './App.scss'
 
 class App extends Component {
@@ -12,7 +14,7 @@ class App extends Component {
         super(props)
 
         this.state = {
-            isLoggedIn: true,
+            isLoggedIn: undefined,
             home: {
                 helpRequests: [],
                 isLoaded: false,
@@ -24,6 +26,20 @@ class App extends Component {
         this.handleLoginClick = this.handleLoginClick.bind(this)
         this.handleCreateClick = this.handleCreateClick.bind(this)
         this.handleHelpRequestsResponse = this.handleHelpRequestsResponse.bind(this)
+    }
+
+    componentDidMount() {
+        firebase.onAuthStateChanged(user => {
+            if (user) {
+                this.setState({ 
+                    isLoggedIn: true
+                })
+            } else {
+                this.setState({
+                    isLoggedIn: false
+                })
+            }
+        })
     }
 
     handleLoginClick() {
@@ -47,6 +63,10 @@ class App extends Component {
 
 
     render() {
+        if (this.state.isLoggedIn == undefined) {
+            return null
+        }
+
         if (this.state.isLoggedIn) {
             return (
                 <Router>
@@ -56,12 +76,11 @@ class App extends Component {
                         <div className='navbar'>
                             <ul>
                                 <li><Link to='/'>Home</Link></li>
-                                <li>New</li>
+                                <li>Add New</li>
                                 <li>Discover</li>
-                                <li>Messages</li>
-                                {/* TODO: replace the uid below with the user's uid from the firebase auth once user login is setup */}
-                                <li><Link to='/users/9vqLlEez3VlFIsDy2MXr/profile'>Profile</Link></li>
-                                {/* TODO: remove this once login flow is complete */}
+                                <li><Link to='/inbox/'>Messages</Link></li>
+                                <li><Link to={`/users/${firebase.getUser().uid}/profile`}>Profile</Link></li>
+                                {/* TODO: remove this once login flow components are created */}
                                 <li><Link to='/login'>Login</Link></li>
                             </ul>
                         </div>
@@ -73,6 +92,7 @@ class App extends Component {
                                     <Home {...routeProps} {...this.state.home} onHelpRequestsResponse={this.handleHelpRequestsResponse} />
                                 )}
                             />
+                            <Route path='/inbox' component={Inbox} />
                             <Route path='/users/:uid/profile' component={UserProfile} />
                             <Route path='/login' component={Login} />
                         </main>

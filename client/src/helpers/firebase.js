@@ -29,4 +29,19 @@ export function getUserIdToken() {
     return firebase.auth().currentUser.getIdToken(true)
 }
 
+export function getUser() {
+    if (!isUserLoggedIn()) {
+        return ""
+    }
+    return firebase.auth().currentUser
+}
+
+export function onAuthStateChanged(callback) {
+    firebase.auth().onAuthStateChanged(callback)
+}
+
+export function getAuth() {
+    return firebase.auth()
+}
+
 export default firebase
