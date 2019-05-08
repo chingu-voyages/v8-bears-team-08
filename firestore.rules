@@ -1,0 +1,52 @@
+service cloud.firestore {
+    match /databases/{database}/documents {
+        function existingData() {
+            return resource.data
+        }
+
+        function incomingData() {
+            return request.resource.data
+        }
+
+        function isSignedIn() {
+            return request.auth.uid != null
+        }
+        
+        function isUsersOwnData(userId) {
+        	return isSignedIn() && request.auth.uid == userId
+        }
+        
+        
+        // HelpRequest
+        //
+        // users can read & create help requests
+        // users can update & delete their own help requests
+        match /help-requests/{requestId} {
+            allow read;
+            allow create: if isSignedIn()
+            //allow update, delete: if isUsersOwnData(resource.data.userId)
+        }
+
+        // Users
+        //
+        // users can read their own profile
+        // users can create their own profile if it doesn't already exist
+        // users can update some fields of their profile
+        // match /users/{userId} {
+        //     allow read: if isUsersOwnData(userId)
+            
+        //     allow create: if isUsersOwnData(userId)
+        //                   && incomingData().size() == 3
+        //                   && incomingData().keys().hasAll(['name','photoURL','created'])
+        //                   && incomingData().name is string
+        //                   && incomingData().photoURL is string
+        //                   && incomingData().created is timestamp
+        //                   && !exists(/databases/$(database)/documents/users/$(userId))
+            
+        //     allow update: if isUsersOwnData(userId)
+        //                   && incomingData().keys().hasOnly(['name','photoURL'])
+        //                   && incomingData().name is string
+        //                   && incomingData().photoURL is string
+        // }
+    }
+}
