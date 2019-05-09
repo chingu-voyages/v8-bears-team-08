@@ -1,11 +1,18 @@
 .help-request__list-item {
     border-radius: 3px;
-    height: 175px;
     border: 1px solid rgba(0, 0, 0, 0.125);
     justify-content: space-between;
 }
 .help-request__list-item:not(:last-child) {
     margin-bottom: 16px;
+}
+
+.help-request__list-item__link-container {
+    display: block;
+    height: 175px;
+    text-decoration: none;
+    justify-content: space-between;
+    color: inherit;
 }
 
 .help-request-list-item__info {
