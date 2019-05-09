@@ -153,6 +153,10 @@ body {
   background-image: linear-gradient(0deg, $light-blue, $med-blue);
 }
 
+html, body, #root {
+    height: 100%;
+}
+
 .d-flex {
     display: flex;
 }
