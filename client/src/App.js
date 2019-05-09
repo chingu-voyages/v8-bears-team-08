@@ -2,12 +2,15 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Welcome from './pages/Welcome/Welcome'
 import Home from './pages/Home/Home'
+import HelpRequestDetails from './pages/Home/HelpRequestDetails'
 import UserProfile from './pages/UserProfile/UserProfile'
 import Header from './components/Header'
 import Inbox from './pages/Inbox/Inbox'
+import Conversation from './pages/Inbox/Conversation'
 import Login from './components/Login'
 import * as firebase from './helpers/firebase'
 import './App.scss'
+
 
 class App extends Component {
     constructor(props) {
@@ -92,7 +95,9 @@ class App extends Component {
                                     <Home {...routeProps} {...this.state.home} onHelpRequestsResponse={this.handleHelpRequestsResponse} />
                                 )}
                             />
-                            <Route path='/inbox' component={Inbox} />
+                            <Route path='/help-requests/:uid' component={HelpRequestDetails} />
+                            <Route exact path='/inbox' component={Inbox} />
+                            <Route exact path='/inbox/:uid' component={Conversation} />
                             <Route path='/users/:uid/profile' component={UserProfile} />
                             <Route path='/login' component={Login} />
                         </main>
@@ -107,9 +112,9 @@ class App extends Component {
                         onCreateClick={this.handleCreateClick} 
                     />
                 </div>
-            );
+            )
         }
   }
 }
 
-export default App;
+export default App
