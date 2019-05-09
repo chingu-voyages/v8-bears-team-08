@@ -1,0 +1,18 @@
+.conversation__container {
+    height: 100%;
+    overflow: hidden;
+}
+
+.conversation__messages-container {
+    overflow: auto;
+    margin-top: auto;
+}
+
+.conversation__messages {
+    margin-bottom: 16px;
+}
+
+.conversation__input-box {
+    width: 100%;
+    padding: 8px;
+}
