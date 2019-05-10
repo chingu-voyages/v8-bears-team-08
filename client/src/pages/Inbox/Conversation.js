@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Avatar from '../../components/Avatar'
 import './Conversation.scss'
-import * as firebase from '../../helpers/firebase'
 import * as api from '../../api'
 import { LoggedInUserContext } from '../../App'
 import conversationFactory from './conversation-factory'
