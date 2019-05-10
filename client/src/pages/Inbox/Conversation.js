@@ -37,11 +37,9 @@ function Conversation(props) {
     useEffect(function getConversationDetails() {
         if (isViewValid()) {
             if (props.location.state.conversationDetails) {
-                console.log('already have conversation details')
                 setReceivingUser(getReceivingUserFromConversation(props.location.state.conversationDetails))
                 setConversationDetails(props.location.state.conversationDetails)
             } else {
-                console.log('getting conversation details')
                 api.getConversationDetails(conversationUid)
                     .then(response => {
                         if (response.data) {
@@ -61,10 +59,7 @@ function Conversation(props) {
             unsubscribeFromMessages = api.subscribeToConversationMessages(conversationUid, 
                 response => {
                     if (response.messages.length > 0) {
-                        console.log('has messages')
                         setConversationMessages(response.messages)
-                    } else {
-                        console.log('no messages')
                     }
                 },
                 errorResponse => {

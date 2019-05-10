@@ -2,10 +2,11 @@
     border-radius: 3px;
     border: 1px solid rgba(0, 0, 0, 0.125);
     justify-content: space-between;
-}
-.help-request__list-item:not(:last-child) {
     margin-bottom: 16px;
 }
+// .help-request__list-item:not(:last-child) {
+//     margin-bottom: 16px;
+// }
 
 .help-request__list-item__link-container {
     display: block;
