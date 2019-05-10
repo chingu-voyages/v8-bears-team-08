@@ -18,9 +18,9 @@ function Conversation(props) {
     const [receivingUser, setReceivingUser] = useState(undefined)
     const [conversationMessages, setConversationMessages] = useState([])
     const [messageBoxText, setMessageBoxText] = useState("")
-    const [unsubscribe, setUnsubscribe] = useState(undefined)
     const loggedInUser = useContext(LoggedInUserContext)
     const conversationUid = props.match.params.uid
+    let unsubscribeFromMessages
 
 
     function getReceivingUserFromConversation(conversation) {
@@ -51,7 +51,7 @@ function Conversation(props) {
 
     useEffect(function subscribeToConversationMessages() {
         if (isViewValid()) {
-            api.subscribeToConversationMessages(conversationUid, 
+            unsubscribeFromMessages = api.subscribeToConversationMessages(conversationUid, 
                 response => {
                     if (response.messages.length > 0) {
                         console.log('has messages')
@@ -64,6 +64,8 @@ function Conversation(props) {
                     
                 })
         }
+
+        return () => { unsubscribeFromMessages() }
     }, [])
 
     async function sendMessage(e) {
