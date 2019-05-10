@@ -39,7 +39,8 @@ export function subscribeToHelpRequests(location, successCallback, errorCallback
 
 export function subscribeToConversationMessages(conversationUid, successCallback, errorCallback) {
     return db.collection(`inbox/${conversationUid}/messages`)
-        .orderBy('created', 'asc')
+        .orderBy('created', 'desc')
+        .limit(30)
         .onSnapshot(querySnapshot => {
             const messages = []
 
@@ -47,7 +48,7 @@ export function subscribeToConversationMessages(conversationUid, successCallback
                 messages.push({ uid: document.id, ...document.data()})
             })
 
-            successCallback({ messages })
+            successCallback({ messages: messages.reverse() })
         }, error => errorCallback({ error }))
         
 
