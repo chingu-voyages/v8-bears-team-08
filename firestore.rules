@@ -27,6 +27,20 @@ service cloud.firestore {
             //allow update, delete: if isUsersOwnData(resource.data.userId)
         }
 
+
+        // Inbox
+        match /inbox/{conversationId} {
+	       	allow create, read: if isSignedIn()
+          							 && (conversationId.split('-')[0] == request.auth.uid
+          							 || conversationId.split('-')[1] == request.auth.uid)
+        }
+        match /inbox/{conversationId}/messages/{message} {
+           allow create, read: if isSignedIn()
+          							 && (conversationId.split('-')[0] == request.auth.uid
+          							 || conversationId.split('-')[1] == request.auth.uid)
+        }
+
+
         // Users
         //
         // users can read their own profile

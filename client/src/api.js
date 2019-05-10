@@ -39,12 +39,12 @@ export function subscribeToHelpRequests(location, successCallback, errorCallback
 
 export function subscribeToConversationMessages(conversationUid, successCallback, errorCallback) {
     return db.collection(`inbox/${conversationUid}/messages`)
-        .orderBy('created', 'desc')
+        .orderBy('created', 'asc')
         .onSnapshot(querySnapshot => {
             const messages = []
 
             querySnapshot.forEach(document => {
-                messages.push(document.data())
+                messages.push({ uid: document.id, ...document.data()})
             })
 
             successCallback({ messages })
@@ -53,27 +53,12 @@ export function subscribeToConversationMessages(conversationUid, successCallback
 
 }
 
-export function createConversation(conversationUid) {
-    return Promise.resolve({
-        users: [
-            {
-                uid: "9vqLlEez3VlFIsDy2MXr",
-                name: "Christine Maldonado",
-                photoURL: "https://tinyfac.es/data/avatars/8B510E03-96BA-43F0-A85A-F38BB3005AF1-500w.jpeg"
-            },
-            {
-                uid: "20SAbLeTJIPEhXE0XDh2OaW40nA2",
-                name: "Nektarios Hagihristos",
-                photoURL: "https://lh4.googleusercontent.com/-fTG95M892m4/AAAAAAAAAAI/AAAAAAAAPhQ/cAoGwmlxiwQ/photo.jpg"
-            }
-        ],
-        userIds: ["9vqLlEez3VlFIsDy2MXr", "20SAbLeTJIPEhXE0XDh2OaW40nA2"],
-        created: "2019-05-09T16:34:12.348Z"
-    })
+export function createConversation(conversationUid, conversation) {
+    return db.collection('inbox').doc(conversationUid).set(conversation)
 }
 
-export function sendMessage(conversationUid) {
-
+export function sendMessage(conversationUid, message) {
+    db.collection('inbox').doc(conversationUid).collection('messages').doc().set(message)
 }
 
 export function getConversationDetails(conversationUid) {
@@ -89,11 +74,11 @@ export function unsubscribeFromHelpRequests() {
 }
 
 export async function getUserProfile(userId) {
-    httpRequestConfig = await setToken(httpRequestConfig)
+    await setAuthorizationHeader(httpRequestConfig)
     return await axios.get(apiUrl + '/users/' + userId + '/profile', httpRequestConfig)
 }
 
-async function setToken(httpRequestConfig) {
+async function setAuthorizationHeader(httpRequestConfig) {
     const idToken = await firebase.getUserIdToken()
     httpRequestConfig.headers.Authorization = "Bearer " + idToken
     return httpRequestConfig
