@@ -3,7 +3,8 @@ import * as api from '../../api'
 import '../../styles/loader.css'
 import './UserProfile.scss'
 import * as util from '../../helpers/util'
-import HelpRequest from '../Home/HelpRequest';
+import HelpRequest from '../Home/HelpRequest'
+import Avatar from '../../components/Avatar'
 
 
 function UserProfile(props) {
@@ -19,6 +20,7 @@ function UserProfile(props) {
                 setIsLoaded(true)
             })
             .catch(e => {
+                console.log(e)
                 setIsError(true)
             })
     }, [props.match.params.uid])
@@ -27,7 +29,7 @@ function UserProfile(props) {
         return (
             <>
                 <div className='profile'>
-                    <img className='profile-pic' src={userProfile.photoURL} />
+                    <Avatar url={userProfile.photoURL} showHalo={true} />
 
                     <div className='profile-details'>
                         <div className='profile-name-about'>
