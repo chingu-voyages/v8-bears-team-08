@@ -172,8 +172,11 @@ html, body, #root {
 .flex-grow {
     flex: 1 0 auto;
 }
-.flex-end {
+.flex-justify-end {
     justify-content: flex-end;
+}
+.flex-align-end {
+    align-items: flex-end;
 }
 .flex-center {
     align-items: center;

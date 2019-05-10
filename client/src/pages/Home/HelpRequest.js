@@ -1,5 +1,4 @@
 import React from 'react'
-import moment from 'moment'
 import { Link } from 'react-router-dom'
 import * as util from '../../helpers/util'
 import './HelpRequest.scss'
@@ -13,16 +12,7 @@ function HelpRequest({ helpRequest }) {
     if (helpRequest.neededAsap) {
         neededAt = 'ASAP'
     } else {
-        // get dates in local timezone
-        const now = moment(new Date())
-        const requestNeededDatetime = moment(new Date(helpRequest.neededDatetime))
-        
-        // convert to relative date/time string
-        if (requestNeededDatetime.diff(now, 'hours') <= 4) {
-            neededAt = requestNeededDatetime.fromNow()
-        } else {
-            neededAt = requestNeededDatetime.calendar()
-        }
+        neededAt = util.getRelativeLocaleTime(new Date(helpRequest.neededDatetime))
     }
     
     return (

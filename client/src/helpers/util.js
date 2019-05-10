@@ -1,5 +1,17 @@
 'use strict'
 
+import moment from 'moment'
+moment.updateLocale('en', {
+    calendar : {
+        lastDay: '[Yesterday,] LT',
+        sameDay: 'LT',
+        nextDay: '[Tomorrow,] LT',
+        lastWeek: 'L, LT',
+        nextWeek: 'L, LT',
+        sameElse: 'L, LT'
+    }
+})
+
 // Get firstname and the first letter of the last name
 export function getDisplayName(name) {
     const nameParts = name.split(' ')
@@ -16,5 +28,20 @@ export function createConversationUidFromUserUids(uid1, uid2) {
         return `${uid1}-${uid2}`
     } else {
         return `${uid2}-${uid1}`
+    }
+}
+
+export function getCalendarLocaleTime(datetime) {
+    return moment(new Date(datetime)).calendar()
+}
+
+export function getRelativeLocaleTime(datetime) {
+    const now = moment(new Date())
+    const theDatetime = moment(new Date(datetime))
+    
+    if (now.diff(theDatetime, 'hours') <= 4) {
+        return theDatetime.fromNow()
+    } else {
+        return theDatetime.calendar()
     }
 }

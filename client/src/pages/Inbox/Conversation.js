@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useContext, useRef } from 'react'
+import moment from 'moment'
 import Avatar from '../../components/Avatar'
 import './Conversation.scss'
+import * as util from '../../helpers/util'
 import * as api from '../../api'
 import { LoggedInUserContext } from '../../App'
 import conversationFactory from './conversation-factory'
@@ -109,7 +111,7 @@ function Conversation(props) {
 
     return (
         <div className='conversation__container d-flex flex-col'>
-            <h1>Conversation { receivingUser && <span>with {receivingUser.name}</span>}</h1>
+            <h1 className='conversation__title'>Conversation { receivingUser && <span>with {util.getDisplayName(receivingUser.name)}</span>}</h1>
             
             <div className='conversation__messages-container'>
                 <div className='conversation__messages'>
@@ -138,13 +140,16 @@ function Conversation(props) {
 }
 
 function Message({ message }) {
-    // the flex-row-reverse & flex-end combo of classes below are so that the received messages show on the left of the screen with the avatar on the left
+    // the flex-row-reverse & flex-justify-end combo of classes below are so that the received messages show on the left of the screen with the avatar on the left
     return (
         <li 
             key={message.uid}
-            className={message.isMyMessage ? 'conversation__message d-flex flex-row flex-end' : 'conversation__message d-flex flex-row-reverse flex-end'}
+            className={message.isMyMessage ? 'conversation__message d-flex flex-row flex-justify-end' : 'conversation__message d-flex flex-row-reverse flex-justify-end'}
         >
-            <div className='conversation__message-text'>{message.text}</div>
+            <div className={message.isMyMessage ? 'conversation__message-text d-flex flex-col flex-align-end' : 'conversation__message-text d-flex flex-col'}>
+                {message.text}
+                <span className='conversation__message-text--small'>{util.getCalendarLocaleTime(message.created)}</span>
+            </div>
             <Avatar url={message.photoURL} size='small' />
         </li>
     )
