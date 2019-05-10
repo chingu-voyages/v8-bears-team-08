@@ -15,4 +15,29 @@
 .conversation__input-box {
     width: 100%;
     padding: 8px;
+    padding: .3rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: .25rem;
+    overflow: visible;
+    cursor: text;
+    text-align: start;
+    color: #555;
+}
+.conversation__input-box::placeholder {
+    color: #999;
+    font-weight: 300;
+}
+input:focus {
+    outline-width: 0;
+}
+
+.conversation__message {
+    align-items: center;
+    margin-top: 8px;
+}
+
+.conversation__message-text {
+    padding: 0 12px;
 }
