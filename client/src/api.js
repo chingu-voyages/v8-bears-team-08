@@ -50,8 +50,6 @@ export function subscribeToConversationMessages(conversationUid, successCallback
 
             successCallback({ messages: messages.reverse() })
         }, error => errorCallback({ error }))
-        
-
 }
 
 export function createConversation(conversationUid, conversation) {
