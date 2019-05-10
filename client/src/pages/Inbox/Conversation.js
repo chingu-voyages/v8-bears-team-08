@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
+import React, { useState, useEffect, useContext, useRef } from 'react'
 import Avatar from '../../components/Avatar'
 import './Conversation.scss'
 import * as api from '../../api'
@@ -18,6 +18,7 @@ function Conversation(props) {
     const [receivingUser, setReceivingUser] = useState(undefined)
     const [conversationMessages, setConversationMessages] = useState([])
     const [messageBoxText, setMessageBoxText] = useState("")
+    const inputMessageBox = useRef(null)
     const loggedInUser = useContext(LoggedInUserContext)
     const conversationUid = props.match.params.uid
     let unsubscribeFromMessages
@@ -26,6 +27,10 @@ function Conversation(props) {
     function getReceivingUserFromConversation(conversation) {
         return conversation.users.filter(user => user.uid != loggedInUser.uid)[0]
     }
+
+    useEffect(() => {
+        inputMessageBox.current.focus()
+    }, [])
 
     useEffect(function getConversationDetails() {
         if (isViewValid()) {
@@ -125,6 +130,7 @@ function Conversation(props) {
                     value={messageBoxText}
                     placeholder='message'
                     onChange={e => setMessageBoxText(e.target.value)}
+                    ref={inputMessageBox}
                     />
             </form>
         </div>
