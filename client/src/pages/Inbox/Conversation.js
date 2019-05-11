@@ -31,7 +31,9 @@ function Conversation(props) {
     }
 
     useEffect(() => {
-        inputMessageBox.current.focus()
+        if (isViewValid()) {
+            inputMessageBox.current.focus()
+        }
     }, [])
 
     useEffect(function getConversationDetails() {
@@ -65,9 +67,9 @@ function Conversation(props) {
                 errorResponse => {
                     
                 })
+            return () => { unsubscribeFromMessages() }
         }
 
-        return () => { unsubscribeFromMessages() }
     }, [])
 
     async function sendMessage(e) {
@@ -106,7 +108,7 @@ function Conversation(props) {
 
     return (
         <div className='conversation__container d-flex flex-col'>
-            <h1 className='conversation__title'>Conversation { receivingUser && <span>with {util.getDisplayName(receivingUser.name)}</span>}</h1>
+            <h1 className='heading-1'>{ receivingUser && <span>{util.getDisplayName(receivingUser.name)}</span>}</h1>
             
             <div className='conversation__messages-container'>
                 <div className='conversation__messages'>
@@ -135,7 +137,8 @@ function Conversation(props) {
 }
 
 function Message({ message }) {
-    // the flex-row-reverse & flex-justify-end combo of classes below are so that the received messages show on the left of the screen with the avatar on the left
+    // the flex-row-reverse & flex-justify-end combination of classes below are so that the received 
+    // messages show on the left of the screen with the avatar first
     return (
         <li 
             key={message.uid}
