@@ -60,6 +60,22 @@ export function sendMessage(conversationUid, message) {
     db.collection('inbox').doc(conversationUid).collection('messages').doc().set(message)
 }
 
+export function getConversationsForUser(userUid) {
+    return db.collection('inbox')
+        .where('userIds', 'array-contains', userUid)
+        .orderBy('created', 'desc')
+        .get()
+        .then(querySnapshot => {
+            const conversations = []
+
+            querySnapshot.forEach(document => {
+                conversations.push({ uid: document.id, ...document.data()})
+            })
+
+            return conversations
+        })
+}
+
 export function getConversationDetails(conversationUid) {
     return db.collection('inbox').doc(conversationUid).get()
         .then(doc => ({ data: doc.data() }))

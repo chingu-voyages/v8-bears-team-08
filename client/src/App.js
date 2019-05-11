@@ -86,7 +86,7 @@ class App extends Component {
                                     <li><Link to='/'>Home</Link></li>
                                     <li>Add New</li>
                                     <li>Discover</li>
-                                    <li><Link to='/inbox/'>Messages</Link></li>
+                                    <li><Link to='/inbox/'>Inbox</Link></li>
                                     <li><Link to={`/users/${this.state.user.uid}/profile`}>Profile</Link></li>
                                     {/* TODO: remove this once login flow components are created */}
                                     <li><Link to='/login'>Login</Link></li>
