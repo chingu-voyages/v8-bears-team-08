@@ -1,0 +1,32 @@
+@import "../../styles/_variables.scss";
+
+.inbox__converation-details {
+    justify-content: center;
+    margin-left: 24px;
+}
+
+.inbox__conversation-username {
+    font-size: 28px;
+    line-height: 140%;
+}
+
+.inbox__conversation-created {
+    font-size: 14px;
+    color: #aaa;
+}
+
+.inbox__conversation-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.inbox__conversation-separator {
+    border-color: $light-blue;
+    border: 0;
+    height: 1px;
+    width: 80%;
+    margin-top: 24px;
+    margin-bottom: 24px;
+    color: $light-blue;
+    background-color: $light-blue;
+}

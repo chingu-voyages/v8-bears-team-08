@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 import Welcome from './pages/Welcome/Welcome'
 import Home from './pages/Home/Home'
+import HelpRequestDetails from './pages/Home/HelpRequestDetails'
 import UserProfile from './pages/UserProfile/UserProfile'
 import Header from './components/Header'
 import Inbox from './pages/Inbox/Inbox'
+import Conversation from './pages/Inbox/Conversation'
 import Login from './components/Login'
 import * as firebase from './helpers/firebase'
+import * as api from './api'
 import './App.scss'
+
+export const LoggedInUserContext = React.createContext()
 
 class App extends Component {
     constructor(props) {
@@ -29,10 +34,12 @@ class App extends Component {
     }
 
     componentDidMount() {
-        firebase.onAuthStateChanged(user => {
+        firebase.onAuthStateChanged(async user => {
             if (user) {
+                const userProfileResponse = await api.getUserProfile(user.uid)
                 this.setState({ 
-                    isLoggedIn: true
+                    isLoggedIn: true,
+                    user: userProfileResponse.data
                 })
             } else {
                 this.setState({
@@ -64,40 +71,44 @@ class App extends Component {
 
     render() {
         if (this.state.isLoggedIn == undefined) {
-            return null
+            return <h1>Loading</h1>
         }
 
         if (this.state.isLoggedIn) {
             return (
-                <Router>
-                    <Header />
+                <LoggedInUserContext.Provider value={this.state.user}>
+                    <Router>
+                        <Header />
 
-                    <div id='container' className='d-flex flex-row'>
-                        <div className='navbar'>
-                            <ul>
-                                <li><Link to='/'>Home</Link></li>
-                                <li>Add New</li>
-                                <li>Discover</li>
-                                <li><Link to='/inbox/'>Messages</Link></li>
-                                <li><Link to={`/users/${firebase.getUser().uid}/profile`}>Profile</Link></li>
-                                {/* TODO: remove this once login flow components are created */}
-                                <li><Link to='/login'>Login</Link></li>
-                            </ul>
+                        <div id='container' className='d-flex flex-row'>
+                            <div className='navbar'>
+                                <ul>
+                                    <li><Link to='/'>Home</Link></li>
+                                    <li>Add New</li>
+                                    <li>Discover</li>
+                                    <li><Link to='/inbox/'>Inbox</Link></li>
+                                    <li><Link to={`/users/${this.state.user.uid}/profile`}>Profile</Link></li>
+                                    {/* TODO: remove this once login flow components are created */}
+                                    <li><Link to='/login'>Login</Link></li>
+                                </ul>
+                            </div>
+                            
+                            <main className='flex-grow'>
+                                <Route 
+                                    exact path='/' 
+                                    render={(routeProps) => (
+                                        <Home {...routeProps} {...this.state.home} onHelpRequestsResponse={this.handleHelpRequestsResponse} />
+                                    )}
+                                />
+                                <Route path='/help-requests/:uid' component={HelpRequestDetails} />
+                                <Route exact path='/inbox' component={Inbox} />
+                                <Route exact path='/inbox/:uid' component={Conversation} />
+                                <Route path='/users/:uid/profile' component={UserProfile} />
+                                <Route path='/login' component={Login} />
+                            </main>
                         </div>
-                        
-                        <main className='flex-grow'>
-                            <Route 
-                                exact path='/' 
-                                render={(routeProps) => (
-                                    <Home {...routeProps} {...this.state.home} onHelpRequestsResponse={this.handleHelpRequestsResponse} />
-                                )}
-                            />
-                            <Route path='/inbox' component={Inbox} />
-                            <Route path='/users/:uid/profile' component={UserProfile} />
-                            <Route path='/login' component={Login} />
-                        </main>
-                    </div>
-                </Router>
+                    </Router>
+                </LoggedInUserContext.Provider>
             )
         } else {
             return (
@@ -107,9 +118,9 @@ class App extends Component {
                         onCreateClick={this.handleCreateClick} 
                     />
                 </div>
-            );
+            )
         }
   }
 }
 
-export default App;
+export default App

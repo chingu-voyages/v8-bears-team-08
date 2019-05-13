@@ -1,0 +1,56 @@
+@import "../../styles/_variables.scss";
+
+.conversation__container {
+    height: 100%;
+    overflow: hidden;
+}
+
+.conversation__messages-container {
+    overflow: auto;
+    margin-top: auto;
+}
+
+.conversation__messages {
+    margin-bottom: 16px;
+}
+
+.conversation__input-box {
+    width: 100%;
+    padding: 8px;
+    padding: .3rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: .25rem;
+    overflow: visible;
+    cursor: text;
+    text-align: start;
+    color: #555;
+    font-family: $secondary-font-family;
+}
+.conversation__input-box::placeholder {
+    color: #999;
+    font-weight: 300;
+}
+input:focus {
+    outline-width: 0;
+}
+
+.conversation__message {
+    align-items: center;
+    margin-top: 8px;
+    display: flex;
+}
+
+.conversation__message-text {
+    font-size: 17px;
+    font-family: $secondary-font-family;
+    padding: 0 12px;
+    align-items: flex-start;
+    line-height: 105%;
+}
+
+.conversation__message-text--small {
+    font-size: 10px;
+    color: #aaa;
+}

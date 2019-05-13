@@ -10,21 +10,12 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 8px 0;
+    margin-left: 24px;
 }
 
 .profile-name-about {
     display: flex;
     flex-direction: column;
-}
-
-.profile-pic {
-    border-radius: 50%;
-    border: 2px solid #eee;
-    width: 120px;
-    height: 120px;
-    padding: 4px;
-    margin-right: 24px;
-    object-fit: cover;
 }
 
 .profile-name {

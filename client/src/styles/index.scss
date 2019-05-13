@@ -141,6 +141,10 @@ table {
   box-sizing: border-box;
 }
 
+html, body, #root {
+    height: 100%;
+}
+
 body {
   font-family: $primary-font-family;
 }
@@ -153,11 +157,22 @@ body {
   background-image: linear-gradient(0deg, $light-blue, $med-blue);
 }
 
+.heading-1 {
+    font-size: 42px;
+    font-weight: 300;
+    color: $blue;
+    margin-bottom: 24px;
+}
+
+// Flexbox classes
 .d-flex {
     display: flex;
 }
 .flex-row {
     flex-direction: row;
+}
+.flex-row-reverse {
+    flex-direction: row-reverse;
 }
 .flex-col {
     flex-direction: column;
@@ -165,8 +180,11 @@ body {
 .flex-grow {
     flex: 1 0 auto;
 }
-.flex-end {
+.flex-justify-end {
     justify-content: flex-end;
+}
+.flex-align-end {
+    align-items: flex-end;
 }
 .flex-center {
     align-items: center;

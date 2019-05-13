@@ -27,6 +27,25 @@ service cloud.firestore {
             //allow update, delete: if isUsersOwnData(resource.data.userId)
         }
 
+
+        // Inbox
+        // users can get conversation details for any conversation where they are in the userIds array
+        // users can create a conversation if it doesnt already exist and the document id contains their uid
+        // users can read messages if the conversation document id contains their uid
+        match /inbox/{conversationId} {
+        	allow read: if isSignedIn() && request.auth.uid in existingData().userIds
+	       	allow create: if isSignedIn()
+          				    && !exists(/databases/$(database)/documents/inbox/$(conversationId))
+          					&& (conversationId.split('-')[0] == request.auth.uid
+          					|| conversationId.split('-')[1] == request.auth.uid)
+        }
+        match /inbox/{conversationId}/messages/{message} {
+           allow create,read: if isSignedIn()
+          						 && (conversationId.split('-')[0] == request.auth.uid
+          						 || conversationId.split('-')[1] == request.auth.uid)
+        }
+
+
         // Users
         //
         // users can read their own profile
