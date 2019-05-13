@@ -41,3 +41,9 @@
         max-width: 185px;
     }
 }
+
+@media all and (max-width: 768px) {
+    .help-request__list-item:last-child {
+        margin-bottom: 0;
+    }
+}
