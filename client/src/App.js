@@ -8,6 +8,7 @@ import Header from './components/Header'
 import Inbox from './pages/Inbox/Inbox'
 import Conversation from './pages/Inbox/Conversation'
 import Login from './components/Login'
+import Navbar from './components/Navbar'
 import * as firebase from './helpers/firebase'
 import * as api from './api'
 import './App.scss'
@@ -81,17 +82,7 @@ class App extends Component {
                         <Header />
 
                         <div id='container' className='d-flex flex-row'>
-                            <div className='navbar'>
-                                <ul>
-                                    <li><Link to='/'>Home</Link></li>
-                                    <li>Add New</li>
-                                    <li>Discover</li>
-                                    <li><Link to='/inbox/'>Inbox</Link></li>
-                                    <li><Link to={`/users/${this.state.user.uid}/profile`}>Profile</Link></li>
-                                    {/* TODO: remove this once login flow components are created */}
-                                    <li><Link to='/login'>Login</Link></li>
-                                </ul>
-                            </div>
+                            <Navbar userUid={this.state.user.uid} />
                             
                             <main className='flex-grow'>
                                 <Route 
