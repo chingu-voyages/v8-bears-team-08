@@ -9,7 +9,6 @@ function HelpRequestDetails(props) {
     const helpRequest = props.location.state
     const conversationUid = util.createConversationUidFromUserUids(helpRequest.user.uid, loggedInUser.uid)
 
-    console.log(helpRequest)
     return (
         <div className='help-request-details'>
             <h2 className='heading-2'>
@@ -18,10 +17,12 @@ function HelpRequestDetails(props) {
 
             <div className='d-flex flex-row help-request-details__info'>
                 <img src={helpRequest.photoURL || helpRequest.user.photoURL} />
+
                 <div className='d-flex flex-col'>
                     <p><strong>Posted {util.getRelativeLocaleTime(helpRequest.created)}</strong> near {helpRequest.location}</p>
                     <p>{helpRequest.neededAsap || util.getRelativeLocaleTime(helpRequest.neededDatetime)}</p>
                     <br />
+                    
                     {helpRequest.tags && <p><strong>Tags:</strong></p>}
                     {helpRequest.tags && helpRequest.tags.join(', ')}
                 </div>
