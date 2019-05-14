@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import HelpRequest from './HelpRequest'
 import * as api from '../../api'
-import './Home.scss'
 import '../../styles/loader.css'
 
 /*
@@ -24,7 +23,8 @@ function Home(props) {
 
     return (
         <div className='d-flex flex-col'>
-            <h1>Neighbors near {props.userLocation}:</h1>
+            <h2 className='heading-2'>Neighbors near <span className='primary-font-color'>{props.userLocation}</span>:</h2>
+            <br className='section-separator-space'></br>
 
             { props.isLoaded ? (
                 <ul>

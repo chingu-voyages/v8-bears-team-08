@@ -1,0 +1,39 @@
+@import "../../styles/variables";
+
+.help-request-details {
+    @media all and (max-width: 768px) {
+        width: 92vw;
+        word-wrap: break-word;
+    }
+    
+    img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        margin-right: 24px;
+    }
+
+    p {
+        line-height: 115%;
+    }
+
+    .help-request-details__info {
+        font-size: 14px;
+        align-items: flex-end;
+        line-height: 120%;
+    }
+
+    button {
+        margin: 10px 0;
+        height: 60px;	
+        min-width: 300px;	
+        border-radius: 8px;	
+        background-color: $pale-blue;
+        color: white;
+        border: 0;
+        font-size: 20px;
+        &:hover {
+            color: black;
+        }
+    }
+}

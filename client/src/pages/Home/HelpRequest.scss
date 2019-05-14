@@ -1,36 +1,43 @@
 .help-request__list-item {
-    border-radius: 3px;
-    border: 1px solid rgba(0, 0, 0, 0.125);
+    // border-radius: 3px;
+    // border: 1px solid rgba(0, 0, 0, 0.125);
     justify-content: space-between;
     margin-bottom: 16px;
+    height: 170px;
+    max-width: 600px;
+    line-height: 115%;
 }
 // .help-request__list-item:not(:last-child) {
 //     margin-bottom: 16px;
 // }
 
 .help-request__list-item__link-container {
-    display: block;
-    height: 175px;
     text-decoration: none;
     justify-content: space-between;
     color: inherit;
+    background-color: rgb(249, 252, 255);
 }
 
 .help-request-list-item__info {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     justify-content: space-between;
-}
-
-.help-request-list-item__title {
-    font-size: 1.3em;
+    padding: 8px;
+    font-size: 16px;
 }
 
 .help-request-list-item__photo {
-    padding: 8px 8px 8px 0;
-    width: 175px;
+    height: 150px;
+    width: 150px;
     object-fit: cover;
 }
 
+.help-request-list-item__sub-info {
+    max-width: 300px;
+    font-size: 14px;
+    line-height: 130%;
+}
 .help-request-list-item__tags {
     padding: 8px;
 }
@@ -38,7 +45,7 @@
 /* wrap Help Request text on mobile */
 @media all and (max-width: 550px) {
     .help-request-list-item__info {
-        max-width: 185px;
+        width: 50vw;
     }
 }
 

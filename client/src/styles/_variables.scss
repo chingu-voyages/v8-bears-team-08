@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Arvo|Lato:300,400");
+@import url("https://fonts.googleapis.com/css?family=Arvo|Lato:300,400|Open+Sans:300,400,600");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 //font-family: "SF UI Text"; ?? have to ask Kaye
 
@@ -7,8 +7,10 @@ $light-blue: #A7D6F3;
 $med-blue: #3993E5;
 $blue: #57A5E8;
 
-$primary-font-family: "Lato", sans-serif;
+$primary-font-family: "Open Sans", sans-serif;
 $secondary-font-family: "Arvo", serif;
+
+$primary-font-color: $pale-blue;
 
 // $primary-font-color: $light-gray;
 // $primary-dark-btn-color: $dark-gray;
