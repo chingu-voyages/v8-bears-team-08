@@ -2,12 +2,11 @@
 
 .navbar {
     width: 200px;
-    color: #555;
 }
 
 .navbar > ul {
     padding: 16px 0;
-    background-color: #f9f9f9;
+    background-color: rgba(250, 250, 250, 0.9);
     border: 1px solid #eee;
 }
 
@@ -25,7 +24,6 @@
 
 .navbar i {
     margin-right: 8px;
-    color: #555;
 }
 
 @media all and (min-width: 769px) {
@@ -43,7 +41,7 @@
         font-size: 12px;
     }
     .navbar > ul {
-        background-color: #f9f9f9;
+        background-color: rgba(250, 250, 250, 0.9);
         border: 0;
         border-top: 2px solid #eee;
         display: flex;

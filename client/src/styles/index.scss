@@ -146,7 +146,8 @@ html, body, #root {
 }
 
 body {
-  font-family: $primary-font-family;
+    font-family: $primary-font-family;
+    color: #303030;
 }
 
 .app {
@@ -157,11 +158,43 @@ body {
   background-image: linear-gradient(0deg, $light-blue, $med-blue);
 }
 
+.section-separator-space {
+    display: block;
+    content: "";
+    margin-bottom: 32px;
+}
+
+.section-separator-line {
+    border-color: $light-blue;
+    border: 0;
+    height: 1px;
+    width: 80%;
+    margin-top: 42px;
+    margin-bottom: 42px;
+    color: $light-blue;
+    background-color: $light-blue;
+}
+
 .heading-1 {
     font-size: 42px;
     font-weight: 300;
     color: $blue;
-    margin-bottom: 24px;
+}
+.heading-2 {
+    font-size: 24px;
+}
+.heading-3 {
+    font-size: 18px;
+}
+.heading-4 {
+    font-size: 16px;
+}
+.primary-font-color {
+    color: $primary-font-color;
+}
+
+strong {
+    font-weight: 600;
 }
 
 // Flexbox classes
