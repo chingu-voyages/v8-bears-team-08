@@ -1,0 +1,15 @@
+@import "../styles/variables";
+
+.btn {	
+    padding: 10px;
+    font-size: 18px;
+    height: 42px;	
+    min-width: 178px;	
+    border-radius: 8px;	
+    background-color: $blue;
+    color: white;
+    border: 0;
+    &:hover {
+        color: #303030;
+    }
+}

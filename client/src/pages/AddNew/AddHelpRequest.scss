@@ -1,0 +1,51 @@
+@import "../../styles/_variables.scss";
+
+.add-help-request {
+    max-width: 500px;
+
+    section {
+        width: 100%;
+        margin-bottom: 24px;
+    }
+    
+    h4 {
+        margin-bottom: 8px;
+        color: $primary-font-color;
+    }
+    
+    input[type=text],
+    textarea {
+        padding: 8px;
+        width: 100%;
+    }
+    input[type=checkbox] {
+        margin-left: 12px;
+    }
+
+    textarea {
+        height: 150px;
+    }
+
+    .photo > img {
+        width: 125px;
+        height: 125px;
+        border: 1px solid #777;
+        cursor: pointer;
+        padding: 2px;
+    }
+    .photo-desc {
+        padding: 12px;
+        font-size: 14px;
+        width: 235px;
+    }
+
+    button {
+        margin: 0 auto;
+        margin-top: 24px;
+    }
+
+    .react-datepicker-wrapper {
+        margin-right: 16px;
+        width: 150px;
+    }
+}
