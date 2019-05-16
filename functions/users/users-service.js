@@ -12,7 +12,7 @@ async function create(userData) {
     }
 
     const user = User(userData)
-    return await db.collection('users').doc(user.uid).set(user.toJson())
+    return await db.collection('users').doc(user.uid).set(user.getFieldsOnly())
 }
 
 async function getById(uid, includePrivateInfo = false) {
@@ -23,7 +23,7 @@ async function getById(uid, includePrivateInfo = false) {
         if (!includePrivateInfo) {
             user.stripPrivateData()
         }
-        return user.toJson()
+        return user
     } else {
         return undefined
     }
@@ -39,7 +39,7 @@ async function getProfileById(uid, includePrivateInfo = false) {
     const helpRequests = []
     hrQuerySnapshot.forEach(doc => {
         const helpRequest = HelpRequest(doc.data())
-        helpRequests.push(helpRequest.toJson())
+        helpRequests.push(helpRequest)
     })
 
     const coQuerySnapshot = await db.collection('compliments').where('complimenteeUid', '==', user.uid).get()
@@ -49,7 +49,7 @@ async function getProfileById(uid, includePrivateInfo = false) {
         compliments.push(compliment)
     })
 
-    return {...user.toJson(), helpRequests, compliments}
+    return {...user, helpRequests, compliments}
 }
 
 async function update(uid, userData) {
@@ -59,7 +59,7 @@ async function update(uid, userData) {
     }
 
     user.update(userData)
-    return await db.collection('users').doc(uid).update(user.toJson())
+    return await db.collection('users').doc(uid).update(user.getFieldsOnly())
 }
 
 module.exports = {

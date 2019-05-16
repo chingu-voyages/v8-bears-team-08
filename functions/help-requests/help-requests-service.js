@@ -7,13 +7,13 @@ const HelpRequest = require('./help-request')
 
 async function create(data) {
     const docRef = db.collection('help-requests').doc()
-    const helpRequest = HelpRequest({ ...data, uid: docRef.id, created: new Date().toISOString()})
+    const helpRequest = HelpRequest({ ...data, uid: docRef.id })
 
     if (!helpRequest.hasRequiredFields()) {
-        throw InvalidDataException("Invalid or missing data")
+        throw InvalidDataException("Invalid or missing data, " + JSON.stringify(helpRequest.getFieldsOnly()))
     }
 
-    return await db.collection('help-requests').doc(helpRequest.uid).set(helpRequest.toJson())
+    return await db.collection('help-requests').doc(helpRequest.uid).set(helpRequest.getFieldsOnly())
 }
 
 module.exports = {

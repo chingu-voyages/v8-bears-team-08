@@ -13,7 +13,7 @@ const firebaseHelper = require('../../helpers/firebase-helper')
 jest.mock('../../helpers/firebase-helper')
 
 const user3 = User({
-    uid: "user-id3",
+    uid: "userid3",
     name: "Bob Smith",
     photoURL: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg",
     email: "bob.smith@fake-email.com"
@@ -34,7 +34,7 @@ async function createUser(userToCreate) {
 test('POST /users should create a new user', async () => {
     firebaseHelper.setRequestingUser(user3)
     
-    const response = await createUser(user3.toJson())
+    const response = await createUser(user3.getFieldsOnly())
     expect(response.body.uid).toBe(user3.uid)
     expect(response.body.name).toBe(user3.name)
     expect(response.body.photoURL).toBe(user3.photoURL)

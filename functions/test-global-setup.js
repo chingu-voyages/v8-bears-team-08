@@ -7,10 +7,10 @@ const { user1, user2, helpRequest1, helpRequest2, compliment1 } = require('./tes
 
 async function initializeTestDb() {
     db.clear()
-    await db.collection('users').doc(user1.uid).set(User(user1).toJson())
-    await db.collection('users').doc(user2.uid).set(User(user2).toJson())
-    await db.collection('help-requests').doc(helpRequest1.uid).set(HelpRequest(helpRequest1).toJson())
-    await db.collection('help-requests').doc(helpRequest2.uid).set(HelpRequest(helpRequest2).toJson())
+    await db.collection('users').doc(user1.uid).set(User(user1))
+    await db.collection('users').doc(user2.uid).set(User(user2))
+    await db.collection('help-requests').doc(helpRequest1.uid).set(HelpRequest(helpRequest1))
+    await db.collection('help-requests').doc(helpRequest2.uid).set(HelpRequest(helpRequest2))
     await db.collection('compliments').doc(compliment1.uid).set(compliment1)
 }
 

@@ -24,7 +24,7 @@ User.prototype.stripPrivateData = function() {
     delete this.email
 }
 
-User.prototype.toJson = function() {
+User.prototype.getFieldsOnly = function() {
     return {
         uid: this.uid,
         name: this.name,
