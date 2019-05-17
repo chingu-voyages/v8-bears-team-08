@@ -5,6 +5,7 @@ import Home from './pages/Home/Home'
 import HelpRequestDetails from './pages/Home/HelpRequestDetails'
 import UserProfile from './pages/UserProfile/UserProfile'
 import Header from './components/Header'
+import AddHelpRequest from './pages/AddNew/AddHelpRequest'
 import Inbox from './pages/Inbox/Inbox'
 import Conversation from './pages/Inbox/Conversation'
 import Login from './components/Login'
@@ -37,10 +38,10 @@ class App extends Component {
     componentDidMount() {
         firebase.onAuthStateChanged(async user => {
             if (user) {
-                const userProfileResponse = await api.getUserProfile(user.uid)
+                const userResponse = await api.getUser(user.uid)
                 this.setState({ 
                     isLoggedIn: true,
-                    user: userProfileResponse.data
+                    user: userResponse.data
                 })
             } else {
                 this.setState({
@@ -91,7 +92,8 @@ class App extends Component {
                                         <Home {...routeProps} {...this.state.home} onHelpRequestsResponse={this.handleHelpRequestsResponse} />
                                     )}
                                 />
-                                <Route path='/help-requests/:uid' component={HelpRequestDetails} />
+                                <Route exact path='/help-requests' component={AddHelpRequest} />
+                                <Route exact path='/help-requests/:uid' component={HelpRequestDetails} />
                                 <Route exact path='/inbox' component={Inbox} />
                                 <Route exact path='/inbox/:uid' component={Conversation} />
                                 <Route path='/users/:uid/profile' component={UserProfile} />

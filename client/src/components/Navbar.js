@@ -20,7 +20,7 @@ function Navbar(props) {
                     </Link>
                 </li>
                 <li>
-                    <Link to='/#'>
+                    <Link to='/help-requests'>
                         <i className='material-icons'>add_box</i>
                         <span>Add New</span>
                     </Link>

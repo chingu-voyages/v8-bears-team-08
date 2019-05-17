@@ -7,39 +7,38 @@ const User = require('./user')
 const HelpRequest = require('../help-requests/help-request')
 
 async function create(userData) {
-    if (await getById(userData.uid)) {
+    const userDoc = await db.collection('users').doc(uid).get()
+    if (userDoc.data()) {
         throw UserAlreadyExistsException(userData.uid)
     }
 
     const user = User(userData)
-    return await db.collection('users').doc(user.uid).set(user.toJson())
+    await db.collection('users').doc(user.uid).set(user.getFieldsOnly())
+    return user
 }
 
 async function getById(uid, includePrivateInfo = false) {
     const userDoc = await db.collection('users').doc(uid).get()
-
-    if (userDoc.data()) {
-        const user = User(userDoc.data())
-        if (!includePrivateInfo) {
-            user.stripPrivateData()
-        }
-        return user.toJson()
-    } else {
-        return undefined
+    if (!userDoc.data()) {
+        throw UserNotFoundException(uid)
     }
+    
+    const user = User(userDoc.data())
+    if (!includePrivateInfo) {
+        user.stripPrivateData()
+    }
+
+    return user
 }
 
 async function getProfileById(uid, includePrivateInfo = false) {
-    const user = User(await getById(uid, includePrivateInfo))
-    if (!user) {
-        throw UserNotFoundException(uid)
-    }
+    const user = await getById(uid, includePrivateInfo)
 
     const hrQuerySnapshot = await db.collection('help-requests').where('user.uid', '==', user.uid).get()
     const helpRequests = []
     hrQuerySnapshot.forEach(doc => {
         const helpRequest = HelpRequest(doc.data())
-        helpRequests.push(helpRequest.toJson())
+        helpRequests.push(helpRequest)
     })
 
     const coQuerySnapshot = await db.collection('compliments').where('complimenteeUid', '==', user.uid).get()
@@ -49,17 +48,14 @@ async function getProfileById(uid, includePrivateInfo = false) {
         compliments.push(compliment)
     })
 
-    return {...user.toJson(), helpRequests, compliments}
+    return {...user, helpRequests, compliments}
 }
 
 async function update(uid, userData) {
-    const user = User(await getById(uid, true))
-    if (!user) {
-        throw UserNotFoundException(uid)
-    }
+    const user = await getById(uid, true)
 
     user.update(userData)
-    return await db.collection('users').doc(uid).update(user.toJson())
+    return await db.collection('users').doc(uid).update(user.getFieldsOnly())
 }
 
 module.exports = {

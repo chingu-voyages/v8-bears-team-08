@@ -15,27 +15,30 @@ router.put('/:uid', updateUser)
 // route handlers
 function createUser(req, res, next) {
     usersService.create({ ...req.user, ...req.body })
-        .then(user => res.status(201, "User created").send(user))
+        .then(user => res.status(201).json(user))
         .catch(e => e instanceof UserAlreadyExistsException ? 
             next(Response(200, e.message)) : next(Response(500, e)))
 }
 
 function getById(req, res, next) {
     usersService.getById(req.params.uid, req.params.uid == req.user.uid)
-        .then(user => user ? res.status(200).send(user) : next(Response(404, 'User not found')))
-        .catch(e => next(Response(e)))
+        .then(user => res.status(200).json(user))
+        .catch(e => e instanceof UserNotFoundException ?
+            next(Response(404, `${e.message}: ${e.value}`)) : next(Response(500, e)))
 }
 
 function getProfileById(req, res, next) {
     usersService.getProfileById(req.params.uid, req.params.uid == req.user.uid)
-        .then(user => user ? res.status(200).send(user) : next(Response(404, 'User not found')))
-        .catch(e => next(Response(e)))
+        .then(user => res.status(200).json(user))
+        .catch(e => e instanceof UserNotFoundException ?
+            next(Response(404, `${e.message}: ${e.value}`)) : next(Response(500, e)))
 }
 
 function updateUser(req, res, next) {
     usersService.update(req.params.uid, req.body)
-        .then(user => res.status(200, "User updated").send(user))
+        .then(user => res.status(200).json(user))
         .catch(e => e instanceof UserNotFoundException ?
-            next(Response(404, "User not found")) : next(Response(500, e)))
+            next(Response(404, `${e.message}: ${e.value}`)) : next(Response(500, e)))
 }
+
 module.exports = router

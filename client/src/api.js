@@ -88,9 +88,19 @@ export function unsubscribeFromHelpRequests() {
     }
 }
 
+export async function getUser(userId) {
+    await setAuthorizationHeader(httpRequestConfig)
+    return await axios.get(apiUrl + '/users/' + userId, httpRequestConfig)
+}
+
 export async function getUserProfile(userId) {
     await setAuthorizationHeader(httpRequestConfig)
     return await axios.get(apiUrl + '/users/' + userId + '/profile', httpRequestConfig)
+}
+
+export async function saveHelpRequest(formData) {
+    await setAuthorizationHeader(httpRequestConfig)
+    return await axios.post(apiUrl + '/help-requests', formData, httpRequestConfig)
 }
 
 async function setAuthorizationHeader(httpRequestConfig) {

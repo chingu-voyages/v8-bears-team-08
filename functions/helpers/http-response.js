@@ -44,19 +44,21 @@ module.exports = function createJsonResponse(code, message) {
             responseMessage = "Internal server error"
     }
     
-    // if the caller sent a specific error message, overwrite the generic one with it
+    // if the caller sent a specific message, overwrite the generic one with it.
+    // response bodies of created/retrieve objects will go here
     if (message) {
-        responseMessage = message;
+        responseMessage = message
     }
 
     // if we have an error code, then we move the response under the error key
     if (response.code >= 400) {
-        response.error = {
-            status: responseStatus,
-            message: responseMessage
+        response.message = {
+            error: {
+                status: responseStatus,
+                message: responseMessage
+            }
         }
     } else {
-        response.status = responseStatus
         response.message = responseMessage
     }
 
