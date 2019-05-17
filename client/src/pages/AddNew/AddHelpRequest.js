@@ -13,6 +13,7 @@ function AddHelpRequest(props) {
     const asapRef = useRef()
     const fileInputRef = useRef()
     const selectedPhotoRef = useRef()
+    const [isSubmitting, setIsSubmitting] = useState(false)
     const [formState, setFormState] = useState({
         title: '',
         description: '',
@@ -28,27 +29,28 @@ function AddHelpRequest(props) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        console.log('yes', formState)
         
         if (formState.title && formState.description && (formState.neededAsap || formState.neededDatetime)) {
+            setIsSubmitting(true)
             const formData = new FormData(formRef.current)
             if (formState.neededDatetime) {
                 // use from state to keep the timezone
                 formData.set('neededDatetime', formState.neededDatetime)
             }
-            formData.set('location', '11221')
+            formData.set('location', loggedInUser.location)
             formData.set('userUid', loggedInUser.uid)
             formData.set('userName', loggedInUser.name)
             formData.set('userPhotoURL', loggedInUser.photoURL)
-            formData.delete('photo')
-            for(var pair of formData.entries()) {
-                console.log(pair[0]+ ', '+ pair[1]); 
-            }
-            //props.history.push('/')
-            // Use axios to submit to backend
+            
             api.saveHelpRequest(formData)
-                .then(response => console.log(response))
+                .then(response => {
+                    props.history.push({
+                        pathname: '/help-requests/' + response.data.uid,
+                        state: response.data
+                    })
+                })
                 .catch(e => console.log(e.response))
+                .finally(() => setIsSubmitting(false))
         } else {
             console.log('no', formState)
             e.preventDefault()
@@ -171,7 +173,9 @@ function AddHelpRequest(props) {
                     </div>
                 </section>
 
-                <Button type='submit'>Finish</Button>
+                <section className='d-flex'>
+                    <Button type='submit' isLoading={isSubmitting}>Finish</Button>
+                </section>
             </form>
         </div>
     )
