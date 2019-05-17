@@ -1,6 +1,11 @@
-@import "../../styles/_variables.scss";
+@import "../../styles/variables";
 
 .conversation__container {
+    @media all and (max-width: 768px) {
+        width: 92vw;
+        word-wrap: break-word;
+    }
+
     height: 100%;
     overflow: hidden;
 }
