@@ -7,8 +7,12 @@ import './HelpRequestDetails.scss'
 function HelpRequestDetails(props) {
     const loggedInUser = useContext(LoggedInUserContext)
     const helpRequest = props.location.state
-    const conversationUid = util.createConversationUidFromUserUids(helpRequest.user.uid, loggedInUser.uid)
 
+    if (!helpRequest) {
+        return <h1>404</h1>
+    }
+
+    const conversationUid = util.createConversationUidFromUserUids(helpRequest.user.uid, loggedInUser.uid)
     return (
         <div className='help-request-details'>
             <h2 className='heading-2'>
