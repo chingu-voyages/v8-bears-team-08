@@ -5,6 +5,7 @@ function User(userData) {
     user.uid = userData.uid
     user.name = userData.name
     user.email = userData.email
+    user.location = userData.location
     user.created = userData.created || new Date().toISOString()
     
     // optional
@@ -28,10 +29,11 @@ User.prototype.getFieldsOnly = function() {
     return {
         uid: this.uid,
         name: this.name,
-        photoURL: this.photoURL,
         email: this.email,
-        ...(this.about && { about: this.about }),
-        ...(this.created && { created: this.created })
+        location: this.location,
+        created: this.created,
+        ...(this.photoURL && { photoURL: this.photoURL }),
+        ...(this.about && { about: this.about })
     }
 }
 
