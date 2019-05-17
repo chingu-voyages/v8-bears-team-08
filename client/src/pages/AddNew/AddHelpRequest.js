@@ -24,7 +24,7 @@ function AddHelpRequest(props) {
     })
 
     useEffect(() => {
-        toggleRequired(!(formState.neededAsap || formState.neededDatetime))
+        toggleRequiredDateFields(!(formState.neededAsap || formState.neededDatetime))
     }, [formState.neededAsap, formState.neededDatetime])
 
     function handleSubmit(e) {
@@ -65,13 +65,12 @@ function AddHelpRequest(props) {
         setFormState({ ...formState, neededAsap: !formState.neededAsap, neededDatetime: '' })
     }
 
-    function toggleRequired(isRequired) {
+    function toggleRequiredDateFields(isRequired) {
         datetimeRef.current.input.required = isRequired
         asapRef.current.required = isRequired
     }
 
     function handlePhotoSelection(e) {
-        console.log(e.target.files)
         if (e.target.files[0]) {
             setFormState({...formState, photo: e.target.files[0] })
             const reader = new FileReader()
