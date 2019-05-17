@@ -38,10 +38,10 @@ class App extends Component {
     componentDidMount() {
         firebase.onAuthStateChanged(async user => {
             if (user) {
-                const userProfileResponse = await api.getUserProfile(user.uid)
+                const userResponse = await api.getUser(user.uid)
                 this.setState({ 
                     isLoggedIn: true,
-                    user: userProfileResponse.data
+                    user: userResponse.data
                 })
             } else {
                 this.setState({
