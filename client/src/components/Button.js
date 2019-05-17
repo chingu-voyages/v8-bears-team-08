@@ -3,7 +3,7 @@ import './Button.scss'
 
 function Button(props) {
     return (
-        <button className='btn'>
+        <button className={props.isLoading ? 'btn btn-disabled spinning' : 'btn'}>
             {props.children}
         </button>
     )
