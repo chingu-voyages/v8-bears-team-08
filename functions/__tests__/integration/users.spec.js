@@ -16,7 +16,10 @@ const user3 = User({
     uid: "userid3",
     name: "Bob Smith",
     photoURL: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg",
-    email: "bob.smith@fake-email.com"
+    email: "bob.smith@fake-email.com",
+    about: "About me",
+    location: "11221",
+    created: new Date().toISOString()
 })
 
 async function createUser(userToCreate) {

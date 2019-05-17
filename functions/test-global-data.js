@@ -6,14 +6,20 @@ const user1 = {
     uid: "userid1",
     name: "John Doe",
     photoURL: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg",
-    email: "johndoe@fake-email.com"
+    email: "johndoe@fake-email.com",
+    about: "About me",
+    location: "11221",
+    created: new Date().toISOString()
 }
 
 const user2 = {
     uid: "userid2",
     name: "Jane Doe",
     photoURL: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg",
-    email: "janedoe@fake-email.com"
+    email: "janedoe@fake-email.com",
+    about: "About me",
+    location: "11221",
+    created: new Date().toISOString()
 }
 
 const helpRequest1 = {
@@ -24,7 +30,7 @@ const helpRequest1 = {
     tags: ["Transportation"],
     neededDatetime: new Date().toISOString(),
     created: new Date().toISOString(),
-    status: 'active',
+    status: "active",
     user: {
         uid: user1.uid,
         name: user1.name,
@@ -40,7 +46,7 @@ const helpRequest2 = {
     tags: ["Physical", "Furniture"],
     neededAsap: true,
     created: new Date().toISOString(),
-    status: 'active',
+    status: "active",
     user: {
         uid: user2.uid,
         name: user2.name,
