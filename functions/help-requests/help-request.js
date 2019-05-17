@@ -18,7 +18,6 @@ function HelpRequest(data) {
         helpRequest.user.photoURL = data.user.photoURL
     }
     
-    // tags are optional
     if (data.tags) {
         if (Array.isArray(data.tags)) {
             helpRequest.tags = data.tags
