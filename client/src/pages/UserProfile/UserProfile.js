@@ -5,6 +5,7 @@ import './UserProfile.scss'
 import * as util from '../../helpers/util'
 import HelpRequest from '../Home/HelpRequest'
 import Avatar from '../../components/Avatar'
+import Button from '../../components/Button'
 
 
 function UserProfile(props) {
@@ -36,7 +37,7 @@ function UserProfile(props) {
                             <span className='profile-name'>{userProfile.displayName}</span>
                             <span className='profile-about'>"{userProfile.about}"</span>
                         </div>
-                        <button id='profile-compliment-button'>Write a Compliment</button>
+                        <Button>Write a Compliment</Button>
                     </div>
                 </div>
 
