@@ -3,8 +3,8 @@
 .btn {	
     position: relative;
     transition: padding-right .3s ease;
-    padding: 10px;
-    font-size: 18px;
+    padding: 0px 24px;
+    font-size: 21px;
     height: 42px;	
     min-width: 178px;	
     border-radius: 8px;	
@@ -16,6 +16,9 @@
     }
     cursor: pointer;
     outline: none;
+}
+.btn-large {
+    height: 60px;
 }
 
 .btn-disabled {

@@ -2,9 +2,21 @@ import React from 'react'
 import './Button.scss'
 
 function Button(props) {
+    const { isLoading, size, children, ...rest } = props
+
+    let classes = 'btn'
+    if (isLoading) {
+        classes += ' btn-disabled spinning'
+    }
+    if (size == 'large') {
+        classes += ' btn-large'
+    }
+
+    console.log('p', props)
+
     return (
-        <button className={props.isLoading ? 'btn btn-disabled spinning' : 'btn'} {...props}>
-            {props.children}
+        <button className={classes} {...rest}>
+            {children}
         </button>
     )
 }
