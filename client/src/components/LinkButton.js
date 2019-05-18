@@ -13,15 +13,15 @@ const LinkButton = (props) => {
         ...rest
     } = props
   
-  return (
-    <Button
-        {...rest}
-        onClick={(event) => {
-            onClick && onClick(event)
-            history.push(to)
-        }}
-    />
-  )
+    return (
+        <Button
+            {...rest}
+            onClick={(event) => {
+                onClick && onClick(event)
+                history.push(to)
+            }}
+        />
+    )
 }
 
 export default withRouter(LinkButton)
