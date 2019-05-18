@@ -12,8 +12,6 @@ function Button(props) {
         classes += ' btn-large'
     }
 
-    console.log('p', props)
-
     return (
         <button className={classes} {...rest}>
             {children}
