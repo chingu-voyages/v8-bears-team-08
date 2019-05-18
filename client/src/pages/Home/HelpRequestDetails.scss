@@ -24,18 +24,4 @@
         align-items: flex-end;
         line-height: 120%;
     }
-
-    button {
-        margin: 10px 0;
-        height: 60px;	
-        min-width: 300px;	
-        border-radius: 8px;	
-        background-color: $pale-blue;
-        color: white;
-        border: 0;
-        font-size: 20px;
-        &:hover {
-            color: black;
-        }
-    }
 }

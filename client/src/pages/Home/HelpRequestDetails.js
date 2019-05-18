@@ -40,7 +40,7 @@ function HelpRequestDetails(props) {
                 <h3 className='heading-3'>Can you help your neighbor?</h3>
                 <br />
                 
-                <LinkButton
+                <LinkButton size='large'
                     to={{ 
                         pathname: `/inbox/${conversationUid}`, 
                         state: { messageRecipient: helpRequest.user }
