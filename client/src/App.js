@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
-import Welcome from './pages/Welcome/Welcome'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Home from './pages/Home/Home'
 import HelpRequestDetails from './pages/Home/HelpRequestDetails'
 import UserProfile from './pages/UserProfile/UserProfile'
@@ -8,10 +7,7 @@ import Header from './components/Header'
 import AddHelpRequest from './pages/AddNew/AddHelpRequest'
 import Inbox from './pages/Inbox/Inbox'
 import Conversation from './pages/Inbox/Conversation'
-import Login from './components/Login'
 import Navbar from './components/Navbar'
-import * as firebase from './helpers/firebase'
-import * as api from './api'
 import './App.scss'
 
 export const LoggedInUserContext = React.createContext()
@@ -21,41 +17,16 @@ class App extends Component {
         super(props)
 
         this.state = {
-            isLoggedIn: undefined,
             home: {
                 helpRequests: [],
                 isLoaded: false,
                 error: null,
-                userLocation: '11221'
-            }
+                userLocation: this.props.user.location
+            },
+            user: this.props.user
         }
     
-        this.handleLoginClick = this.handleLoginClick.bind(this)
-        this.handleCreateClick = this.handleCreateClick.bind(this)
         this.handleHelpRequestsResponse = this.handleHelpRequestsResponse.bind(this)
-    }
-
-    componentDidMount() {
-        firebase.onAuthStateChanged(async user => {
-            if (user) {
-                const userResponse = await api.getUser(user.uid)
-                this.setState({ 
-                    isLoggedIn: true,
-                    user: userResponse.data
-                })
-            } else {
-                this.setState({
-                    isLoggedIn: false
-                })
-            }
-        })
-    }
-
-    handleLoginClick() {
-        console.log('login clicked');
-    }
-    handleCreateClick() {
-        console.log('create account clicked');
     }
 
     handleHelpRequestsResponse(response) {
@@ -72,11 +43,7 @@ class App extends Component {
 
 
     render() {
-        if (this.state.isLoggedIn == undefined) {
-            return <h1>Loading</h1>
-        }
-
-        if (this.state.isLoggedIn) {
+        if (this.state.user) {
             return (
                 <LoggedInUserContext.Provider value={this.state.user}>
                     <Router>
@@ -97,23 +64,15 @@ class App extends Component {
                                 <Route exact path='/inbox' component={Inbox} />
                                 <Route exact path='/inbox/:uid' component={Conversation} />
                                 <Route path='/users/:uid/profile' component={UserProfile} />
-                                <Route path='/login' component={Login} />
                             </main>
                         </div>
                     </Router>
                 </LoggedInUserContext.Provider>
             )
         } else {
-            return (
-                <div className="app">
-                    <Welcome 
-                        onLoginClick={this.handleLoginClick} 
-                        onCreateClick={this.handleCreateClick} 
-                    />
-                </div>
-            )
+            return <h1>Bad Error</h1>
         }
-  }
+    }
 }
 
 export default App

@@ -103,6 +103,11 @@ export async function saveHelpRequest(formData) {
     return await axios.post(apiUrl + '/help-requests', formData, httpRequestConfig)
 }
 
+export async function registerUser(user) {
+    await setAuthorizationHeader(httpRequestConfig)
+    return await axios.post(apiUrl + '/users', user, httpRequestConfig)
+}
+
 async function setAuthorizationHeader(httpRequestConfig) {
     const idToken = await firebase.getUserIdToken()
     httpRequestConfig.headers.Authorization = "Bearer " + idToken
