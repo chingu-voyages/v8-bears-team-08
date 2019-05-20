@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext, useRef } from 'react'
-import moment from 'moment'
 import Avatar from '../../components/Avatar'
 import './Conversation.scss'
 import * as util from '../../helpers/util'
@@ -27,7 +26,7 @@ function Conversation(props) {
 
 
     function getReceivingUserFromConversation(conversation) {
-        return conversation.users.filter(user => user.uid != loggedInUser.uid)[0]
+        return conversation.users.filter(user => user.uid !== loggedInUser.uid)[0]
     }
 
     useEffect(() => {
@@ -114,7 +113,7 @@ function Conversation(props) {
                 <div className='conversation__messages'>
                     <ul>
                         { conversationDetails && conversationMessages && conversationMessages.map(message => {
-                            message.photoURL = conversationDetails.users.filter(user => user.uid == message.senderUid)[0].photoURL
+                            message.photoURL = conversationDetails.users.filter(user => user.uid === message.senderUid)[0].photoURL
                             message.isMyMessage = message.senderUid === loggedInUser.uid
                             return <Message key={message.uid} message={message} />
                         })}

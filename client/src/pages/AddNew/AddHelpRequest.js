@@ -163,7 +163,7 @@ function AddHelpRequest(props) {
                             ref={fileInputRef}
                         />
                         <div className='photo' onClick={() => fileInputRef.current.click()}>
-                            <img className='selected-photo' src='images/placeholder-image.png' ref={selectedPhotoRef} />
+                            <img className='selected-photo' src='images/placeholder-image.png' alt='To upload' ref={selectedPhotoRef} />
                         </div>
                         <div className='d-flex flex-col flex-space-between photo-desc'>
                             <p>Upload a photo related to your request.</p>

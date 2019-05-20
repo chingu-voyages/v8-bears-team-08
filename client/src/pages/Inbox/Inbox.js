@@ -15,7 +15,7 @@ function Inbox(props) {
             .then(response => {
                 const conversations = []
                 response.forEach(conversation => {
-                    const receivingUser = conversation.users.filter(user => user.uid != loggedInUser.uid)[0]
+                    const receivingUser = conversation.users.filter(user => user.uid !== loggedInUser.uid)[0]
                     conversation.receivingUser = receivingUser
                     conversations.push(conversation)
                 })
@@ -45,7 +45,7 @@ function Inbox(props) {
                                 </div>
                             </div>
                         </Link>
-                        { index != conversations.length -1 && <hr className='inbox__conversation-separator' /> }
+                        { index !== conversations.length -1 && <hr className='inbox__conversation-separator' /> }
                     </li>
                 ))}
             </ul>

@@ -41,6 +41,7 @@ function HelpRequest({ helpRequest }) {
                 <img
                     className='help-request-list-item__photo'
                     src={helpRequest.photoURL || helpRequest.user.photoURL}
+                    alt='Help Request'
                 />
             </Link>
         </li>

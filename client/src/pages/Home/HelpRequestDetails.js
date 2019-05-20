@@ -20,7 +20,7 @@ function HelpRequestDetails(props) {
             <br className='section-separator-space' />
 
             <div className='d-flex flex-row help-request-details__info'>
-                <img src={helpRequest.photoURL || helpRequest.user.photoURL} />
+                <img src={helpRequest.photoURL || helpRequest.user.photoURL} alt='Help Request' />
 
                 <div className='d-flex flex-col'>
                     <p><strong>Posted {util.getRelativeLocaleTime(helpRequest.created)}</strong> near {helpRequest.location}</p>

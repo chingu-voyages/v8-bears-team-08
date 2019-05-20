@@ -111,7 +111,7 @@ function Base() {
                     <div className='login'>
                         <div className="top">
                             <div className="logo">
-                                <img src='/images/kindnest.svg' />
+                                <img src='/images/kindnest.svg' alt='Kindnest' />
                             </div>
                             <div className="tagline">
                                 the app for good neighbors
