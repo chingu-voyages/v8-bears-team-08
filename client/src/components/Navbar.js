@@ -29,8 +29,6 @@ function Navbar(props) {
                 
                 <li><Link to='/inbox/'><i className='material-icons'>email</i>Inbox</Link></li>
                 <li><Link to={`/users/${props.userUid}/profile`}><i className='material-icons'>account_circle</i>Profile</Link></li>
-                {/* TODO: remove this once login flow components are created */}
-                <li><Link to='/login'>Login</Link></li>
             </ul>
         </div>
     )

@@ -7,7 +7,7 @@ const User = require('./user')
 const HelpRequest = require('../help-requests/help-request')
 
 async function create(userData) {
-    const userDoc = await db.collection('users').doc(uid).get()
+    const userDoc = await db.collection('users').doc(userData.uid).get()
     if (userDoc.data()) {
         throw UserAlreadyExistsException(userData.uid)
     }

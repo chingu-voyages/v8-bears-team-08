@@ -37,7 +37,7 @@ export function getUser() {
 }
 
 export function onAuthStateChanged(callback) {
-    firebase.auth().onAuthStateChanged(callback)
+    return firebase.auth().onAuthStateChanged(callback)
 }
 
 export function getAuth() {
