@@ -41,16 +41,22 @@ function UserProfile(props) {
                     </div>
                 </div>
 
-                <div>    
+                <div>
+                    <hr className='profile-separator' />
+                    <h2 className='profile-section-text'>Verficiations</h2>
+                    <ul className='verifications'>
+                        { userProfile.emailVerifications.map(verification => (
+                          <Verification key={verification.providerId} verification={verification} />  
+                        ))}
+                    </ul>
+                    
                     <hr className='profile-separator' />
                     <h2 className='profile-section-text'>Requests</h2>
-                    <ul>
-                        <HelpRequestList helpRequests={userProfile.helpRequests} />
-                    </ul>
+                    <HelpRequestList helpRequests={userProfile.helpRequests} />
 
                     <hr className='profile-separator' />
                     <h2 className='profile-section-text'>Compliments</h2>
-                    <ul>
+                    <ul className='compliments'>
                         { userProfile.compliments.map(compliment => (
                             <Compliment key={compliment.uid} compliment={compliment} />
                         ))}
@@ -65,9 +71,18 @@ function UserProfile(props) {
     }
 }
 
+function Verification({ verification }) {
+    return (
+        <li>
+            <i className='material-icons'>check</i>
+            <div className='provider'>{verification.providerId.split('.')[0]}</div>
+        </li>
+    )
+}
+
 function Compliment({ compliment }) {
     return (
-        <li id="temp" className='compliment-list-item d-flex flex-row'>
+        <li className='compliment-list-item d-flex flex-row'>
             <img className='compliment-user-pic' src={compliment.complimenter.photoURL} alt={compliment.complimenter.name} />
             <div className='d-flex flex-col'>
                 <span className='compliment-user-name'>{ compliment.complimenter.name }</span>
