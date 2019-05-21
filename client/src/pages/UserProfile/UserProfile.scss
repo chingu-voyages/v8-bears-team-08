@@ -1,4 +1,4 @@
-@import "../../styles/_variables.scss";
+@import "../../styles/variables.scss";
 
 .user-profile {
     padding: $main-default-padding;
@@ -44,6 +44,11 @@
         font-size: 24px;
         margin-bottom: 24px;
     }
+    
+    ul {
+        margin-left: 12px;
+        margin-right: 12px;
+    }
 }
 
 
@@ -66,26 +71,51 @@
     }
 }
 
+.verifications {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    line-height: 225%;
 
-.compliment-user-pic {
-    width: 75px;
-    height: 75px;
-    min-width: 75px;
-    min-height: 75px;
-    object-fit: cover;
-    margin-right: 12px;
+    li {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 50%;
+    }
+
+    i {
+        color: $pale-blue;
+        margin-right: 4px;
+        font-size: 32px;
+    }
+
+    .provider {
+        text-transform: capitalize;
+    }
 }
 
-.compliment-user-name {
-    font-size: 1.2em;
-    margin-bottom: 8px;
-}
-
-.compliment-text {
-    max-width: 400px;
-    font-family: $secondary-font-family;
-}
-
-.compliment-list-item:not(:last-child) {
-    margin-bottom: 24px;
+.compliments {
+    .compliment-user-pic {
+        width: 75px;
+        height: 75px;
+        min-width: 75px;
+        min-height: 75px;
+        object-fit: cover;
+        margin-right: 12px;
+    }
+    
+    .compliment-user-name {
+        font-size: 1.2em;
+        margin-bottom: 8px;
+    }
+    
+    .compliment-text {
+        max-width: 400px;
+        font-family: $secondary-font-family;
+    }
+    
+    .compliment-list-item:not(:last-child) {
+        margin-bottom: 24px;
+    }
 }
