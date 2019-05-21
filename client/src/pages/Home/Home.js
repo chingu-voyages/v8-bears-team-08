@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import HelpRequestList from './HelpRequestList'
 import * as api from '../../api'
+import Loader from '../../components/Loader'
 import './Home.scss'
-import '../../styles/loader.css'
 
 /*
     This view will load data differently than other views.
@@ -29,7 +29,7 @@ function Home(props) {
             { props.isLoaded ? (
                 <HelpRequestList helpRequests={props.helpRequests} />
             ) : (
-                <div className='loading'></div>
+                <Loader />
             )}
         </div>
     )

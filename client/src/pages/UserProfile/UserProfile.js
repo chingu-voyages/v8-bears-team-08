@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import * as api from '../../api'
-import '../../styles/loader.css'
 import './UserProfile.scss'
 import * as util from '../../helpers/util'
 import HelpRequestList from '../Home/HelpRequestList'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
+import Loader from '../../components/Loader'
 
 
 function UserProfile(props) {
@@ -17,24 +17,6 @@ function UserProfile(props) {
         setIsLoaded(false)
         api.getUserProfile(props.match.params.uid)
             .then(response => {
-                response.data.emailVerifications = [
-                    {
-                        providerId: 'google.com',
-                        verified: true,
-                    },
-                    {
-                        providerId: 'facebook.com',
-                        verified: false,
-                    },
-                    {
-                        providerId: 'twitter.com',
-                        verified: true,
-                    },
-                    {
-                        providerId: 'github.com',
-                        verified: true,
-                    }
-                ]
                 setuserProfile({ ...response.data, displayName: util.getDisplayName(response.data.name) })
                 setIsLoaded(true)
             })
@@ -85,7 +67,7 @@ function UserProfile(props) {
     } else if (isError) {
         return <div>Error</div>
     } else {
-        return <div className='loading'></div>
+        return <Loader />
     }
 }
 
