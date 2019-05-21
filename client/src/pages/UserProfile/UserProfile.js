@@ -17,6 +17,24 @@ function UserProfile(props) {
         setIsLoaded(false)
         api.getUserProfile(props.match.params.uid)
             .then(response => {
+                response.data.emailVerifications = [
+                    {
+                        providerId: 'google.com',
+                        verified: true,
+                    },
+                    {
+                        providerId: 'facebook.com',
+                        verified: false,
+                    },
+                    {
+                        providerId: 'twitter.com',
+                        verified: true,
+                    },
+                    {
+                        providerId: 'github.com',
+                        verified: true,
+                    }
+                ]
                 setuserProfile({ ...response.data, displayName: util.getDisplayName(response.data.name) })
                 setIsLoaded(true)
             })
@@ -43,7 +61,7 @@ function UserProfile(props) {
 
                 <div>
                     <hr className='profile-separator' />
-                    <h2 className='profile-section-text'>Verifications</h2>
+                    <h2 className='profile-section-text'>Verficiations</h2>
                     <ul className='verifications'>
                         { userProfile.emailVerifications.map(verification => (
                           <Verification key={verification.providerId} verification={verification} />  
@@ -72,12 +90,16 @@ function UserProfile(props) {
 }
 
 function Verification({ verification }) {
-    return (
-        <li>
-            <i className='material-icons'>check</i>
-            <div className='provider'>{verification.providerId.split('.')[0]}</div>
-        </li>
-    )
+    if (verification.verified) {
+        return (
+            <li>
+                <i className='material-icons'>check</i>
+                <div className='provider'>{verification.providerId.split('.')[0]}</div>
+            </li>
+        )
+    } else {
+        return null
+    }
 }
 
 function Compliment({ compliment }) {
