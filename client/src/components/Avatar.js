@@ -7,6 +7,10 @@ function Avatar({ url, size, showHalo }) {
         classes += ' avatar-small'
     } else if (size === 'medium') {
         classes += ' avatar-medium'
+    } else if (size === 'xl') {
+        classes += ' avatar-xl'
+    } else {
+        classes += ' avatar-large'
     }
 
     if (showHalo) {
