@@ -34,16 +34,12 @@ function Navbar(props) {
     const [active, setActive] = useState('')
 
     useEffect(() => {
-        const isHome = props.location.pathname.length === 1
-        if (isHome) {
-            setActive('Home')
-        } else {
-            menuItems.forEach(item => {
-                if (item.path.startsWith(props.location.pathname)) {
-                    setActive(item.name)
-                }
-            })
-        }
+        setActive('')
+        menuItems.forEach(item => {
+            if (item.path === props.location.pathname) {
+                setActive(item.name)
+            }
+        })
     }, [props.location])
 
     return (
