@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import LinkButton from '../../components/LinkButton'
 import * as util from '../../helpers/util'
 import { LoggedInUserContext } from '../../App'
@@ -16,7 +17,7 @@ function HelpRequestDetails(props) {
     return (
         <div className='help-request-details'>
             <h2 className='heading-2'>
-                <strong>{util.getDisplayName(helpRequest.user.name)}</strong> needs <strong className='primary-font-color'>{helpRequest.title}</strong></h2>
+                <strong><Link to={`/users/${helpRequest.user.uid}/profile`}>{util.getDisplayName(helpRequest.user.name)}</Link></strong> needs <strong className='primary-font-color'>{helpRequest.title}</strong></h2>
             <br className='section-separator-space' />
 
             <div className='d-flex flex-row help-request-details__info'>
