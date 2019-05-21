@@ -15,7 +15,7 @@
         -webkit-animation: spinner 1.5s cubic-bezier(.02, .01, .47, 1) infinite;
         animation: spinner 1.5s cubic-bezier(.02, .01, .47, 1) infinite;
     }
-    
+
     .loading:after {
         content: '';
         position: absolute;
@@ -28,6 +28,10 @@
         border-top-color: $light-blue;
         -webkit-animation: spinner 1.5s linear infinite;
         animation: spinner 1.5s linear infinite;
+    }
+
+    .loader-light {
+        border-top: 3px solid white;
     }
     
     @-webkit-keyframes spinner {

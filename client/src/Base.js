@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import App from './App'
 import Login from './pages/Welcome/Login'
 import RegisterUser from './pages/Welcome/RegisterUser'
+import Loader from './components/Loader'
 import * as firebase from './helpers/firebase'
 import * as api from './api'
 
@@ -119,7 +120,7 @@ function Base() {
                         </div>
                         <div className="bottom">
                             { user.full === undefined ? 
-                                <h1>Loading...</h1> : 
+                                <Loader theme='light' /> : 
                                 <Login onSignInSuccess={handleSignInSuccessWithAuthResult} /> }
                         </div>
                     </div>
