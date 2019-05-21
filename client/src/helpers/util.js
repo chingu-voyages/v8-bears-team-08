@@ -1,5 +1,3 @@
-'use strict'
-
 import moment from 'moment'
 moment.updateLocale('en', {
     calendar : {
@@ -14,6 +12,10 @@ moment.updateLocale('en', {
 
 // Get firstname and the first letter of the last name
 export function getDisplayName(name) {
+    if (!name) {
+        return name
+    }
+
     const nameParts = name.split(' ')
     const lastInitial = nameParts.pop().substring(0, 1) + '.'
     const firstName = nameParts.join(' ')

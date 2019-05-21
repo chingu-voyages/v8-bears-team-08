@@ -8,7 +8,7 @@ function Button(props) {
     if (isLoading) {
         classes += ' btn-disabled spinning'
     }
-    if (size == 'large') {
+    if (size === 'large') {
         classes += ' btn-large'
     }
 

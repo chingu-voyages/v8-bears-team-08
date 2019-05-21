@@ -1,57 +1,68 @@
 @import "../../styles/_variables.scss";
 
-.profile {
-    display: flex;
-    flex-direction: row;
-}
+.user-profile {
+    padding: $main-default-padding;
+    margin-bottom: $navbar-mobile-height;
 
-.profile-details {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 8px 0;
-    margin-left: 24px;
-}
-
-.profile-name-about {
-    display: flex;
-    flex-direction: column;
-}
-
-.profile-name {
-    font-size: 28px;
-    padding-bottom: 8px;
-}
-
-.profile-separator {
-    border-color: $light-blue;
-    border: 0;
-    height: 1px;
-    width: 80%;
-    margin-top: 42px;
-    margin-bottom: 42px;
-    color: $light-blue;
-    background-color: $light-blue;
-}
-
-.profile-section-text {
-    color: $pale-blue;
-    font-size: 24px;
-    margin-bottom: 24px;
-}
-
-/* layout the user's details as a column on mobile */
-@media all and (max-width: 768px) {
     .profile {
+        display: flex;
         flex-direction: column;
         align-items: center;
     }
+    
     .profile-details {
-        height: 125px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 0;
+        height: 150px;
+    }
+    
+    .profile-name-about {
+        display: flex;
+        flex-direction: column;
         align-items: center;
     }
-    .profile-name-about {
-        align-items: center;
+    
+    .profile-name {
+        font-size: 28px;
+        padding-bottom: 8px;
+    }
+    
+    .profile-separator {
+        border: 0;
+        height: 1px;
+        width: 80%;
+        margin-top: 42px;
+        margin-bottom: 42px;
+        background-color: $light-blue;
+    }
+    
+    .profile-section-text {
+        color: $pale-blue;
+        font-size: 24px;
+        margin-bottom: 24px;
+    }
+}
+
+
+@media all and (min-width: 768px) {
+    .user-profile {
+        .profile {
+            flex-direction: row;
+            //justify-content: center;
+        }
+
+        .profile-details {
+            align-items: flex-start;
+            margin-left: 24px;
+        }
+
+        .profile-name-about {
+            align-items: flex-start;
+            margin: 8px 0 0 0;
+        }
     }
 }
 
@@ -59,16 +70,22 @@
 .compliment-user-pic {
     width: 75px;
     height: 75px;
+    min-width: 75px;
+    min-height: 75px;
     object-fit: cover;
     margin-right: 12px;
 }
+
 .compliment-user-name {
-    font-size: 110%;
+    font-size: 1.2em;
     margin-bottom: 8px;
 }
+
 .compliment-text {
-    max-width: 68vw;
+    max-width: 400px;
+    font-family: $secondary-font-family;
 }
+
 .compliment-list-item:not(:last-child) {
     margin-bottom: 24px;
 }

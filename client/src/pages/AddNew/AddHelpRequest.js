@@ -112,32 +112,34 @@ function AddHelpRequest(props) {
 
                 <section>
                     <h4>When</h4>
-                    <DatePicker
-                        name='neededDatetime'
-                        showTimeSelect
-                        timeFormat="h:mm aa"
-                        timeIntervals={15}
-                        dateFormat="Pp"
-                        timeCaption="time"
-                        selected={formState.neededDatetime}
-                        onChange={handleDatetime}
-                        placeholderText='Click to select a date'
-                        ref={datetimeRef}
-                        minDate={new Date()}
-                        forceShowMonthNavigation
-                        required
-                    />
-                    or
-                    <input
-                        type='checkbox'
-                        id='neededAsap'
-                        name='neededAsap'
-                        checked={formState.neededAsap}
-                        onChange={handleAsap}
-                        ref={asapRef}
-                        required
-                    />
-                    <label htmlFor='neededAsap'>ASAP</label>
+                    <div>
+                        <DatePicker
+                            name='neededDatetime'
+                            showTimeSelect
+                            timeFormat="h:mm aa"
+                            timeIntervals={15}
+                            dateFormat="Pp"
+                            timeCaption="time"
+                            selected={formState.neededDatetime}
+                            onChange={handleDatetime}
+                            placeholderText='Click to select a date'
+                            ref={datetimeRef}
+                            minDate={new Date()}
+                            forceShowMonthNavigation
+                            required
+                        />
+                        <span>or</span>
+                        <input
+                            type='checkbox'
+                            id='neededAsap'
+                            name='neededAsap'
+                            checked={formState.neededAsap}
+                            onChange={handleAsap}
+                            ref={asapRef}
+                            required
+                        />
+                        <label htmlFor='neededAsap'>ASAP</label>
+                    </div>
                 </section>
 
                 <section>
@@ -163,7 +165,7 @@ function AddHelpRequest(props) {
                             ref={fileInputRef}
                         />
                         <div className='photo' onClick={() => fileInputRef.current.click()}>
-                            <img className='selected-photo' src='images/placeholder-image.png' ref={selectedPhotoRef} />
+                            <img className='selected-photo' src='images/placeholder-image.png' alt='To upload' ref={selectedPhotoRef} />
                         </div>
                         <div className='d-flex flex-col flex-space-between photo-desc'>
                             <p>Upload a photo related to your request.</p>

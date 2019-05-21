@@ -49,10 +49,8 @@ class App extends Component {
                     <Router>
                         <Header />
 
-                        <div id='container' className='d-flex flex-row'>
-                            <Navbar userUid={this.state.user.uid} />
-                            
-                            <main className='flex-grow'>
+                        <div className='container'>
+                            <main>
                                 <Route 
                                     exact path='/' 
                                     render={(routeProps) => (
@@ -65,6 +63,8 @@ class App extends Component {
                                 <Route exact path='/inbox/:uid' component={Conversation} />
                                 <Route path='/users/:uid/profile' component={UserProfile} />
                             </main>
+
+                            <Navbar userUid={this.state.user.uid} />
                         </div>
                     </Router>
                 </LoggedInUserContext.Provider>

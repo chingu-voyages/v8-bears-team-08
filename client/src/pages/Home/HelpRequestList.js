@@ -1,8 +1,18 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import * as util from '../../helpers/util'
-import './HelpRequest.scss'
+import './HelpRequestList.scss'
 
+
+function HelpRequestList(props) {
+    return (
+        <ul className='help-request-list'>
+            { props.helpRequests.map(helpRequest => (
+                <HelpRequest key={helpRequest.uid} helpRequest={helpRequest} />
+            ))}
+        </ul>
+    )
+}
 
 function HelpRequest({ helpRequest }) {
     // Display only the first character of the user's last name
@@ -20,7 +30,7 @@ function HelpRequest({ helpRequest }) {
             <Link 
                 className='help-request__list-item__link-container d-flex flex-row'
                 to={{ pathname: `/help-requests/${helpRequest.uid}`, state: helpRequest }} 
-                >
+            >
                 <div className='help-request-list-item__info'>
                     <div>
                         <h4 className='heading-4'><strong>{displayName}</strong></h4>
@@ -41,10 +51,11 @@ function HelpRequest({ helpRequest }) {
                 <img
                     className='help-request-list-item__photo'
                     src={helpRequest.photoURL || helpRequest.user.photoURL}
+                    alt='Help Request'
                 />
             </Link>
         </li>
     )
 }
 
-export default HelpRequest
+export default HelpRequestList

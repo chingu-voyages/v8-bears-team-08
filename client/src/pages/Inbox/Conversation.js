@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext, useRef } from 'react'
-import moment from 'moment'
 import Avatar from '../../components/Avatar'
 import './Conversation.scss'
 import * as util from '../../helpers/util'
@@ -21,13 +20,14 @@ function Conversation(props) {
     const [conversationMessages, setConversationMessages] = useState([])
     const [messageBoxText, setMessageBoxText] = useState("")
     const inputMessageBox = useRef(null)
+    const conversationScrollAnchor = useRef(null)
     const loggedInUser = useContext(LoggedInUserContext)
     const conversationUid = props.match.params.uid
     let unsubscribeFromMessages
 
 
     function getReceivingUserFromConversation(conversation) {
-        return conversation.users.filter(user => user.uid != loggedInUser.uid)[0]
+        return conversation.users.filter(user => user.uid !== loggedInUser.uid)[0]
     }
 
     useEffect(() => {
@@ -35,6 +35,13 @@ function Conversation(props) {
             inputMessageBox.current.focus()
         }
     }, [])
+
+    // keep chat window scrolled to bottom
+    useEffect(() => {
+        if (isViewValid()) {
+            conversationScrollAnchor.current.scrollIntoView()
+        }
+    })
 
     useEffect(function getConversationDetails() {
         if (isViewValid()) {
@@ -107,18 +114,19 @@ function Conversation(props) {
     }
 
     return (
-        <div className='conversation__container d-flex flex-col'>
-            <h1 className='heading-1'>{ receivingUser && <span>{util.getDisplayName(receivingUser.name)}</span>}</h1>
+        <div className='conversation'>
+            {/* <h1 className='heading-1'>{ receivingUser && <span>{util.getDisplayName(receivingUser.name)}</span>}</h1> */}
             
             <div className='conversation__messages-container'>
                 <div className='conversation__messages'>
                     <ul>
                         { conversationDetails && conversationMessages && conversationMessages.map(message => {
-                            message.photoURL = conversationDetails.users.filter(user => user.uid == message.senderUid)[0].photoURL
+                            message.photoURL = conversationDetails.users.filter(user => user.uid === message.senderUid)[0].photoURL
                             message.isMyMessage = message.senderUid === loggedInUser.uid
                             return <Message key={message.uid} message={message} />
                         })}
                     </ul>
+                    <div ref={conversationScrollAnchor}></div>
                 </div>
             </div>
 
@@ -138,7 +146,7 @@ function Conversation(props) {
 
 function Message({ message }) {
     // the flex-row-reverse & flex-justify-end combination of classes below are so that the received 
-    // messages show on the left of the screen with the avatar first
+    // messages show on the left of the screen with the avatar first.
     return (
         <li 
             key={message.uid}
