@@ -22,6 +22,10 @@
     color: inherit;
 }
 
+.navbar .active {
+    color: $pale-blue;
+}
+
 .navbar i {
     margin-right: 8px;
 }

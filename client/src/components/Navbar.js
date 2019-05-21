@@ -1,37 +1,65 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { withRouter, Link } from 'react-router-dom'
 import './Navbar.scss'
 
-
 function Navbar(props) {
+    const menuItems = [
+        {
+            name: 'Home',
+            icon: 'home',
+            path: '/'
+        },
+        {
+            name: 'Explore',
+            icon: 'explore',
+            path: '/explore'
+        },
+        {
+            name: 'Add New',
+            icon: 'add_box',
+            path: '/help-requests'
+        },
+        {
+            name: 'Inbox',
+            icon: 'email',
+            path: '/inbox'
+        },
+        {
+            name: 'Profile',
+            icon: 'account_circle',
+            path: `/users/${props.userUid}/profile`
+        },
+    ]
+
+    const [active, setActive] = useState('')
+
+    useEffect(() => {
+        const isHome = props.location.pathname.length === 1
+        if (isHome) {
+            setActive('Home')
+        } else {
+            menuItems.forEach(item => {
+                if (item.path.startsWith(props.location.pathname)) {
+                    setActive(item.name)
+                }
+            })
+        }
+    }, [props.location])
+
     return (
         <div className='navbar'>
             <ul>
-                <li>
-                    <Link to='/'>
-                        <i className='material-icons'>home</i>
-                        <span>Home</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/#'>
-                        <i className='material-icons'>explore</i>
-                        <span>Discover</span>
-                    </Link>
-                </li>
-                <li>
-                    <Link to='/help-requests'>
-                        <i className='material-icons'>add_box</i>
-                        <span>Add New</span>
-                    </Link>
-                </li>
-                
-                
-                <li><Link to='/inbox/'><i className='material-icons'>email</i>Inbox</Link></li>
-                <li><Link to={`/users/${props.userUid}/profile`}><i className='material-icons'>account_circle</i>Profile</Link></li>
+                {menuItems.map(menuItem => (
+                    <li key={menuItem.name} className={menuItem.name === active ? 'active' : ''}>
+                        <Link to={menuItem.path}>
+                            <i className='material-icons'>{menuItem.icon}</i>
+                            <span>{menuItem.name}</span>
+                        </Link>
+                    </li>
+                ))}
             </ul>
         </div>
     )
 }
 
-export default Navbar
+export default withRouter(Navbar)
