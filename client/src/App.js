@@ -13,9 +13,10 @@ import './App.scss'
 
 export const LoggedInUserContext = React.createContext()
 const RouteContainer = posed.div({
-    enter: { opacity: 1, delay: 50, transition: { duration: 150 } },
+    enter: { opacity: 1, delay: 50, transition: { duration: 250 } },
     exit: { opacity: 0, transition: { duration: 100, ease: 'easeIn' } }
 })
+
 
 class App extends Component {
     constructor(props) {
@@ -59,7 +60,7 @@ class App extends Component {
                                     <div className='container'>{console.log(location)}
                                         <main>
                                             <PoseGroup>
-                                                <RouteContainer key={location.key} style={{height: '100%'}}>
+                                                <RouteContainer key={location.pathname} style={{height: '100%'}}>
                                                     <Switch location={location}>
                                                         <Route 
                                                             exact path='/' 
