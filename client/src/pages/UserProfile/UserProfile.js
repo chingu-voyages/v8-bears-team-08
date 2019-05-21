@@ -14,6 +14,7 @@ function UserProfile(props) {
     const [isError, setIsError] = useState(false)
 
     useEffect(() => {
+        setIsLoaded(false)
         api.getUserProfile(props.match.params.uid)
             .then(response => {
                 setuserProfile({ ...response.data, displayName: util.getDisplayName(response.data.name) })
