@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import posed, { PoseGroup } from 'react-pose'
 import Home from './pages/Home/Home'
 import HelpRequestDetails from './pages/Home/HelpRequestDetails'
 import UserProfile from './pages/UserProfile/UserProfile'
@@ -11,6 +12,10 @@ import Navbar from './components/Navbar'
 import './App.scss'
 
 export const LoggedInUserContext = React.createContext()
+const RouteContainer = posed.div({
+    enter: { opacity: 1, delay: 50, transition: { duration: 150 } },
+    exit: { opacity: 0, transition: { duration: 100, ease: 'easeIn' } }
+})
 
 class App extends Component {
     constructor(props) {
@@ -47,25 +52,36 @@ class App extends Component {
             return (
                 <LoggedInUserContext.Provider value={this.state.user}>
                     <Router>
-                        <Header />
+                        <Route render={({ location }) => (
+                                <>
+                                    <Header />
 
-                        <div className='container'>
-                            <main>
-                                <Route 
-                                    exact path='/' 
-                                    render={(routeProps) => (
-                                        <Home {...routeProps} {...this.state.home} onHelpRequestsResponse={this.handleHelpRequestsResponse} />
-                                    )}
-                                />
-                                <Route exact path='/help-requests' component={AddHelpRequest} />
-                                <Route exact path='/help-requests/:uid' component={HelpRequestDetails} />
-                                <Route exact path='/inbox' component={Inbox} />
-                                <Route exact path='/inbox/:uid' component={Conversation} />
-                                <Route path='/users/:uid/profile' component={UserProfile} />
-                            </main>
+                                    <div className='container'>{console.log(location)}
+                                        <main>
+                                            <PoseGroup>
+                                                <RouteContainer key={location.key} style={{height: '100%'}}>
+                                                    <Switch location={location}>
+                                                        <Route 
+                                                            exact path='/' 
+                                                            render={(routeProps) => (
+                                                                <Home {...routeProps} {...this.state.home} onHelpRequestsResponse={this.handleHelpRequestsResponse} />
+                                                            )}
+                                                        />
+                                                        <Route exact path='/help-requests' component={AddHelpRequest} />
+                                                        <Route exact path='/help-requests/:uid' component={HelpRequestDetails} />
+                                                        <Route exact path='/inbox' component={Inbox} />
+                                                        <Route exact path='/inbox/:uid' component={Conversation} />
+                                                        <Route exact path='/users/:uid/profile' component={UserProfile} />
+                                                    </Switch>
+                                                </RouteContainer>
+                                            </PoseGroup>
+                                        </main>
 
-                            <Navbar userUid={this.state.user.uid} />
-                        </div>
+                                        <Navbar userUid={this.state.user.uid} />
+                                    </div>
+                                </>
+                            )} 
+                        />
                     </Router>
                 </LoggedInUserContext.Provider>
             )

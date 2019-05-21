@@ -1,6 +1,12 @@
 import React from 'react'
+import posed from 'react-pose'
 import './Button.scss'
 
+const B = posed.button({
+    pressable: true,
+    init: { scale: 1 },
+    press: { scale: 0.99 }
+})
 function Button(props) {
     const { isLoading, size, children, ...rest } = props
 
@@ -13,9 +19,9 @@ function Button(props) {
     }
 
     return (
-        <button className={classes} {...rest}>
+        <B className={classes} {...rest}>
             {children}
-        </button>
+        </B>
     )
 }
 
