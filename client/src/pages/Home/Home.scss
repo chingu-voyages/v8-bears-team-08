@@ -1,0 +1,18 @@
+@import "../../styles/variables";
+
+.home {
+    display: flex;
+    flex-direction: column;
+    padding: $main-default-padding;
+    margin-bottom: $navbar-mobile-height;
+
+    ul {
+        margin-top: 12px;
+    }
+}
+
+@media all and (min-width: 768px) {
+    .home {
+        margin-bottom: 16px;
+    }
+}

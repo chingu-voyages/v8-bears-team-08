@@ -1,74 +1,128 @@
 @import "../styles/variables";
 
 .navbar {
-    width: 200px;
-}
-
-.navbar > ul {
-    padding: 16px 0;
-    background-color: rgba(250, 250, 250, 0.9);
-    border: 1px solid #eee;
-}
-
-.navbar > ul > li {
-    padding: 3px 16px;
-}
-
-.navbar > ul > li > a {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-}
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+    height: $navbar-mobile-height;
+    font-size: 13px;
+    background-color: rgba(250, 250, 250, 0.9);
+    border-top: 2px solid #eee;
 
-.navbar .active {
-    color: $pale-blue;
-}
-
-.navbar i {
-    margin-right: 8px;
-}
-
-@media all and (min-width: 769px) {
-    .navbar > ul > li:hover {
-        background-color: $light-blue;
-    }
-}
-
-@media all and (max-width: 768px) { 
-    .navbar {
-        position: fixed;
-        bottom: 0px;
-        height: 50px;
-        width: 100%;
-        font-size: 12px;
-    }
-    .navbar > ul {
-        background-color: rgba(250, 250, 250, 0.9);
+    ul {
+        display: flex;
+        flex-direction: row;
         border: 0;
-        border-top: 2px solid #eee;
-        display: flex;
-    }
-    .navbar > ul > li {
-        display: inline-block;
-        padding-left: 16px;
-    }
-    .navbar > ul {
-        display: flex;
-        height: 100%;
-        padding: 0;
         align-items: center;
+       
+    }
+
+    ul > li {
+        width: 100%;
     }
     
-    .navbar > ul > li {
-        padding: 0;
-        width: 100%;
-    }
-    .navbar > ul > li > a {
+    ul > li > a {
+        display: flex;
         flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: inherit;
     }
-    .navbar i {
-        margin-right: 0;
+
+    .active {
+        color: $pale-blue;
     }
 }
+
+@media all and (min-width: 768px) {
+    .navbar {
+        justify-content: flex-start;
+        width: 200px;
+        position: inherit;
+        height: 100%;
+        margin-left: 16px;
+        font-size: 1em;
+        background-color: transparent;
+        border: 0;
+        
+        ul {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #eee;
+            background-color: rgba(250, 250, 250, 0.9);
+        }
+
+        ul > li > a {
+            display: flex;
+            flex-direction: row;
+            margin: 4px 16px;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul > li:hover {
+            background-color: $light-blue;
+        }
+
+        i {
+            margin-right: 8px;
+        }
+    }
+}
+
+
+// .navbar {
+//     width: 200px;
+// }
+
+
+
+// .navbar i {
+//     margin-right: 8px;
+// }
+
+// @media all and (min-width: 769px) {
+//     .navbar > ul > li:hover {
+//         background-color: $light-blue;
+//     }
+// }
+
+// @media all and (max-width: 768px) { 
+//     .navbar {
+//         position: fixed;
+//         bottom: 0px;
+//         height: 50px;
+//         width: 100%;
+//         font-size: 12px;
+//     }
+//     .navbar > ul {
+//         background-color: rgba(250, 250, 250, 0.9);
+//         border: 0;
+//         border-top: 2px solid #eee;
+//         display: flex;
+//     }
+//     .navbar > ul > li {
+//         display: inline-block;
+//         padding-left: 16px;
+//     }
+//     .navbar > ul {
+//         display: flex;
+//         height: 100%;
+//         padding: 0;
+//         align-items: center;
+//     }
+    
+//     .navbar > ul > li {
+//         padding: 0;
+//         width: 100%;
+//     }
+//     .navbar > ul > li > a {
+//         flex-direction: column;
+//     }
+//     .navbar i {
+//         margin-right: 0;
+//     }
+// }

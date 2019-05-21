@@ -1,9 +1,12 @@
 @import "../../styles/variables";
 
 .help-request-details {
-    @media all and (max-width: 768px) {
-        width: 92vw;
-        word-wrap: break-word;
+    padding: $main-default-padding;
+    margin-bottom: $navbar-mobile-height;
+    word-wrap: break-word;
+
+    a {
+        color: inherit;
     }
     
     img {

@@ -3,7 +3,7 @@ import * as api from '../../api'
 import '../../styles/loader.css'
 import './UserProfile.scss'
 import * as util from '../../helpers/util'
-import HelpRequest from '../Home/HelpRequest'
+import HelpRequestList from '../Home/HelpRequestList'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 
@@ -16,8 +16,7 @@ function UserProfile(props) {
     useEffect(() => {
         api.getUserProfile(props.match.params.uid)
             .then(response => {
-                response.data.displayName = util.getDisplayName(response.data.name)
-                setuserProfile(response.data)
+                setuserProfile({ ...response.data, displayName: util.getDisplayName(response.data.name) })
                 setIsLoaded(true)
             })
             .catch(e => {
@@ -28,9 +27,9 @@ function UserProfile(props) {
 
     if (isLoaded) {
         return (
-            <>
+            <div className='user-profile'>
                 <div className='profile'>
-                    <Avatar url={userProfile.photoURL} showHalo={true} />
+                    <Avatar url={userProfile.photoURL} showHalo={true} size='xl' />
 
                     <div className='profile-details'>
                         <div className='profile-name-about'>
@@ -45,9 +44,7 @@ function UserProfile(props) {
                     <hr className='profile-separator' />
                     <h2 className='profile-section-text'>Requests</h2>
                     <ul>
-                        { userProfile.helpRequests.map(helpRequest => (
-                            <HelpRequest key={helpRequest.uid} helpRequest={helpRequest} />
-                        ))}
+                        <HelpRequestList helpRequests={userProfile.helpRequests} />
                     </ul>
 
                     <hr className='profile-separator' />
@@ -58,7 +55,7 @@ function UserProfile(props) {
                         ))}
                     </ul>
                 </div>
-            </>
+            </div>
         )
     } else if (isError) {
         return <div>Error</div>

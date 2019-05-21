@@ -24,8 +24,8 @@ function Inbox(props) {
     }, [])
 
     return (
-        <div>
-            <h1 className='heading-1'>Inbox</h1>
+        <div className='inbox'>
+            {/* <h1 className='heading-1'>Inbox</h1> */}
 
             <ul>
                 { conversations.map((conversation, index) => (
