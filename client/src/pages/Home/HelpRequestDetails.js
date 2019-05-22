@@ -46,7 +46,7 @@ function HelpRequestDetails(props) {
                         pathname: `/inbox/${conversationUid}`, 
                         state: { messageRecipient: helpRequest.user }
                     }}>
-                    Send {util.getDisplayName(helpRequest.user.name)} a message
+                    Send message
                 </LinkButton>
             </div>
         </div>

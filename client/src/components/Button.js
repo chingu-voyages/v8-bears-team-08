@@ -7,14 +7,14 @@ function Button(props) {
 
     let classes = 'btn'
     
-    if (isLoading) {
-        classes += ' btn-disabled spinning'
-    }
-    
     if (type === 'outlined') {
         classes += ' btn-outlined'
     } else {
         classes += ' btn-contained'
+    }
+
+    if (isLoading) {
+        classes += ' btn-disabled spinning'
     }
 
     return (

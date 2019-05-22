@@ -82,22 +82,25 @@ function convertRawbodyToBody(req, res, next) {
 
         busboy.on('file', (fieldName, file, filename, encoding, mimeType) => {
             let fileBuffer = new Buffer('')
-            if (!req.files) {
-                req.files = []
-            }
 
             file.on('data', (data) => {
                 fileBuffer = Buffer.concat([fileBuffer, data])
             })
 
             file.on('end', () => {
-                req.files.push({
-                    fieldName,
-                    'originalName': filename,
-                    encoding,
-                    mimeType,
-                    buffer: fileBuffer
-                })
+                if (filename && fileBuffer.length > 0) {
+                    if (!req.files) {
+                        req.files = []
+                    }
+
+                    req.files.push({
+                        fieldName,
+                        'originalName': filename,
+                        encoding,
+                        mimeType,
+                        buffer: fileBuffer
+                    })
+                }
             })
         })
 

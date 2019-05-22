@@ -8,7 +8,7 @@ function HelpRequest(data) {
     helpRequest.location = data.location
     helpRequest.created = data.created || new Date().toISOString()
     helpRequest.neededAsap = data.neededAsap ? true : false
-    helpRequest.neededDatetime = data.neededDatetime ? new Date().toISOString(data.neededDatetime) : undefined
+    helpRequest.neededDatetime = data.neededAsap ? '0000-00-00T00:00:00.000Z' : new Date(data.neededDatetime).toISOString()
     helpRequest.photoURL = data.photoURL
     helpRequest.status = data.status ? data.status : 'active'
     if (data.user) {
@@ -48,7 +48,9 @@ HelpRequest.prototype.hasRequiredFields = function() {
            && this.user.uid
            && this.user.name
            && this.status
-           && (this.neededAsap || this.neededDatetime)
+           && this.neededDatetime
+           && typeof this.neededAsap !== 'undefined'
+           && this.neededAsap !== null
 }
 
 HelpRequest.prototype.getFieldsOnly = function() {
@@ -59,9 +61,9 @@ HelpRequest.prototype.getFieldsOnly = function() {
         location: this.location,
         created: this.created,
         status: this.status,
+        neededAsap: this.neededAsap,
+        neededDatetime: this.neededDatetime,
         ...(this.tags && { tags: this.tags }),
-        ...(this.neededDatetime && { neededDatetime: this.neededDatetime }),
-        ...(this.neededAsap && { neededAsap: this.neededAsap }),
         ...(this.photoURL && { photoURL: this.photoURL })
     }
 

@@ -24,8 +24,7 @@ async function createHelpRequest(req, res, next) {
     helpRequest.user.name = req.body.userName
     helpRequest.user.photoURL = req.body.userPhotoURL
 
-    if (req.files) {
-        const file = req.files[0]
+    if (req.files && req.files.length > 0) {
         try {
             const extension = path.extname(file.originalName.toLowerCase()) || file.mimeType.split('/')[1]
             helpRequest.photoURL = await firebaseHelper.saveFileToCloudStorage(file, 'help-request-photos/', `${helpRequest.uid}${extension}`)

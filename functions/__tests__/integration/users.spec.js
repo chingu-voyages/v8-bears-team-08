@@ -96,7 +96,7 @@ test('GET /users/:invalidId should return 404', () => {
         .expect(404)
         .then(response => {
             expect(response.body.error.status).toBe("NOT_FOUND")
-            expect(response.body.error.message).toBe("User not found")
+            expect(response.body.error.message).toBe("User not found: invalidUserId")
         })
 })
 
