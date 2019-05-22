@@ -13,7 +13,7 @@ import './App.scss'
 
 export const LoggedInUserContext = React.createContext()
 const RouteContainer = posed.div({
-    enter: { opacity: 1, delay: 50, transition: { duration: 250 } },
+    enter: { opacity: 1, delay: 50, transition: { duration: 250, ease: 'easeIn' } },
     exit: { opacity: 0, transition: { duration: 100, ease: 'easeIn' } }
 })
 
