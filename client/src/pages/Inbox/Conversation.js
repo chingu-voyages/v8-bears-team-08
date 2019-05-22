@@ -150,9 +150,9 @@ function Message({ message }) {
     return (
         <li 
             key={message.uid}
-            className={message.isMyMessage ? 'conversation__message d-flex flex-row flex-justify-end' : 'conversation__message d-flex flex-row-reverse flex-justify-end'}
+            className={`conversation__message d-flex flex-justify-end ${message.isMyMessage ? 'flex-row' : 'flex-row-reverse'}`}
         >
-            <div className={message.isMyMessage ? 'conversation__message-text d-flex flex-col flex-align-end' : 'conversation__message-text d-flex flex-col'}>
+            <div className={`conversation__message-text d-flex flex-col ${message.isMyMessage ? 'flex-align-end' : ''}`}>
                 {message.text}
                 <span className='conversation__message-text--small'>{util.getCalendarLocaleTime(message.created)}</span>
             </div>
