@@ -57,7 +57,7 @@ class App extends Component {
                                 <>
                                     <Header />
 
-                                    <div className='container'>{console.log(location)}
+                                    <div className='container'>
                                         <main>
                                             <PoseGroup>
                                                 <RouteContainer key={location.pathname} style={{height: '100%'}}>
@@ -68,7 +68,7 @@ class App extends Component {
                                                                 <Home {...routeProps} {...this.state.home} onHelpRequestsResponse={this.handleHelpRequestsResponse} />
                                                             )}
                                                         />
-                                                        <Route exact path='/help-requests' component={AddHelpRequest} />
+                                                        <Route exact path='/add-help-request' component={AddHelpRequest} />
                                                         <Route exact path='/help-requests/:uid' component={HelpRequestDetails} />
                                                         <Route exact path='/inbox' component={Inbox} />
                                                         <Route exact path='/inbox/:uid' component={Conversation} />
