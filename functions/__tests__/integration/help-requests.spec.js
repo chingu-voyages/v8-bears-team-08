@@ -15,7 +15,19 @@ const helpRequest3 = {
     description: "I left my lights on.  Can you help?",
     location: "11221",
     tags: ["Urgent"],
-    neededDatetime: new Date().toISOString(),
+    neededDatetime: "2019-05-24T16:00:00.000Z",
+    photoURL: "http://www.photourl.fakeurl/DUOISJ-JSOJSIOJOG.png",
+    userUid: user1.uid,
+    userName: user1.name,
+    userPhotoURL: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg"
+}
+
+const helpRequest4 = {
+    title: "help",
+    description: "the help description",
+    location: "11221",
+    tags: ["Urgent"],
+    neededAsap: true,
     photoURL: "http://www.photourl.fakeurl/DUOISJ-JSOJSIOJOG.png",
     userUid: user1.uid,
     userName: user1.name,
@@ -43,9 +55,18 @@ test('POST /help-requests should create a new Help Request', async () => {
     expect(response.body.user.uid).toEqual(helpRequest3.userUid)
     expect(response.body.user.name).toEqual(helpRequest3.userName)
     expect(response.body.user.photoURL).toEqual(helpRequest3.userPhotoURL)
+    expect(response.body.neededAsap).toEqual(false)
+    expect(response.body.neededDatetime).toEqual(helpRequest3.neededDatetime)
     expect(response.body.tags).toEqual(helpRequest3.tags)
     expect(response.body.status).toEqual('active')
     expect(response.body.created).toBeDefined()
+})
+
+test('creating a help request with ASAP should have correct neededDatetime', async () => {
+    const response = await createHelpRequest(helpRequest4)
+    
+    expect(response.body.neededAsap).toEqual(true)
+    expect(response.body.neededDatetime).toEqual('0000-00-00T00:00:00.000Z')
 })
 
 // test('GET /help-requests?sort=created should return a list of help requests sorted by creation date in desc order', async () => {

@@ -28,6 +28,7 @@ const helpRequest1 = {
     description: "I can get my own ride home.  Thanks!",
     location: "11221",
     tags: ["Transportation"],
+    neededAsap: false,
     neededDatetime: new Date().toISOString(),
     created: new Date().toISOString(),
     status: "active",
@@ -45,6 +46,7 @@ const helpRequest2 = {
     location: "11222",
     tags: ["Physical", "Furniture"],
     neededAsap: true,
+    neededDatetime: "0000-00-00T00:00:00.000Z",
     created: new Date().toISOString(),
     status: "active",
     user: {
