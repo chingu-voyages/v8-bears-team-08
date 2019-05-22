@@ -5,7 +5,7 @@
     flex-direction: column;
     justify-content: flex-end;
     height: 100%;
-    padding: 0 12px 2px 12px;
+    padding: 0 12px 4px 12px;
 
     input {
         max-width: 800px;
@@ -22,63 +22,37 @@
         color: #555;
         font-family: $secondary-font-family;
     }
-}
-// .conversation__container {
-//     @media all and (max-width: 768px) {
-//         width: 92vw;
-//         word-wrap: break-word;
-//     }
 
-//     height: 100%;
-//     overflow: hidden;
-// }
+    input::placeholder {
+        color: #999;
+        font-weight: 300;
+    }
 
-.conversation__messages-container {
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
-// .conversation__messages {
-//     margin-bottom: 16px;
-// }
-
-// .conversation__input-box {
-//     width: 100%;
-//     padding: 8px;
-//     padding: .3rem .75rem;
-//     font-size: 1rem;
-//     line-height: 1.5;
-//     border: 1px solid rgba(0, 0, 0, 0.12);
-//     border-radius: .25rem;
-//     overflow: visible;
-//     cursor: text;
-//     text-align: start;
-//     color: #555;
-//     font-family: $secondary-font-family;
-// }
-.conversation__input-box::placeholder {
-    color: #999;
-    font-weight: 300;
-}
-.conversation__input-box:focus {
-    outline-width: 0;
-}
-
-.conversation__message {
-    align-items: center;
-    margin-top: 8px;
-    display: flex;
-}
-
-.conversation__message-text {
-    font-size: 17px;
-    font-family: $secondary-font-family;
-    padding: 0 12px;
-    align-items: flex-start;
-    line-height: 105%;
-}
-
-.conversation__message-text--small {
-    font-size: 10px;
-    color: #aaa;
+    input:focus {
+        outline-width: 0;
+    }
+    
+    .conversation__messages-container {
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    
+    .conversation__message {
+        align-items: center;
+        margin-top: 8px;
+        display: flex;
+    }
+    
+    .conversation__message-text {
+        font-size: 17px;
+        font-family: $secondary-font-family;
+        padding: 0 12px;
+        align-items: flex-start;
+        line-height: 105%;
+    }
+    
+    .conversation__message-text--small {
+        font-size: 10px;
+        color: #aaa;
+    }
 }

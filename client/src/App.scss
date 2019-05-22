@@ -1,10 +1,11 @@
+@import "./styles/variables";
+
 .container {
-    height: calc(100% - 112px);
+    height: calc(100% - #{$header-height} - #{$header-bottom-margin} - #{$navbar-mobile-height});
 }
 
 main {
     max-width: 800px;
-    margin-bottom: 50px;
     height: 100%;
 }
 
@@ -13,21 +14,10 @@ main {
         display: flex;
         flex-direction: row-reverse;
         justify-content: center;
+        height: calc(100% - #{$header-height} - #{$header-bottom-margin});
     }
     
     main {
         flex: 1;
     }
 }
-
-/* Anchor navbar to the bottom for mobile */
-// @media all and (max-width: 768px) { 
-//     .container {
-//         flex-direction: column;
-//         flex-direction: column-reverse;
-//     }
-//     main {
-//         margin-bottom: 50px;
-//         overflow-y: auto;
-//     }
-// }

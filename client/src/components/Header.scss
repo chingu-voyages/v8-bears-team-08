@@ -1,9 +1,9 @@
 @import "../styles/variables";
 
 #header {
-    height: 42px;
+    height: $header-height;
     background-color: $pale-blue;
-    margin-bottom: 16px
+    margin-bottom: $header-bottom-margin;
 }
 
 .logo img {
