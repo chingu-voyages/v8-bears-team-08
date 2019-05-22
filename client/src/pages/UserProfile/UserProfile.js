@@ -43,7 +43,7 @@ function UserProfile(props) {
 
                 <div>
                     <hr className='profile-separator' />
-                    <h2 className='profile-section-text'>Verficiations</h2>
+                    <h2 className='profile-section-text'>Verifications</h2>
                     <ul className='verifications'>
                         { userProfile.emailVerifications.map(verification => (
                           <Verification key={verification.providerId} verification={verification} />  
