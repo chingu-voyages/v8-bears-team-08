@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { LoggedInUserContext } from '../../App'
 import * as api from '../../api'
 import './UserProfile.scss'
 import * as util from '../../helpers/util'
@@ -9,6 +10,7 @@ import Loader from '../../components/Loader'
 
 
 function UserProfile(props) {
+    const loggedInUser = useContext(LoggedInUserContext)
     const [userProfile, setuserProfile] = useState(null)
     const [isLoaded, setIsLoaded] = useState(false)
     const [isError, setIsError] = useState(false)
@@ -37,7 +39,7 @@ function UserProfile(props) {
                             <span className='profile-name'>{userProfile.displayName}</span>
                             <span className='profile-about'>"{userProfile.about}"</span>
                         </div>
-                        <Button>Write a Compliment</Button>
+                        {userProfile.uid !== loggedInUser.uid && <Button>Write a Compliment</Button>}
                     </div>
                 </div>
 
