@@ -41,11 +41,6 @@
         width: 235px;
     }
 
-    button {
-        margin: 0 auto;
-        margin-top: 24px;
-    }
-
     .react-datepicker-wrapper {
         margin-right: 16px;
         width: 150px;
@@ -53,5 +48,17 @@
     
     .selected-photo {
         object-fit: cover;
+    }
+
+    button {
+        margin: 0 auto;
+        margin-top: 24px;
+        width: 100%;
+    }
+
+    @media all and (min-width: 768px) {
+        button {
+            width: 178px;
+        }
     }
 }
