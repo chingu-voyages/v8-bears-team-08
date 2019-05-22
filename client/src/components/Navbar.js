@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import './Navbar.scss'
 
-function Navbar(props) {
+function Navbar({ location, userUid }) {
+    const [activeRoute, setActiveRoute] = useState('')
     const menuItems = [
         {
             name: 'Home',
             icon: 'home',
-            path: '/'
+            path: '/',
+            otherMatches: ['/help-requests']
         },
         {
             name: 'Explore',
@@ -17,7 +19,7 @@ function Navbar(props) {
         {
             name: 'Add New',
             icon: 'add_box',
-            path: '/help-requests'
+            path: '/add-help-request'
         },
         {
             name: 'Inbox',
@@ -27,26 +29,29 @@ function Navbar(props) {
         {
             name: 'Profile',
             icon: 'account_circle',
-            path: `/users/${props.userUid}/profile`
-        },
+            path: `/users/${userUid}/profile`
+        }
     ]
 
-    const [active, setActive] = useState('')
-
     useEffect(() => {
-        setActive('')
+        setActiveRoute('')
+
         menuItems.forEach(item => {
-            if (item.path === props.location.pathname) {
-                setActive(item.name)
+            if (item.otherMatches) {
+                if (location.pathname === item.path || item.otherMatches.filter(match => location.pathname.startsWith(match)).length > 0) {
+                    setActiveRoute(item.name)
+                }
+            } else if (location.pathname.startsWith(item.path)) {
+                setActiveRoute(item.name)
             }
         })
-    }, [props.location])
+    }, [location])
 
     return (
         <div className='navbar'>
             <ul>
                 {menuItems.map(menuItem => (
-                    <li key={menuItem.name} className={menuItem.name === active ? 'active' : ''}>
+                    <li key={menuItem.name} className={menuItem.name === activeRoute ? 'active' : ''}>
                         <Link to={menuItem.path}>
                             <i className='material-icons'>{menuItem.icon}</i>
                             <span>{menuItem.name}</span>
