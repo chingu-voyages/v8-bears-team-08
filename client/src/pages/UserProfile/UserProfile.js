@@ -37,7 +37,7 @@ function UserProfile(props) {
                             <span className='profile-name'>{userProfile.displayName}</span>
                             <span className='profile-about'>"{userProfile.about}"</span>
                         </div>
-                        <Button>Write a Compliment</Button>
+                        <Button>Write Compliment</Button>
                     </div>
                 </div>
 

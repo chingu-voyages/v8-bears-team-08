@@ -82,7 +82,7 @@ function AddHelpRequest(props) {
     }
 
     return (
-        <div className='d-flex flex-col add-help-request'>
+        <div className='add-help-request'>
             <form id='form' onSubmit={handleSubmit} ref={formRef}>
                 <section>
                     <h4>I need...</h4>
@@ -175,7 +175,7 @@ function AddHelpRequest(props) {
                 </section>
 
                 <section className='d-flex'>
-                    <Button type='submit' isLoading={isSubmitting}>Finish</Button>
+                    <Button type='submit' isLoading={isSubmitting}>Create</Button>
                 </section>
             </form>
         </div>

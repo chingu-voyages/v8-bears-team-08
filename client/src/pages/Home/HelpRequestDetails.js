@@ -41,12 +41,12 @@ function HelpRequestDetails(props) {
                 <h3 className='heading-3'>Can you help your neighbor?</h3>
                 <br />
                 
-                <LinkButton size='large'
+                <LinkButton
                     to={{ 
                         pathname: `/inbox/${conversationUid}`, 
                         state: { messageRecipient: helpRequest.user }
                     }}>
-                    Send {util.getDisplayName(helpRequest.user.name)} a message
+                    Send message
                 </LinkButton>
             </div>
         </div>
