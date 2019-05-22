@@ -30,18 +30,28 @@ function AddHelpRequest(props) {
     function handleSubmit(e) {
         e.preventDefault()
         
-        if (formState.title && formState.description && (formState.neededAsap || formState.neededDatetime)) {
+        if (!isSubmitting && formState.title && formState.description && (formState.neededAsap || formState.neededDatetime)) {
             setIsSubmitting(true)
-            const formData = new FormData(formRef.current)
-            if (formState.neededDatetime) {
-                // use from state to keep the timezone
-                formData.set('neededDatetime', formState.neededDatetime)
-            }
+            
+            //const formData = new FormData(formRef.current)
+            const formData = new FormData()
+            formData.set('title', formState.title)
+            formData.set('description', formState.description)
+            formData.set('neededAsap', formState.neededAsap)
             formData.set('location', loggedInUser.location)
             formData.set('userUid', loggedInUser.uid)
             formData.set('userName', loggedInUser.name)
             formData.set('userPhotoURL', loggedInUser.photoURL)
-            
+            if (formState.tags) {
+                formData.set('tags', formState.tags)
+            }
+            if (formState.neededDatetime) {
+                formData.set('neededDatetime', new Date(formState.neededDatetime).toISOString())
+            }
+            if (formState.photo) {
+                formData.set('photo', formState.photo)
+            }
+
             api.saveHelpRequest(formData)
                 .then(response => {
                     props.history.push({
@@ -52,7 +62,6 @@ function AddHelpRequest(props) {
                 .catch(e => console.log(e.response))
                 .finally(() => setIsSubmitting(false))
         } else {
-            console.log('no', formState)
             e.preventDefault()
         }
     }
