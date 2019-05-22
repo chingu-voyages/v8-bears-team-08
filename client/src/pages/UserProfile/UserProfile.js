@@ -39,7 +39,7 @@ function UserProfile(props) {
                             <span className='profile-name'>{userProfile.displayName}</span>
                             <span className='profile-about'>"{userProfile.about}"</span>
                         </div>
-                        {userProfile.uid !== loggedInUser.uid && <Button>Write a Compliment</Button>}
+                        {userProfile.uid !== loggedInUser.uid && <Button>Write Compliment</Button>}
                     </div>
                 </div>
 
