@@ -54,7 +54,7 @@ function UserProfile(props) {
                     
                     <hr className='profile-separator' />
                     <h2 className='profile-section-text'>Requests</h2>
-                    <HelpRequestList helpRequests={userProfile.helpRequests} />
+                    <HelpRequestList cardSize='small' helpRequests={userProfile.helpRequests} />
 
                     <hr className='profile-separator' />
                     <h2 className='profile-section-text'>Compliments</h2>
