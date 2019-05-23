@@ -7,15 +7,20 @@ $card-info-padding: 16px;
     margin-bottom: 16px;
     color: #232F34;
     line-height: 1.5;
-    transition: $elevation-transition;
     @include Elevation(1);
-
+    transition: $elevation-transition-mobile;
+    
     @media all and (min-width: 768px) {
-        @include Elevation(0);
         border: 1px solid rgba(0,0,0,.125);
+        transition: $elevation-transition;
+        @include Elevation(0);
+
+        &:hover {
+            @include Elevation(8);
+        }
     }
 
-    &:hover {
+    &:active {
         @include Elevation(8);
     }
 
