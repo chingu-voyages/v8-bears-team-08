@@ -31,11 +31,6 @@ function HelpRequestCard({ cardSize, helpRequest }) {
                                 <div className='title-text'>{makeSentenceCase(helpRequest.title)}</div>
                                 <div className='secondary-text'>{neededAt}</div>
                             </div>
-
-                            <div>
-                                <div className='secondary-text'>{tags}</div>
-                                <div className='secondary-text'>posted {util.getRelativeTime(helpRequest.created)}</div>
-                            </div>
                         </div>
                         
                         <img
@@ -44,6 +39,11 @@ function HelpRequestCard({ cardSize, helpRequest }) {
                             alt='Help Request'
                             />
                     </Link>
+                    
+                    <div className='bottom'>
+                        <div className='secondary-text'>posted {util.getRelativeTime(helpRequest.created)}</div>
+                        <div className='secondary-text'>{tags}</div>
+                    </div>
                 </div>
             </li>
         )

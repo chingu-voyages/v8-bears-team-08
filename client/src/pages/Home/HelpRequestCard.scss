@@ -74,22 +74,31 @@ $card-info-padding: 16px;
 
     
     .small-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         height: 152px;
         width: 364px;
         border-radius: 4px;
+        padding: $card-info-padding;
         
         .card-link {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            height: 100%;
-            padding: $card-info-padding;
         }
         
         .info {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+        }
+
+        .bottom {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            width: 100%;
         }
         
         img {
