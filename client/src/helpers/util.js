@@ -47,3 +47,8 @@ export function getRelativeLocaleTime(datetime) {
         return theDatetime.calendar()
     }
 }
+
+export function getRelativeTime(datetime) {
+    const theDatetime = moment(new Date(datetime))
+    return theDatetime.fromNow()
+}
