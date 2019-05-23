@@ -24,7 +24,7 @@ function Home(props) {
 
     return (
         <div className='home'>
-            <h2 className='heading-2'>Neighbors near <span className='primary-font-color'>{props.userLocation}</span></h2>
+            <h1 className='heading-2'>Neighbors near <span className='primary-font-color'>{props.userLocation}</span></h1>
 
             { props.isLoaded ? (
                 <HelpRequestList helpRequests={props.helpRequests} />
