@@ -2,6 +2,8 @@
 
 .container {
     height: calc(100% - #{$header-height} - #{$header-bottom-margin} - #{$navbar-mobile-height});
+    // this would be used if we want to elevate the header bar
+    //padding-top: calc(#{$header-bottom-margin} + #{$header-height});
 }
 
 main {

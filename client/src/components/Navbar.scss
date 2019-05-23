@@ -10,8 +10,10 @@
     height: $navbar-mobile-height;
     font-size: 13px;
     background-color: rgb(250, 250, 250);
-    border-top: 2px solid #eee;
-
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.125);
+    @include Elevation(8);
+    
     ul {
         display: flex;
         flex-direction: row;
@@ -47,6 +49,7 @@
         font-size: 1em;
         background-color: transparent;
         border: 0;
+        @include Elevation(0);
         
         ul {
             display: flex;

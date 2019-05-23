@@ -5,9 +5,19 @@ $card-info-padding: 16px;
 .help-request-card {
     display: flex;
     margin-bottom: 16px;
-    border: 1px solid rgba(0,0,0,.125);
     color: #232F34;
     line-height: 1.5;
+    transition: $elevation-transition;
+    @include Elevation(1);
+
+    @media all and (min-width: 768px) {
+        @include Elevation(0);
+        border: 1px solid rgba(0,0,0,.125);
+    }
+
+    &:hover {
+        @include Elevation(8);
+    }
 
     .title-text {
         font-size: 20px;
@@ -35,6 +45,7 @@ $card-info-padding: 16px;
     }
 
 
+    // Big Cards
     .big-card {
         display: flex;
         flex-direction: column;
@@ -73,6 +84,7 @@ $card-info-padding: 16px;
     }
 
     
+    // Small Cards    
     .small-card {
         display: flex;
         flex-direction: column;
@@ -102,6 +114,7 @@ $card-info-padding: 16px;
         }
         
         img {
+            margin-left: 8px;
             width: 80px;
             height: 80px;
         }
