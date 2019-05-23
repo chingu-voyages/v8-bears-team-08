@@ -35,3 +35,9 @@
         background-color: $light-blue;
     }
 }
+
+@media all and (min-width: 768px) {
+    .inbox {
+        margin-bottom: 0px;
+    }
+}

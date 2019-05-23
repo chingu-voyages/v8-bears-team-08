@@ -3,10 +3,12 @@
 .add-help-request {
     max-width: 600px;
     padding: $main-default-padding;
-    margin-bottom: calc(#{$navbar-mobile-height} - 24px);
+    margin-bottom: $navbar-mobile-height;
 
     section {
         width: 100%;
+    }
+    section:not(:last-child) {
         margin-bottom: 24px;
     }
     
@@ -60,5 +62,11 @@
         button {
             width: 178px;
         }
+    }
+}
+
+@media all and (min-width: 768px) {
+    .add-help-request {
+        margin-bottom: 0px;
     }
 }

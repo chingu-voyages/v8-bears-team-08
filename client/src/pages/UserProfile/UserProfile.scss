@@ -34,8 +34,8 @@
         border: 0;
         height: 1px;
         width: 80%;
-        margin-top: 42px;
-        margin-bottom: 42px;
+        margin-top: 32px;
+        margin-bottom: 32px;
         background-color: $light-blue;
     }
     
@@ -54,6 +54,8 @@
 
 @media all and (min-width: 768px) {
     .user-profile {
+        margin-bottom: 0px;
+        
         .profile {
             flex-direction: row;
             //justify-content: center;
