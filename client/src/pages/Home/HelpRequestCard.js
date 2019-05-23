@@ -17,6 +17,8 @@ function HelpRequestCard({ cardSize, helpRequest }) {
     } else {
         neededAt = 'on ' + util.getRelativeLocaleTime(new Date(helpRequest.neededDatetime))
     }
+
+    const tags = helpRequest.tags ? helpRequest.tags.slice(0, 2).join(', ') : ''
     
     if (cardSize === 'small') {
         return (
@@ -31,6 +33,7 @@ function HelpRequestCard({ cardSize, helpRequest }) {
                             </div>
 
                             <div>
+                                <div className='secondary-text'>{tags}</div>
                                 <div className='secondary-text'>posted {util.getRelativeTime(helpRequest.created)}</div>
                             </div>
                         </div>
@@ -72,7 +75,10 @@ function HelpRequestCard({ cardSize, helpRequest }) {
                         </Link>
 
                         <div className='bottom'>
-                            <div className='secondary-text'>posted {util.getRelativeTime(helpRequest.created)}</div>
+                            <div className='d-flex flex-col'>
+                                <div className='secondary-text'>{tags}</div>
+                                <div className='secondary-text'>posted {util.getRelativeTime(helpRequest.created)}</div>
+                            </div>
                             <LinkButton type='outlined' to={{ pathname: `/inbox/${conversationUid}`, state: { messageRecipient: helpRequest.user }}}>
                                 Send message
                             </LinkButton>
