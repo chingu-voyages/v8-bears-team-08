@@ -9,6 +9,8 @@ import AddHelpRequest from './pages/AddNew/AddHelpRequest'
 import Inbox from './pages/Inbox/Inbox'
 import Conversation from './pages/Inbox/Conversation'
 import Navbar from './components/Navbar'
+import Guest from './components/Guest'
+import PrivateRoute from './components/PrivateRoute'
 import './App.scss'
 
 export const LoggedInUserContext = React.createContext()
@@ -62,17 +64,19 @@ class App extends Component {
                                             <PoseGroup>
                                                 <RouteContainer key={location.pathname} style={{height: '100%'}}>
                                                     <Switch location={location}>
+                                                        <Route path='/guest' component={Guest} />
                                                         <Route 
-                                                            exact path='/' 
+                                                            exact
+                                                            path='/' 
                                                             render={(routeProps) => (
                                                                 <Home {...routeProps} {...this.state.home} onHelpRequestsResponse={this.handleHelpRequestsResponse} />
                                                             )}
                                                         />
-                                                        <Route exact path='/add-help-request' component={AddHelpRequest} />
                                                         <Route exact path='/help-requests/:uid' component={HelpRequestDetails} />
-                                                        <Route exact path='/inbox' component={Inbox} />
-                                                        <Route exact path='/inbox/:uid' component={Conversation} />
-                                                        <Route exact path='/users/:uid/profile' component={UserProfile} />
+                                                        <PrivateRoute exact path='/add-help-request' component={AddHelpRequest} authenticated={!this.state.user.isGuest} />
+                                                        <PrivateRoute exact path='/inbox' component={Inbox} authenticated={!this.state.user.isGuest} />
+                                                        <PrivateRoute exact path='/inbox/:uid' component={Conversation} authenticated={!this.state.user.isGuest} />
+                                                        <PrivateRoute exact path='/users/:uid/profile' component={UserProfile} authenticated={!this.state.user.isGuest} />
                                                     </Switch>
                                                 </RouteContainer>
                                             </PoseGroup>

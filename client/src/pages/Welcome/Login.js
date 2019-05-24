@@ -6,7 +6,8 @@ function Login(props) {
     const firebaseAuthUiConfig = {
         signInFlow: 'popup',
         signInOptions: [
-            firebase.auth.GoogleAuthProvider.PROVIDER_ID
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            'anonymous'
         ],
         signInSuccessUrl: '/',
         callbacks: {

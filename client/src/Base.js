@@ -26,9 +26,13 @@ function Base() {
         waitForInit()
             .then(user => {
                 if (user) {
-                    api.getUser(user.uid)
-                        .then(response => setUser({ full: response.data }))
-                        .catch(e => setUser({ full: false }))   // 404.  User has logged in but not fully registered yet
+                    if (user.isAnonymous) {
+                        setUser({ full: createGuestUser(user.uid) })
+                    } else {
+                        api.getUser(user.uid)
+                            .then(response => setUser({ full: response.data }))
+                            .catch(e => setUser({ full: false }))   // 404.  User has logged in but not fully registered yet
+                    }
                 } else {
                     setUser({ full: false })
                 }
@@ -50,39 +54,56 @@ function Base() {
         }
     }, [user.full])
 
+    function createGuestUser(uid) {
+        return {
+            uid,
+            isGuest: true,
+            displayName: 'Guest',
+            firstName: 'Guest',
+            lastName: 'Guest',
+            location: '11221'
+        }
+    }
+
     function handleSignInSuccessWithAuthResult(authResult) {
         const user = authResult.user
-        const profile = authResult.additionalUserInfo.profile // family_name given_name
-        const verified_email = authResult.additionalUserInfo.profile.verified_email
-        const isNewUser = authResult.additionalUserInfo.isNewUser
-        const providerId = authResult.additionalUserInfo.providerId
 
-        // we still need to capture a new user's location (and name if it wasn't populated by the oAuth response)
-        const partialUser = {
-            location: '',
-            email: profile.email,
-            name: profile.name,
-            lastName: profile.family_name,
-            firstName: profile.given_name,
-            photoURL: profile.picture,
-            emailVerifications: [{ providerId, verified: verified_email}]
-        }
-
-        if (!isNewUser) {
-            api.getUser(user.uid)
-                .then(response => {
-                    setUser({ full: response.data })
-                })
-                .catch(e => {
-                    if (e.response.status === 404) {
-                        // user has logged in and is known by Firebase Auth, however their account wasn't created in the app db yet
-                        setUser({ full: false, partial: partialUser })
-                    } else {
-                        console.log(e)
-                    }
-                })
+        if (user.isAnonymous) {
+            console.log(user)
+            setUser({ full: createGuestUser(user.uid)})
         } else {
-            setUser({ full: false, partial: partialUser })
+            const profile = authResult.additionalUserInfo.profile // family_name given_name
+            const verified_email = authResult.additionalUserInfo.profile.verified_email
+            const isNewUser = authResult.additionalUserInfo.isNewUser
+            const providerId = authResult.additionalUserInfo.providerId
+
+            // we still need to capture a new user's location (and name if it wasn't populated by the oAuth response)
+            const partialUser = {
+                location: '',
+                email: profile.email,
+                name: profile.name,
+                lastName: profile.family_name,
+                firstName: profile.given_name,
+                photoURL: profile.picture,
+                emailVerifications: [{ providerId, verified: verified_email}]
+            }
+
+            if (!isNewUser) {
+                api.getUser(user.uid)
+                    .then(response => {
+                        setUser({ full: response.data })
+                    })
+                    .catch(e => {
+                        if (e.response.status === 404) {
+                            // user has logged in and is known by Firebase Auth, however their account wasn't created in the app db yet
+                            setUser({ full: false, partial: partialUser })
+                        } else {
+                            console.log(e)
+                        }
+                    })
+            } else {
+                setUser({ full: false, partial: partialUser })
+            }
         }
 
         // Avoid redirects after sign-in
@@ -96,8 +117,8 @@ function Base() {
             <App user={user.full} />
         )
     } else {
-        // user has logged in (to Firebase) but not created (registered) their account yet
         if (user.partial) {
+            // user has logged in (to Firebase) but not created (registered) their account yet
             return (
                 <div className='welcome'>
                     <div className='d-flex flex-col'>
