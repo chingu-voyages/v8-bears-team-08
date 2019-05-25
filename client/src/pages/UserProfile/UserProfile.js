@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { LoggedInUserContext } from '../../App'
 import * as api from '../../api'
 import './UserProfile.scss'
 import * as util from '../../helpers/util'
@@ -10,14 +9,18 @@ import Loader from '../../components/Loader'
 
 
 function UserProfile(props) {
-    const loggedInUser = useContext(LoggedInUserContext)
     const [userProfile, setuserProfile] = useState(null)
     const [isLoaded, setIsLoaded] = useState(false)
     const [isError, setIsError] = useState(false)
+    
+    // This component renders the logged in user's profile, or any other user's profile, but from different routes.
+    // If we didn't receive a user's uid in the url, then we should render the logged in user's profile.
+    const loggedInUser = props.user
+    const profileUid = props.match.params.uid || loggedInUser.uid
 
     useEffect(() => {
         setIsLoaded(false)
-        api.getUserProfile(props.match.params.uid)
+        api.getUserProfile(profileUid)
             .then(response => {
                 setuserProfile({ ...response.data, displayName: util.getDisplayName(response.data.name) })
                 setIsLoaded(true)

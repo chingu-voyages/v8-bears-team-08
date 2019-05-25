@@ -29,7 +29,7 @@ function Navbar({ location, userUid }) {
         {
             name: 'Profile',
             icon: 'account_circle',
-            path: `/users/${userUid}/profile`
+            path: `/profile`
         }
     ]
 
