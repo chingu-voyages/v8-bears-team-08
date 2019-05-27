@@ -1,34 +1,27 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 
-const WorkAround = ({ action, children }) =>
-  action === 'REPLACE' ? null : children
-
-function PrivateRoute({ render: render, component: component, authenticated, ...rest }) {
+function PrivateRoute({ render, component, isAuthenticated, redirectTo, ...rest }) {
     const Component = render || component
+    const to = redirectTo || '/guest'
 
     return (
         <Route 
             {...rest}
-            render={(props) => {
-                console.log(props)
-                const referrer = getReferrer(props.location.pathname)
-                console.log('referrer', referrer)
+            render={props => {
+                const referrer = createReferrer(props.location.pathname)
+
                 return (
-                    authenticated === true
-                    ? <Component {...props} />
-                    : (
-                        <WorkAround action={props.history.action}>
-                            <Redirect to={{ pathname: '/guest', state: { referrer: referrer }}} />
-                        </WorkAround>
-                    )
+                    isAuthenticated() ?
+                        <Component {...props} />
+                        : <Redirect to={{ pathname: to, state: { referrer: referrer }}} />
                 )
             }} 
         />
     )
 }
 
-function getReferrer(pathname) {
+function createReferrer(pathname) {
     const re = /\/inbox\/.+/
     if (re.test(pathname)) {
         return '/'

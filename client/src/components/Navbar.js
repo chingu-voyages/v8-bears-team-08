@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { withRouter, Link } from 'react-router-dom'
 import './Navbar.scss'
 
-function Navbar({ location, userUid }) {
+function Navbar({ location }) {
     const [activeRoute, setActiveRoute] = useState('')
     const menuItems = [
         {

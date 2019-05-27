@@ -1,11 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import * as firebase from '../../helpers/firebase'
 import './Guest.scss'
 
 function Guest(props) {
-    console.log(props)
-
     return (
         <div className='guest'>
             <div className='title'>

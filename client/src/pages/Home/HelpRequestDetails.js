@@ -2,12 +2,11 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import LinkButton from '../../components/LinkButton'
 import * as util from '../../helpers/util'
-import { LoggedInUserContext } from '../../App'
 import './HelpRequestDetails.scss'
 
 function HelpRequestDetails(props) {
-    const loggedInUser = useContext(LoggedInUserContext)
     const helpRequest = props.location.state
+    const loggedInUser = props.loggedInUser
 
     if (!helpRequest) {
         return <h1>404</h1>

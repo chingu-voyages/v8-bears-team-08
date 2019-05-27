@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as api from '../../api'
 import './UserProfile.scss'
 import * as util from '../../helpers/util'
@@ -15,8 +15,7 @@ function UserProfile(props) {
     
     // This component renders the logged in user's profile, or any other user's profile, but from different routes.
     // If we didn't receive a user's uid in the url, then we should render the logged in user's profile.
-    const loggedInUser = props.user
-    const profileUid = props.match.params.uid || loggedInUser.uid
+    const profileUid = props.match.params.uid || props.loggedInUser.uid
 
     useEffect(() => {
         setIsLoaded(false)
@@ -42,7 +41,7 @@ function UserProfile(props) {
                             <span className='profile-name'>{userProfile.displayName}</span>
                             <span className='profile-about'>"{userProfile.about}"</span>
                         </div>
-                        {userProfile.uid !== loggedInUser.uid && <Button>Write Compliment</Button>}
+                        {userProfile.uid !== props.loggedInUser.uid && <Button>Write Compliment</Button>}
                     </div>
                 </div>
 
