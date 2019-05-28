@@ -9,7 +9,7 @@ service cloud.firestore {
         }
 
         function isSignedIn() {
-            return request.auth.uid != null
+            return request.auth.uid != null && request.auth.token.firebase.sign_in_provider != 'anonymous'
         }
         
         function isUsersOwnData(userId) {
