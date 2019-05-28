@@ -29,18 +29,26 @@ service cloud.firestore {
 
 
         // Inbox
-        // users can get conversation details for any conversation where they are in the userIds array
-        // users can create a conversation if it doesnt already exist and the document id contains their uid
-        // users can read messages if the conversation document id contains their uid
+        // conversation document id is made up of <user1.uid>-<user2.uid>
+        //
+        // users can get conversation details for any conversation where they are in the userIds array.
+        // users can create a conversation if:
+        //  1. the document id contains their uid
+        //  2. both uids in the document id are not the same
+        //  3. it doesn't already exist
+        //  4. both uids in the doucument id are valid users
         match /inbox/{conversationId} {
         	allow read: if isSignedIn() && request.auth.uid in existingData().userIds
 	       	allow create: if isSignedIn()
-          				    && !exists(/databases/$(database)/documents/inbox/$(conversationId))
-          					&& (conversationId.split('-')[0] == request.auth.uid
-          					|| conversationId.split('-')[1] == request.auth.uid)
+          				    && request.auth.uid in conversationId.split('-')
+                            && conversationId.split('-')[0] != conversationId.split('-')[1]
+                            && !exists(/databases/$(database)/documents/inbox/$(conversationId))
+                            && exists(/databases/$(database)/documents/users/$(conversationId.split('-')[0]))
+                            && exists(/databases/$(database)/documents/users/$(conversationId.split('-')[1]))
         }
+        // users can read messages if the conversation document id contains their uid.
         match /inbox/{conversationId}/messages/{message} {
-           allow create,read: if isSignedIn()
+           allow create, read: if isSignedIn()
           						 && (conversationId.split('-')[0] == request.auth.uid
           						 || conversationId.split('-')[1] == request.auth.uid)
         }

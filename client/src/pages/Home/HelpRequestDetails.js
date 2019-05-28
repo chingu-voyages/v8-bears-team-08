@@ -37,16 +37,20 @@ function HelpRequestDetails(props) {
             <hr className='section-separator-line' />
 
             <div className='d-flex flex-col flex-center'>
-                <h3 className='heading-3'>Can you help your neighbor?</h3>
-                <br />
-                
-                <LinkButton
-                    to={{ 
-                        pathname: `/inbox/${conversationUid}`, 
-                        state: { messageRecipient: helpRequest.user }
-                    }}>
-                    Send message
-                </LinkButton>
+                { conversationUid &&
+                <>
+                    <h3 className='heading-3'>Can you help your neighbor?</h3>
+                    <br />
+                    
+                    <LinkButton
+                        to={{ 
+                            pathname: `/inbox/${conversationUid}`, 
+                            state: { messageRecipient: helpRequest.user }
+                        }}>
+                        Send message
+                    </LinkButton>
+                </>
+                }
             </div>
         </div>
     )
