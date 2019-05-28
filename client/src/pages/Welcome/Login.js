@@ -4,8 +4,10 @@ import { Redirect } from 'react-router-dom'
 import firebase from 'firebase'
 import * as api from '../../api'
 import SplashScreen from './SplashScreen'
+import Loader from '../../components/Loader'
 
 function Login(props) {
+    const [isLoading, setIsLoading] = useState(false)
     const [unregisteredUser, setUnregisteredUser] = useState(undefined)
     const referrer = (props.location.state && props.location.state.referrer) || '/'
 
@@ -22,12 +24,14 @@ function Login(props) {
     }
     
     function handleUserLogin(authResult) {
+        setIsLoading(true)
         const user = authResult.user
 
         if (user.isAnonymous) {
+            setIsLoading(false)
             props.onUserSignin(createGuestUser(user.uid), referrer)
         } else {
-            const profile = authResult.additionalUserInfo.profile // family_name given_name
+            const profile = authResult.additionalUserInfo.profile
             const verified_email = authResult.additionalUserInfo.profile.verified_email
             const providerId = authResult.additionalUserInfo.providerId
             const userDetails = {
@@ -41,14 +45,17 @@ function Login(props) {
             }
 
             if (authResult.additionalUserInfo.isNewUser) {
+                setIsLoading(false)
                 setUnregisteredUser(userDetails)
             } else {
                 // we know this user already, try to fetch their info
                 api.getUser(user.uid)
                     .then(response => {
+                        setIsLoading(false)
                         props.onUserSignin(response.data, referrer)
                     })
                     .catch(e => {
+                        setIsLoading(false)
                         if (e.response.status === 404) {
                             // user has logged in and is known by Firebase Auth, however their account wasn't created in the app db yet
                             setUnregisteredUser(userDetails)
@@ -58,6 +65,9 @@ function Login(props) {
                     })
             }
         }
+
+        // do not redirect
+        return false
     }
 
     function createGuestUser(uid) {
@@ -77,7 +87,10 @@ function Login(props) {
 
     return (
         <SplashScreen>
-            <StyledFirebaseAuth uiConfig={firebaseAuthUiConfig} firebaseAuth={firebase.auth()} />
+            { isLoading ?
+                <Loader />
+                : <StyledFirebaseAuth uiConfig={firebaseAuthUiConfig} firebaseAuth={firebase.auth()} />
+            }
         </SplashScreen>
     )
 }
