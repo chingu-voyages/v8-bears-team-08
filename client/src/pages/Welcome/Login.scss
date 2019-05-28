@@ -1,0 +1,36 @@
+@import "../../styles/variables.scss";
+
+.firebaseui-list-item {
+    .firebaseui-idp-text {
+        color: #757575;
+    }
+
+    .firebaseui-idp-button {
+        @include Elevation(2);
+
+        &:hover {
+            background-color: rgba(255, 255, 255, .9);
+            @include Elevation(4);
+        }
+        
+        &:active {
+            background-color:  rgba(255, 255, 255, .9);
+            @include Elevation(8);
+        }
+    }
+
+    .firebaseui-idp-anonymous {
+        background-color: white;
+
+        // remove original white icon and replace with black one
+        .firebaseui-idp-icon-wrapper {
+            .firebaseui-idp-icon {
+                width: 0 !important;
+                height: 0 !important;
+                padding: 9px !important;
+                background-image: url(/images/person.svg) !important;
+                background-size: cover !important;
+            }
+        }
+    }
+}

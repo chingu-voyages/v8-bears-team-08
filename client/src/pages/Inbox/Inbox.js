@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { LoggedInUserContext } from '../../App'
+import React, { useState, useEffect } from 'react'
 import Avatar from '../../components/Avatar'
 import { Link } from 'react-router-dom'
 import * as api from '../../api'
@@ -8,7 +7,7 @@ import './Inbox.scss'
 
 function Inbox(props) {
     const [conversations, setConversations] = useState([])
-    const loggedInUser = useContext(LoggedInUserContext)
+    const loggedInUser = props.loggedInUser
 
     useEffect(() => {
         api.getConversationsForUser(loggedInUser.uid)

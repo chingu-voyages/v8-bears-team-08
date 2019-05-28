@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef, useContext } from 'react'
 import Button from '../../components/Button'
-import { LoggedInUserContext } from '../../App'
 import DatePicker from 'react-datepicker'
 import * as api from '../../api'
 import './AddHelpRequest.scss'
 import 'react-datepicker/dist/react-datepicker.css'
 
 function AddHelpRequest(props) {
-    const loggedInUser = useContext(LoggedInUserContext)
+    const loggedInUser = props.loggedInUser
     const formRef = useRef()
     const datetimeRef = useRef()
     const asapRef = useRef()

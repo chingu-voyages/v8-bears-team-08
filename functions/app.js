@@ -44,6 +44,10 @@ function canRequestorAccessResource(req, res, next) {
         return next(Response(403))
     }
 
+    if (req.user.firebase.sign_in_provider === 'anonymous' && (req.method == "POST" || req.method == "PUT" || req.method == "DELETE")) {
+        return next(Response(403, 'Guest user cannot perform this action'))
+    }
+
     // if (req.params.uid && requestorId !== req.params.uid && req.path.includes('/private')) {
     //     return next(Response(403))
     // }

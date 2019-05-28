@@ -1,20 +1,27 @@
 import React, { useState } from 'react'
 import Button from '../../components/Button'
+import { Redirect } from 'react-router-dom'
 import * as api from '../../api'
 import './Welcome.scss'
 
 
 function RegisterUser(props) {
-    const [firstName, setFirstName] = useState(props.user.firstName || '')
-    const [lastName, setLastName] = useState(props.user.lastName || '')
-    const [location, setLocation] = useState(props.user.location || '')
+    if (!props.location.state || !props.location.state.user) {
+        return <Redirect to='/login' />
+    }
+
+    const user = props.location.state.user
+    const referrer = props.location.state.referrer || ''
+
+    const [firstName, setFirstName] = useState(user.firstName || '')
+    const [lastName, setLastName] = useState(user.lastName || '')
+    const [location, setLocation] = useState(user.location || '')
     const [isLoading, setIsLoading] = useState(false)
 
     function handleSubmit(e) {
         e.preventDefault()
         setIsLoading(true)
         
-        const user = props.user
         user.firstName = firstName
         user.lastName = lastName
         user.location = location
@@ -22,7 +29,7 @@ function RegisterUser(props) {
         api.registerUser(user)
             .then(response => {
                 setIsLoading(false)
-                props.onUserRegistered(response.data)
+                props.onUserRegistered(response.data, referrer)
             })
             .catch(e => {
                 setIsLoading(false)
