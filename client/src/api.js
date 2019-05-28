@@ -54,6 +54,9 @@ export function subscribeToConversationMessages(conversationUid, successCallback
 
 export function createConversation(conversationUid, conversation) {
     return db.collection('inbox').doc(conversationUid).set(conversation)
+        .then(() => {
+            return getConversationDetails(conversationUid)
+        })
 }
 
 export function sendMessage(conversationUid, message) {

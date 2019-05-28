@@ -52,8 +52,8 @@ function Conversation(props) {
                 api.getConversationDetails(conversationUid)
                     .then(response => {
                         if (response.data) {
-                            setConversationDetails(response.data)
                             setReceivingUser(getReceivingUserFromConversation(response.data))
+                            setConversationDetails(response.data)
                         } else {
                             // there is no conversation created yet.  
                             // It needs to be created when the first message is sent.
