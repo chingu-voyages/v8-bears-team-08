@@ -79,9 +79,11 @@ function HelpRequestCard({ cardSize, helpRequest }) {
                                 <div className='secondary-text'>{tags}</div>
                                 <div className='secondary-text'>posted {util.getRelativeTime(helpRequest.created)}</div>
                             </div>
-                            <LinkButton type='outlined' to={{ pathname: `/inbox/${conversationUid}`, state: { messageRecipient: helpRequest.user }}}>
-                                Send message
-                            </LinkButton>
+                            { conversationUid &&
+                                <LinkButton type='outlined' to={{ pathname: `/inbox/${conversationUid}`, state: { messageRecipient: helpRequest.user }}}>
+                                    Send message
+                                </LinkButton>
+                            }
                         </div>
                     </div>
                 </div>
