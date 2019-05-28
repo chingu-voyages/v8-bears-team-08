@@ -5,6 +5,7 @@ import firebase from 'firebase'
 import * as api from '../../api'
 import SplashScreen from './SplashScreen'
 import Loader from '../../components/Loader'
+import './Login.scss'
 
 function Login(props) {
     const [isLoading, setIsLoading] = useState(false)
