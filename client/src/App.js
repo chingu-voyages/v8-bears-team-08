@@ -135,9 +135,7 @@ function App(props) {
                                     <Route exact path='/users/:uid/profile'
                                         render={props => <UserProfile {...props} loggedInUser={user} />}
                                     />
-                                    <Route exact path='/guest' 
-                                        render={props => <Guest {...props} />}
-                                    />
+                                    <Route exact path='/guest' render={props => <Guest {...props} />} />
 
                                     <PrivateRoute exact path='/add-help-request'
                                         render={props => <AddHelpRequest {...props} loggedInUser={user} />}
@@ -155,6 +153,7 @@ function App(props) {
                                         render={props => <UserProfile {...props} loggedInUser={user} />}
                                         isAuthenticated={isAuthenticated}
                                     />
+                                    
                                     <Route exact path='/' 
                                         render={props => <Home {...props} {...home} userLocation={user.location} onHelpRequestsResponse={handleHelpRequestsResponse} />}
                                     />
