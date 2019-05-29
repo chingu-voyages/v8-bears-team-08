@@ -10,17 +10,22 @@ function Inbox(props) {
     const loggedInUser = props.loggedInUser
 
     useEffect(() => {
-        api.getConversationsForUser(loggedInUser.uid)
-            .then(response => {
-                const conversations = []
-                response.forEach(conversation => {
-                    const receivingUser = conversation.users.filter(user => user.uid !== loggedInUser.uid)[0]
-                    conversation.receivingUser = receivingUser
-                    conversations.push(conversation)
-                })
-                setConversations(conversations)
+        function setReceivingUserForConversations(conversations) {
+            return conversations.map(conversation => {
+                conversation.receivingUser = conversation.users.filter(user => user.uid !== loggedInUser.uid)[0]
+                return conversation
             })
-    }, [])
+        }
+
+        if (props.location.state && props.location.state.data) {
+            setConversations(setReceivingUserForConversations(props.location.state.data))
+        } else {
+            api.getConversationsForUser(loggedInUser.uid)
+                .then(response => {
+                    setConversations(setReceivingUserForConversations(response))
+                })
+        }
+    }, [loggedInUser.uid, props.location.state])
 
     return (
         <div className='inbox'>

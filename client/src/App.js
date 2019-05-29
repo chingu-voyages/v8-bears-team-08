@@ -12,11 +12,13 @@ import Navbar from './components/Navbar'
 import PrivateRoute from './components/PrivateRoute'
 import Login from './pages/Welcome/Login'
 import RegisterUser from './pages/Welcome/RegisterUser'
-import Loader from './components/Loader'
 import SplashScreen from './pages/Welcome/SplashScreen'
+import Loader from './components/Loader'
+import LoaderBar from './components/LoaderBar'
 import * as firebase from './helpers/firebase'
 import * as api from './api'
 import './App.scss'
+import NavHandler from './NavHandler'
 
 export const LoggedInUserContext = React.createContext()
 
@@ -41,6 +43,8 @@ function createGuestUser(uid) {
 }
 
 function App(props) {
+    const [isLoading, setIsLoading] = useState(false)
+    const [currentPageTitle, setCurrentPageTitle] = useState()
     const [isInitialized, setIsInitialized] = useState(false)
     const [user, setUser] = useState({
         user: undefined,
@@ -52,13 +56,8 @@ function App(props) {
         error: null
     })
 
-    function setUserLoggedIn(user, isLoggedIn = true) {
-        setUser({
-            ...user,
-            isLoggedIn: isLoggedIn
-        })
-    }
-    
+    const navHandler = NavHandler(() => setIsLoading(true), () => setIsLoading(false))
+
     useEffect(() => {
         waitForInit()
             .then(user => {
@@ -71,7 +70,7 @@ function App(props) {
                             .then(response => {
                                 setUserLoggedIn(response.data)
                             })
-                            .catch(e => setUser(null))   // 404.  User has logged in but not fully registered yet
+                            .catch(() => setUser(null))   // 404.  User has logged in but not fully registered yet
                             .finally(() => setIsInitialized(true))
                     }
                 } else {
@@ -80,6 +79,13 @@ function App(props) {
                 }
             })
     }, [])
+
+    function setUserLoggedIn(user, isLoggedIn = true) {
+        setUser({
+            ...user,
+            isLoggedIn: isLoggedIn
+        })
+    }
 
     useEffect(() => {
         if (user.isLoggedIn) {
@@ -113,6 +119,7 @@ function App(props) {
         return user && !user.isGuest
     }
 
+    // render
     if (!isInitialized || user.isLoggedIn === undefined) {
         return (
             <SplashScreen>
@@ -124,13 +131,14 @@ function App(props) {
             return (
                 <LoggedInUserContext.Provider value={user}>
                     <>
-                        <Header />
+                        <LoaderBar isLoading={isLoading} />
+                        <Header pathname={props.location.pathname} title={currentPageTitle} />
 
                         <div className='container'>
                             <main>
                                 <Switch>
                                     <Route exact path='/help-requests/:uid'
-                                        render={props => <HelpRequestDetails {...props} loggedInUser={user} />}
+                                        render={props => <HelpRequestDetails {...props} loggedInUser={user} navHandler={navHandler} />}
                                     />
                                     <Route exact path='/users/:uid/profile'
                                         render={props => <UserProfile {...props} loggedInUser={user} />}
@@ -146,7 +154,7 @@ function App(props) {
                                         isAuthenticated={isAuthenticated}
                                     />
                                     <PrivateRoute exact path='/inbox/:uid'
-                                        render={props => <Conversation {...props} loggedInUser={user} />}
+                                        render={props => <Conversation {...props} loggedInUser={user} onTitle={setCurrentPageTitlez} />}
                                         isAuthenticated={isAuthenticated}
                                     />
                                     <PrivateRoute exact path='/profile'
@@ -161,7 +169,7 @@ function App(props) {
                                 </Switch>
                             </main>
 
-                            <Navbar />
+                            <Navbar loggedInUser={user} navHandler={navHandler} />
                         </div>
                     </>
                 </LoggedInUserContext.Provider>
@@ -177,10 +185,6 @@ function App(props) {
                     <Switch>
                         <Route exact path='/login'    render={props => <Login {...props} onUserSignin={handleUserSignin} />} />
                         <Route exact path='/register' render={props => <RegisterUser {...props} onUserRegistered={handleUserSignin} />} />
-                        {/* <PrivateRoute path='/' redirectTo={user ? '/' : '/login' }
-                            render={props => <Login {...props} onUserSignin={handleUserSignin} />}
-                            isAuthenticated={isAuthenticated}
-                        /> */}
                     </Switch>
                 </div>
             )
