@@ -1,16 +1,32 @@
 @import "../styles/variables";
 
 #header {
-    height: $header-height;
+    height: $header-mobile-height;
     background-color: $pale-blue;
     width: 100%;
     margin-bottom: $header-bottom-margin;
+    color: white;
     // these are if we want to elevate the header bar
     // margin-bottom: calc(#{$header-bottom-margin} + #{$header-height});
-    // @include Elevation(4);
+    // @include Elevation(2);
+
+    .logo img {
+        height: 28px;
+        width: 246px;
+    }
+    
+    .title {
+        font-size: 24px;
+    }
 }
 
-.logo img {
-    height: 28px;
-    width: 246px;
+@media all and (min-width: 768px) {
+    #header {
+        height: $header-height;
+
+        .title {
+            font-size: 32px;
+        }
+    }
 }
+
