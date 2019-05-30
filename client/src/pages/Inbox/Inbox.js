@@ -38,7 +38,7 @@ function Inbox(props) {
                             className='inbox__conversation-link' 
                             to={{
                                 pathname: `/inbox/${conversation.uid}`,
-                                state: { messageRecipient: conversation.receivingUser }
+                                state: { messageRecipient: conversation.receivingUser, conversationDetails: conversation }
                             }}
                         >
                             <div className='d-flex flex-row'>

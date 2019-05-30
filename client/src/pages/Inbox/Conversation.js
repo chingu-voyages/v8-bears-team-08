@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from 'react'
+import React, { useState, useEffect, useContext, useRef, useCallback } from 'react'
 import Avatar from '../../components/Avatar'
 import './Conversation.scss'
 import * as util from '../../helpers/util'
@@ -10,74 +10,77 @@ import conversationFactory from './conversation-factory'
  *  This component is for a direct conversation between the logged in user and another user.
  *  This will be used as the communication when contacting a user to provide assistance on a Help Request.
  *  The user can navigate here via:
- *      1. Inbox -> Clicking on the conversation; props.location.state.conversationDetails will be populated with the conversation details
- *      2. Clicking the "Send a Message" button on a Help Request; props.location.state.messageRecipient will be populated with the receiving user's profile info.
- *          a. This will require a query to retrieve the conversation information (or create a new conversation if there isn't one already.)
+ *      1. Inbox -> Clicking on the conversation:
+ *          a. props.location.state.conversationDetails will be populated with the conversation details
+ *          b. props.location.state.conversationDetails.receivingUser will be populated with the receivingUser
+ *      2. Clicking the "Send a Message" button on a Help Request:
+ *          a. props.location.state.messageRecipient will be populated with the receiving user's profile info.
+ *              i. This will require a query to retrieve the conversation information (or create a new conversation if there isn't one already.)
+ *      3. Directly via the typing in the URL or using a bookmark
+ *          a. This will require a query to retrieve the conversation information (or create a new conversation if there isn't one already.) 
  */
 function Conversation(props) {
-    const [conversationDetails, setConversationDetails] = useState(undefined)
-    const [receivingUser, setReceivingUser] = useState(undefined)
+    const [conversationDetails, setConversationDetails] = useState((props.location.state || {}).conversationDetails)
+    const [receivingUser, setReceivingUser] = useState((props.location.state || {}).messageRecipient)
     const [conversationMessages, setConversationMessages] = useState([])
-    const [messageBoxText, setMessageBoxText] = useState("")
+    const [messageBoxText, setMessageBoxText] = useState('')
     const inputMessageBox = useRef(null)
     const conversationScrollAnchor = useRef(null)
     const loggedInUser = useContext(LoggedInUserContext)
     const conversationUid = props.match.params.uid
-    let unsubscribeFromMessages
-
-
-    function getReceivingUserFromConversation(conversation) {
-        return conversation.users.filter(user => user.uid !== loggedInUser.uid)[0]
-    }
-
+    
     useEffect(() => {
-        if (isViewValid()) {
+        if (inputMessageBox.current) {
             inputMessageBox.current.focus()
         }
     }, [])
 
     // keep chat window scrolled to bottom
     useEffect(() => {
-        if (isViewValid()) {
+        if (conversationScrollAnchor.current) {
             conversationScrollAnchor.current.scrollIntoView()
         }
     })
 
     useEffect(function getConversationDetails() {
-        if (isViewValid()) {
-            if (props.location.state.conversationDetails) {
-                setReceivingUser(getReceivingUserFromConversation(props.location.state.conversationDetails))
-                setConversationDetails(props.location.state.conversationDetails)
-            } else {
-                api.getConversationDetails(conversationUid)
-                    .then(response => {
-                        if (response.data) {
+        if (!conversationDetails) {
+            api.getConversationDetails(conversationUid)
+                .then(response => {
+                    if (response.data) {
+                        if (!receivingUser) {
                             setReceivingUser(getReceivingUserFromConversation(response.data))
-                            setConversationDetails(response.data)
-                        } else {
-                            // there is no conversation created yet.  
-                            // It needs to be created when the first message is sent.
                         }
-                    })
-            }
+                        setConversationDetails(response.data)
+                    } else {
+                        // there is no conversation created yet.  
+                        // It needs to be created when the first message is sent.
+                    }
+                })
         }
-    }, [])
+
+    }, [conversationDetails, conversationUid, getReceivingUserFromConversation, loggedInUser.uid, receivingUser])
 
     useEffect(function subscribeToConversationMessages() {
-        if (isViewValid()) {
-            unsubscribeFromMessages = api.subscribeToConversationMessages(conversationUid, 
-                response => {
-                    if (response.messages.length > 0) {
-                        setConversationMessages(response.messages)
-                    }
-                },
-                errorResponse => {
-                    
-                })
-            return () => { unsubscribeFromMessages() }
-        }
+        const unsubscribeFromMessages = api.subscribeToConversationMessages(conversationUid, 
+            response => {
+                if (response.messages.length > 0) {
+                    setConversationMessages(response.messages)
+                }
+            },
+            errorResponse => {
+                console.log(errorResponse.error)
+            })
+            
+        return unsubscribeFromMessages
 
-    }, [])
+    }, [conversationUid])
+
+    const getReceivingUserFromConversation = useCallback(
+        function(conversation) {
+            return conversation.users.filter(user => user.uid !== loggedInUser.uid)[0]
+        },
+        [loggedInUser.uid]
+    )
 
     async function sendMessage(e) {
         e.preventDefault()
@@ -92,11 +95,22 @@ function Conversation(props) {
         }
         
         // if we have no conversation in state, then we should create the conversation before sending the first message.
-        if (!conversationDetails) {
+        if (!conversationDetails && !props.location.state) {
+            // TODO:
+            //  user has arrived here from a direct link and this conversation has not been created yet.
+            //  We can't send any messages in this state.
+            //  Need to update backend to create conversations with just conversationUid.
+            return
+        }
+        else if (!conversationDetails) {
+            // TODO: Handle error state
             const response = await api.createConversation(conversationUid, conversationFactory(props.location.state.messageRecipient, loggedInUser))
-            message.receiverUid = props.location.state.messageRecipient.uid
-            setReceivingUser(props.location.state.messageRecipient)
-            setConversationDetails(response)
+            const conversation = response.data
+            const receiver = getReceivingUserFromConversation(conversation)
+
+            message.receiverUid = receiver.uid
+            setReceivingUser(receiver)
+            setConversationDetails(conversation)
         } else {
             message.receiverUid = receivingUser.uid
         }
@@ -104,14 +118,11 @@ function Conversation(props) {
         api.sendMessage(conversationUid, message)
     }
 
-    function isViewValid() {
-        return conversationDetails || (props.location.state && props.location.state.messageRecipient)
-    }
-
-    if (!isViewValid()) {
-        // view is being accessed outside of normal flow as we have no valid chat recipient or conversation
-        return <h1>404</h1>
-    }
+    // TODO: Handle invalid conversation state
+    // if (!conversationDetails && !receivingUser) {
+    //     // view is being accessed outside of normal flow as we have no valid chat recipient or conversation
+    //     return <h1>404</h1>
+    // }
 
     return (
         <div className='conversation'>
