@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const config = {
     firebase: {
         apiKey: process.env.REACT_APP_FIREBASE_API_KEY,

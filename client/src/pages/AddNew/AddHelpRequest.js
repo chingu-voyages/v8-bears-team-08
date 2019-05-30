@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Button from '../../components/Button'
 import DatePicker from 'react-datepicker'
 import * as api from '../../api'
@@ -85,7 +85,7 @@ function AddHelpRequest(props) {
             reader.onload = function() {
                 selectedPhotoRef.current.src = reader.result
             }
-            reader.readAsDataURL(e.target.files[0]);
+            reader.readAsDataURL(e.target.files[0])
         }
     }
 
@@ -168,7 +168,7 @@ function AddHelpRequest(props) {
                             type='file'
                             name='photo'
                             accept='image/*'
-                            style={{display: "none"}}
+                            style={{display: 'none'}}
                             onChange={handlePhotoSelection}
                             ref={fileInputRef}
                         />

@@ -3,7 +3,7 @@ import './Button.scss'
 
 
 function Button(props) {
-    const { isLoading, size, type, children, ...rest } = props
+    const { isLoading, type, children, ...rest } = props
 
     let classes = 'btn'
     
