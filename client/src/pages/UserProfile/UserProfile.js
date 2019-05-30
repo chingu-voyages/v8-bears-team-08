@@ -1,34 +1,39 @@
 import React, { useEffect, useState } from 'react'
-import * as api from '../../api'
-import './UserProfile.scss'
-import * as util from '../../helpers/util'
 import HelpRequestList from '../Home/HelpRequestList'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Loader from '../../components/Loader'
+import * as api from '../../api'
+import * as util from '../../helpers/util'
+import './UserProfile.scss'
 
-
-function UserProfile(props) {
+/*
+ * This component renders the logged in user's profile, or any other user's profile, but from different routes.
+ */
+function UserProfile({ loggedInUser, location, match }) {
     const [userProfile, setuserProfile] = useState(null)
     const [isLoaded, setIsLoaded] = useState(false)
     const [isError, setIsError] = useState(false)
-    
-    // This component renders the logged in user's profile, or any other user's profile, but from different routes.
-    // If we didn't receive a user's uid in the url, then we should render the logged in user's profile.
-    const profileUid = props.match.params.uid || props.loggedInUser.uid
 
     useEffect(() => {
-        setIsLoaded(false)
-        api.getUserProfile(profileUid)
-            .then(response => {
-                setuserProfile({ ...response.data, displayName: util.getDisplayName(response.data.name) })
-                setIsLoaded(true)
-            })
-            .catch(e => {
-                console.log(e)
-                setIsError(true)
-            })
-    }, [props.match.params.uid])
+        if (location.state) {
+            setuserProfile({ ...location.state.data, displayName: util.getDisplayName(location.state.data.name )})
+            setIsLoaded(true)
+        }  else {
+            // If we didn't receive a user's uid in the url, then we should render the logged in user's profile.
+            const profileUid = match.params.uid || loggedInUser.uid
+
+            api.getUserProfile(profileUid)
+                .then(response => {
+                    setuserProfile({ ...response.data, displayName: util.getDisplayName(response.data.name) })
+                    setIsLoaded(true)
+                })
+                .catch(e => {
+                    console.log(e)
+                    setIsError(true)
+                })
+        }
+    }, [location, loggedInUser, match.params.uid])
 
     if (isLoaded) {
         return (
@@ -41,7 +46,7 @@ function UserProfile(props) {
                             <span className='profile-name'>{userProfile.displayName}</span>
                             <span className='profile-about'>"{userProfile.about}"</span>
                         </div>
-                        {userProfile.uid !== props.loggedInUser.uid && <Button>Write Compliment</Button>}
+                        {userProfile.uid !== loggedInUser.uid && <Button>Write Compliment</Button>}
                     </div>
                 </div>
 

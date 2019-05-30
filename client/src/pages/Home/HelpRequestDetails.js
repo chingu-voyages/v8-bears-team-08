@@ -1,7 +1,8 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import LinkButton from '../../components/LinkButton'
+import AsyncLink from '../../components/AsyncLink'
 import * as util from '../../helpers/util'
+import * as api from '../../api'
 import './HelpRequestDetails.scss'
 
 function HelpRequestDetails(props) {
@@ -16,7 +17,12 @@ function HelpRequestDetails(props) {
     return (
         <div className='help-request-details'>
             <h2 className='heading-2'>
-                <strong><Link to={`/users/${helpRequest.user.uid}/profile`}>{util.getDisplayName(helpRequest.user.name)}</Link></strong> needs <strong className='primary-font-color'>{helpRequest.title}</strong></h2>
+                <strong>
+                    <AsyncLink to={`/users/${helpRequest.user.uid}/profile`} fetch={() => api.getUserProfile(helpRequest.user.uid)} navHandler={props.navHandler}>
+                        {util.getDisplayName(helpRequest.user.name)}
+                    </AsyncLink>
+                </strong> needs <strong className='primary-font-color'>{helpRequest.title}</strong>
+            </h2>
             <br className='section-separator-space' />
 
             <div className='d-flex flex-row help-request-details__info'>
