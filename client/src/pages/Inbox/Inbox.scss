@@ -17,7 +17,6 @@
         width: 100%;
         justify-content: center;
         margin-left: 12px;
-        font-size: 1.15rem;
         line-height: 150%;
         
         .top,
@@ -30,9 +29,14 @@
     }
     
     .inbox__conversation-username {
+        font-size: 1.35rem;
         font-weight: 600;
     }
     
+    .inbox__conversation-last-message-text{
+        font-size: .9rem;
+    }
+
     .inbox__conversation-last-message-time {
         font-size: .85rem;
     }

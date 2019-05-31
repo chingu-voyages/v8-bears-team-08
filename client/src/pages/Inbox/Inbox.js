@@ -49,7 +49,7 @@ function Inbox(props) {
                                         <div className='inbox__conversation-last-message-time'>{util.getRelativeTime(conversation.lastMessageDatetime)}</div>
                                     </div>
                                     <div className='bottom'>
-                                        <div className='inbox__converstation-last-message-text'>{conversation.lastMessageText}</div>
+                                        <div className='inbox__conversation-last-message-text'>{conversation.lastMessageText}</div>
                                     </div>
                                 </div>
                             </div>
