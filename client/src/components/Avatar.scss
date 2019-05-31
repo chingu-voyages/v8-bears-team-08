@@ -6,22 +6,32 @@
     &.tiny {
         width: 40px;
         height: 40px;
+        min-width: 40px;
+        min-height: 40px;
     }
     &.small {
         width: 64px;
         height: 64px;
+        min-width: 64px;
+        min-height: 64px;
     }
     &.medium {
         width: 92px;
         height: 92px;
+        min-width: 92px;
+        min-height: 92px;
     }
     &.large {
         width: 120px;
         height: 120px;
+        min-width: 120px;
+        min-height: 120px;
     }
     &.xl {
         width: 145px;
         height: 145px;
+        min-width: 145px;
+        min-height: 145px;
     }
     &.halo {
         padding: 4px;
