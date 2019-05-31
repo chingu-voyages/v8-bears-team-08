@@ -56,3 +56,14 @@ export function getRelativeTime(datetime) {
     const theDatetime = moment(new Date(datetime))
     return theDatetime.fromNow()
 }
+
+export function createGuestUser(uid) {
+    return {
+        uid,
+        isGuest: true,
+        displayName: 'Guest',
+        firstName: 'Guest',
+        lastName: 'Guest',
+        location: '11221'
+    }
+}

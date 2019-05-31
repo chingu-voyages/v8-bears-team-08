@@ -18,21 +18,11 @@ import LoaderBar from './components/LoaderBar'
 import config from './config'
 import * as firebase from './helpers/firebase'
 import * as api from './api'
+import * as util from './helpers/util'
 import './App.scss'
 import NavHandler from './components/NavHandler'
 
 export const LoggedInUserContext = React.createContext()
-
-function createGuestUser(uid) {
-    return {
-        uid,
-        isGuest: true,
-        displayName: 'Guest',
-        firstName: 'Guest',
-        lastName: 'Guest',
-        location: '11221'
-    }
-}
 
 function App(props) {
     const [isRouteLoading, setIsRouteLoading] = useState(false)
@@ -61,7 +51,7 @@ function App(props) {
             .then(user => {
                 if (user) {
                     if (user.isAnonymous) {
-                        setUserLoggedIn(createGuestUser(user.uid))
+                        setUserLoggedIn(util.createGuestUser(user.uid))
                     } else {
                         api.getUser(user.uid)
                             .then(response => {

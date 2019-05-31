@@ -3,6 +3,7 @@ import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
 import { Redirect } from 'react-router-dom'
 import firebase from 'firebase'
 import * as api from '../../api'
+import * as util from '../../helpers/util'
 import SplashScreen from './SplashScreen'
 import Loader from '../../components/Loader'
 import './Login.scss'
@@ -30,7 +31,7 @@ function Login(props) {
 
         if (user.isAnonymous) {
             setIsLoading(false)
-            props.onUserSignin(createGuestUser(user.uid), referrer)
+            props.onUserSignin(util.createGuestUser(user.uid), referrer)
         } else {
             const profile = authResult.additionalUserInfo.profile
             const verified_email = authResult.additionalUserInfo.profile.verified_email
@@ -69,17 +70,6 @@ function Login(props) {
 
         // do not redirect
         return false
-    }
-
-    function createGuestUser(uid) {
-        return {
-            uid,
-            isGuest: true,
-            displayName: 'Guest',
-            firstName: 'Guest',
-            lastName: 'Guest',
-            location: '11221'
-        }
     }
 
     if (unregisteredUser && (!props.location.state || !props.location.state.user)) {
