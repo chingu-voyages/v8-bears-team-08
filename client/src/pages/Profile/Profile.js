@@ -5,12 +5,12 @@ import Button from '../../components/Button'
 import Loader from '../../components/Loader'
 import * as api from '../../api'
 import * as util from '../../helpers/util'
-import './UserProfile.scss'
+import './Profile.scss'
 
 /*
  * This component renders the logged in user's profile, or any other user's profile, but from different routes.
  */
-function UserProfile({ loggedInUser, location, match }) {
+function Profile({ loggedInUser, location, match }) {
     const [userProfile, setuserProfile] = useState(null)
     const [isLoaded, setIsLoaded] = useState(false)
     const [isError, setIsError] = useState(false)
@@ -105,4 +105,4 @@ function Compliment({ compliment }) {
     )
 }
 
-export default UserProfile
+export default Profile

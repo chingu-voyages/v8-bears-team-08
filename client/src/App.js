@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import Home from './pages/Home/Home'
 import HelpRequestDetails from './pages/Home/HelpRequestDetails'
-import UserProfile from './pages/UserProfile/UserProfile'
+import UserProfile from './pages/Profile/Profile'
 import AddHelpRequest from './pages/AddNew/AddHelpRequest'
 import Inbox from './pages/Inbox/Inbox'
 import Conversation from './pages/Inbox/Conversation'
@@ -19,18 +19,9 @@ import config from './config'
 import * as firebase from './helpers/firebase'
 import * as api from './api'
 import './App.scss'
-import NavHandler from './NavHandler'
+import NavHandler from './components/NavHandler'
 
 export const LoggedInUserContext = React.createContext()
-
-function waitForInit() {
-    return new Promise((resolve, reject) => {
-        const unsubscribe = firebase.onAuthStateChanged(user => {
-            unsubscribe()
-            resolve(user)
-        }, reject)
-    })
-}
 
 function createGuestUser(uid) {
     return {
@@ -44,11 +35,9 @@ function createGuestUser(uid) {
 }
 
 function App(props) {
-    const [isLoading, setIsLoading] = useState(false)
-    const [isInitialized, setIsInitialized] = useState(false)
+    const [isRouteLoading, setIsRouteLoading] = useState(false)
     const [isMobile, setIsMobile] = useState(false)
     const [user, setUser] = useState({
-        user: undefined,
         isLoggedIn: undefined
     })
     const [home, setHome] = useState({
@@ -56,43 +45,50 @@ function App(props) {
         isLoaded: false,
         error: null
     })
-    const navHandler = NavHandler(() => setIsLoading(true), () => setIsLoading(false))
+    const navHandler = NavHandler(() => setIsRouteLoading(true), () => setIsRouteLoading(false))
 
-    useEffect(() => {
-        waitForInit()
+    useEffect(function initializeUser() {
+        function waitForFirebaseAuthInit() {
+            return new Promise((resolve, reject) => {
+                const unsubscribe = firebase.onAuthStateChanged(user => {
+                    unsubscribe()
+                    resolve(user)
+                }, reject)
+            })
+        }
+
+        waitForFirebaseAuthInit()
             .then(user => {
                 if (user) {
                     if (user.isAnonymous) {
                         setUserLoggedIn(createGuestUser(user.uid))
-                        setIsInitialized(true)
                     } else {
                         api.getUser(user.uid)
                             .then(response => {
                                 setUserLoggedIn(response.data)
                             })
-                            .catch(() => setUser(null))   // 404.  User has logged in but not fully registered yet
-                            .finally(() => setIsInitialized(true))
+                            // 404.  User has logged in but not fully registered yet
+                            .catch(() => setUserLoggedIn(null))
                     }
                 } else {
-                    setUserLoggedIn(null, false)
-                    setIsInitialized(true)
+                    setUserLoggedIn(null)
                 }
             })
     }, [])
 
-    function setUserLoggedIn(user, isLoggedIn = true) {
+    function setUserLoggedIn(user) {
         setUser({
             ...user,
-            isLoggedIn: isLoggedIn
+            isLoggedIn: !!user
         })
     }
 
-    useEffect(() => {
+    useEffect(function authStateChangedHandler() {
         if (user.isLoggedIn) {
             // subscribe to user logout events
             const unsubscribe = firebase.onAuthStateChanged(user => {
                 if (!user) {
-                    setUserLoggedIn(null, false)
+                    setUserLoggedIn(null)
                 }
             })
 
@@ -102,25 +98,7 @@ function App(props) {
         }
     }, [user.isLoggedIn])
 
-    function handleHelpRequestsResponse(response) {
-        if (response.error) {
-            setHome({ ...home, isLoaded: true, error: response.error})
-        } else {
-            setHome({ ...home, isLoaded: true, helpRequests: response.helpRequests})
-        }
-    }
-
-    function handleUserSignin(user, referrer='/') {
-        setUserLoggedIn(user)
-        props.history.push(referrer)
-    }
-
-    function isAuthenticated() {
-        return user && !user.isGuest
-    }
-
-    // onmount
-    useEffect(() => {
+    useEffect(function windowResizeListener() {
         function handleWindowResize() {
             // the extra checks of isMobile are here to reduce the number of times we update state
             if (window.innerWidth < config.mobileBreakpointPixels) {
@@ -139,20 +117,26 @@ function App(props) {
         if (window.innerWidth < config.mobileBreakpointPixels) {
             setIsMobile(true)
         }
-        
     }, [isMobile, props.history])
 
-    function handleLoading() {
-        console.log('handleLoading', isLoading)
-        setIsLoading(true)
+    function isUserAuthenticated() {
+        return user && !user.isGuest && user.isLoggedIn
     }
 
-    function handleLoadingComplete() {
-        console.log('handleLoadingComplete', isLoading)
-        setIsLoading(false)
+    function handleHelpRequestsResponse(response) {
+        if (response.error) {
+            setHome({ ...home, isLoaded: true, error: response.error})
+        } else {
+            setHome({ ...home, isLoaded: true, helpRequests: response.helpRequests})
+        }
     }
 
-    if (!isInitialized || user.isLoggedIn === undefined) {
+    function handleUserSignin(user, referrer='/') {
+        setUserLoggedIn(user)
+        props.history.push(referrer)
+    }
+    
+    if (user.isLoggedIn === undefined) {
         return (
             <SplashScreen>
                 <Loader />
@@ -164,63 +148,57 @@ function App(props) {
             return (
                 <LoggedInUserContext.Provider value={user}>
                     <>
-                        <LoaderBar isLoading={isLoading} />
+                        <LoaderBar isLoading={isRouteLoading} />
                         <Header pathname={props.location.pathname} routeState={props.location.state} isMobile={isMobile} />
 
                         <div className='container'>
                             <main>
                                 <Switch>
-                                    <Route exact path='/help-requests/:uid'
-                                        render={props => {
-                                            return <HelpRequestDetails {...props} {...defaultProps} navHandler={navHandler} />}
+                                    <Route exact path='/' 
+                                        render={props => 
+                                                    <Home
+                                                        {...props} {...defaultProps} {...home}
+                                                        userLocation={user.location} onHelpRequestsResponse={handleHelpRequestsResponse} 
+                                                    />
                                         }
+                                    />
+                                    <Route exact path='/help-requests/:uid'
+                                        render={props => <HelpRequestDetails {...props} {...defaultProps} navHandler={navHandler} />}
                                     />
                                     <Route exact path='/users/:uid/profile'
-                                        render={props => {
-                                            return <UserProfile {...props} {...defaultProps} />}
-                                        }
+                                        render={props => <UserProfile {...props} {...defaultProps} />}
                                     />
                                     <Route exact path='/guest' 
-                                        render={props => {
-                                            return <Guest {...props} />} 
-                                        }
+                                        render={props => <Guest {...props} />}
                                     />
 
                                     <PrivateRoute exact path='/add-help-request'
-                                        isAuthenticated={isAuthenticated}
-                                        render={props => {
-                                            return <AddHelpRequest {...props} {...defaultProps} />}
-                                        }
+                                        isAuthenticated={isUserAuthenticated}
+                                        render={props => <AddHelpRequest {...props} {...defaultProps} />}
                                     />
                                     <PrivateRoute exact path='/inbox'
-                                        isAuthenticated={isAuthenticated}
-                                        render={props => {
-                                            return <Inbox {...props} {...defaultProps} />}
-                                        }
+                                        isAuthenticated={isUserAuthenticated}
+                                        render={props => <Inbox {...props} {...defaultProps} />}
                                     />
                                     <PrivateRoute exact path='/inbox/:uid'
-                                        isAuthenticated={isAuthenticated}
-                                        render={props => {
-                                            return <Conversation {...props} {...defaultProps} />}
-                                        }
+                                        isAuthenticated={isUserAuthenticated}
+                                        render={props => <Conversation {...props} {...defaultProps} />}
                                     />
                                     <PrivateRoute exact path='/profile'
-                                        isAuthenticated={isAuthenticated}
-                                        render={props => {
-                                            return <UserProfile {...props} {...defaultProps} />}
-                                        }
+                                        isAuthenticated={isUserAuthenticated}
+                                        render={props => <UserProfile {...props} {...defaultProps} />}
                                     />
-                                    
-                                    <Route exact path='/' 
-                                        render={props => { 
-                                            return <Home {...props} {...home} {...defaultProps} userLocation={user.location} onHelpRequestsResponse={handleHelpRequestsResponse} />}
-                                        }
-                                    />
+
                                     <Redirect from='*' to='/' />
                                 </Switch>
                             </main>
 
-                            <Navbar loggedInUser={user} onLoad={handleLoading} onLoadComplete={handleLoadingComplete} navHandler={navHandler} />
+                            <Navbar
+                                loggedInUser={user}
+                                onLoad={() => setIsRouteLoading(true)}
+                                onLoadComplete={() => setIsRouteLoading(false)}
+                                navHandler={navHandler}
+                            />
                         </div>
                     </>
                 </LoggedInUserContext.Provider>
