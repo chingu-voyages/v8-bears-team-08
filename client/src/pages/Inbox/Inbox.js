@@ -43,9 +43,14 @@ function Inbox(props) {
                         >
                             <div className='d-flex flex-row'>
                                 <Avatar url={conversation.receivingUser.photoURL} showHalo='true' size='medium' />
-                                <div className='inbox__converation-details d-flex flex-col'>
-                                    <div className='inbox__conversation-username'>{util.getDisplayName(conversation.receivingUser.name)}</div>
-                                    <div className='inbox__conversation-created'>{conversation.created}</div>
+                                <div className='inbox__converation-details'>
+                                    <div className='top'>
+                                        <div className='inbox__conversation-username'>{util.getDisplayName(conversation.receivingUser.name)}</div>
+                                        <div className='inbox__conversation-last-message-time'>{util.getRelativeTime(conversation.lastMessageDatetime)}</div>
+                                    </div>
+                                    <div className='bottom'>
+                                        <div className='inbox__converstation-last-message-text'>{conversation.lastMessageText}</div>
+                                    </div>
                                 </div>
                             </div>
                         </Link>

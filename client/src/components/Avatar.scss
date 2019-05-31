@@ -1,0 +1,29 @@
+.avatar {
+    border-radius: 50%;
+    border: 1px solid #eee;
+    object-fit: cover;
+    
+    &.tiny {
+        width: 40px;
+        height: 40px;
+    }
+    &.small {
+        width: 64px;
+        height: 64px;
+    }
+    &.medium {
+        width: 92px;
+        height: 92px;
+    }
+    &.large {
+        width: 120px;
+        height: 120px;
+    }
+    &.xl {
+        width: 145px;
+        height: 145px;
+    }
+    &.halo {
+        padding: 4px;
+    }
+}

@@ -29,22 +29,36 @@ service cloud.firestore {
 
 
         // Inbox
-        // conversation document id is made up of <user1.uid>-<user2.uid>
+        // Conversation document id is made up of <user1.uid>-<user2.uid>
         //
-        // users can get conversation details for any conversation where they are in the userIds array.
-        // users can create a conversation if:
-        //  1. the document id contains their uid
-        //  2. both uids in the document id are not the same
-        //  3. it doesn't already exist
-        //  4. both uids in the doucument id are valid users
+        // Users can get conversation details for any conversation where they are in the userIds array.
+        // Users can create a conversation if:
+        //  1. The document id contains their uid
+        //  2. Both uids in the document id are not the same
+        //  3. It doesn't already exist
+        //  4. Both uids in the doucument id are valid users
+        // Users need to update a document in order to set the last message text & datetime
+        //  1. Confirm that all/only the expected fields are in the new document
+        //  2. Confirm that only lastMessageDatetime & LastMessageText are different
+        //  3. Confirm data types of lastMessageDatetime & LastMessageText
         match /inbox/{conversationId} {
         	allow read: if isSignedIn() && request.auth.uid in existingData().userIds
 	       	allow create: if isSignedIn()
-          				    && request.auth.uid in conversationId.split('-')
-                            && conversationId.split('-')[0] != conversationId.split('-')[1]
-                            && !exists(/databases/$(database)/documents/inbox/$(conversationId))
-                            && exists(/databases/$(database)/documents/users/$(conversationId.split('-')[0]))
-                            && exists(/databases/$(database)/documents/users/$(conversationId.split('-')[1]))
+                        && request.auth.uid in conversationId.split('-')
+                        && conversationId.split('-')[0] != conversationId.split('-')[1]
+                        && !exists(/databases/$(database)/documents/inbox/$(conversationId))
+                        && exists(/databases/$(database)/documents/users/$(conversationId.split('-')[0]))
+                        && exists(/databases/$(database)/documents/users/$(conversationId.split('-')[1]))
+            allow update: if isSignedIn()
+                        && incomingData().keys()
+                            .hasAll(['userIds','users','created','lastMessageDatetime','lastMessageText'])
+                        && incomingData().size() == 5
+                        && incomingData().created == existingData().created
+                        && incomingData().userIds == existingData().userIds
+                        && incomingData().users == existingData().users
+                        && incomingData().lastMessageDatetime != null
+                        && incomingData().lastMessageDatetime is string
+                        && incomingData().lastMessageText != null
         }
         // users can read messages if the conversation document id contains their uid.
         match /inbox/{conversationId}/messages/{message} {

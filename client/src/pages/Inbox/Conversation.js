@@ -42,6 +42,13 @@ function Conversation(props) {
         }
     })
 
+    const getReceivingUserFromConversation = useCallback(
+        function(conversation) {
+            return conversation.users.filter(user => user.uid !== loggedInUser.uid)[0]
+        },
+        [loggedInUser.uid]
+    )
+
     useEffect(function getConversationDetails() {
         if (!conversationDetails) {
             api.getConversationDetails(conversationUid)
@@ -57,7 +64,6 @@ function Conversation(props) {
                     }
                 })
         }
-
     }, [conversationDetails, conversationUid, getReceivingUserFromConversation, loggedInUser.uid, receivingUser])
 
     useEffect(function subscribeToConversationMessages() {
@@ -74,13 +80,6 @@ function Conversation(props) {
         return unsubscribeFromMessages
 
     }, [conversationUid])
-
-    const getReceivingUserFromConversation = useCallback(
-        function(conversation) {
-            return conversation.users.filter(user => user.uid !== loggedInUser.uid)[0]
-        },
-        [loggedInUser.uid]
-    )
 
     async function sendMessage(e) {
         e.preventDefault()
@@ -167,7 +166,7 @@ function Message({ message }) {
                 {message.text}
                 <span className='conversation__message-text--small'>{util.getCalendarLocaleTime(message.created)}</span>
             </div>
-            <Avatar url={message.photoURL} size='small' />
+            <Avatar url={message.photoURL} size='tiny' />
         </li>
     )
 }

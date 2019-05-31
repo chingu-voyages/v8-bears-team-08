@@ -1,20 +1,11 @@
 import React from 'react'
-import './Avatar.css'
+import './Avatar.scss'
 
 function Avatar({ url, size, showHalo }) {
-    let classes = 'avatar'
-    if (size === 'small') {
-        classes += ' avatar-small'
-    } else if (size === 'medium') {
-        classes += ' avatar-medium'
-    } else if (size === 'xl') {
-        classes += ' avatar-xl'
-    } else {
-        classes += ' avatar-large'
-    }
+    let classes = `avatar ${size}`
 
     if (showHalo) {
-        classes += ' avatar-halo'
+        classes += ' halo'
     }
     
     return (

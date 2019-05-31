@@ -60,7 +60,14 @@ export function createConversation(conversationUid, conversation) {
 }
 
 export function sendMessage(conversationUid, message) {
-    db.collection('inbox').doc(conversationUid).collection('messages').doc().set(message)
+    const conversationRef = db.collection('inbox').doc(conversationUid)
+    const messageRef = db.collection('inbox').doc(conversationUid).collection('messages').doc()
+    
+    const batch = db.batch()
+    batch.set(messageRef, message)
+    batch.update(conversationRef, { 'lastMessageDatetime': new Date().toISOString(), 'lastMessageText': message.text })
+    batch.commit()
+        .catch(e => console.log('fail', e))
 }
 
 export function getConversationsForUser(userUid) {

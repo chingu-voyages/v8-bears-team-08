@@ -4,19 +4,37 @@
     padding: $main-default-padding;
     margin-bottom: $navbar-mobile-height;
 
+    li {
+        display: flex;
+        flex-direction: column;
+        max-width: 600px;
+        width: 100%;
+    }
+
     .inbox__converation-details {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
         justify-content: center;
-        margin-left: 24px;
+        margin-left: 12px;
+        font-size: 1.15rem;
+        line-height: 150%;
+        
+        .top,
+        .bottom {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
     }
     
     .inbox__conversation-username {
-        font-size: 28px;
-        line-height: 140%;
+        font-weight: 600;
     }
     
-    .inbox__conversation-created {
-        font-size: 14px;
-        color: #aaa;
+    .inbox__conversation-last-message-time {
+        font-size: .85rem;
     }
     
     .inbox__conversation-link {
@@ -25,13 +43,12 @@
     }
     
     .inbox__conversation-separator {
-        border-color: $light-blue;
+        margin-left: 112px;
+        margin-right: 0;
         border: 0;
         height: 1px;
-        width: 80%;
-        margin-top: 24px;
-        margin-bottom: 24px;
-        color: $light-blue;
+        margin-top: 16px;
+        margin-bottom: 16px;
         background-color: $light-blue;
     }
 }
