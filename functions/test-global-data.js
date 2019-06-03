@@ -35,7 +35,7 @@ const helpRequest1 = {
     user: {
         uid: user1.uid,
         name: user1.name,
-        photoURL: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg"
+        photoURL: user1.photoURL
     }
 }
 
@@ -52,7 +52,7 @@ const helpRequest2 = {
     user: {
         uid: user2.uid,
         name: user2.name,
-        photoURL: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg"
+        photoURL: user2.photoURL
     }
 }
 
@@ -62,9 +62,9 @@ const compliment1 = {
     created: new Date().toISOString(),
     compliment: "Jane is really nice and smart. Thanks for helping me edit my resume!",
     complimenter: {
-        uid: "userid1",
-        name: "John Doe",
-        photoURL: "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg"
+        uid: user1.uid,
+        name: user1.name,
+        photoURL: user1.photoURL
     }
 }
 
