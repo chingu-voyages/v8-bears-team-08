@@ -34,34 +34,28 @@ function AddHelpRequest(props) {
             
             //const formData = new FormData(formRef.current)
             const formData = new FormData()
-            formData.set('title', formState.title)
-            formData.set('description', formState.description)
-            formData.set('neededAsap', formState.neededAsap)
-            formData.set('location', loggedInUser.location)
-            formData.set('userUid', loggedInUser.uid)
-            formData.set('userName', loggedInUser.name)
-            formData.set('userPhotoURL', loggedInUser.photoURL)
-            if (formState.tags) {
-                formData.set('tags', formState.tags)
+            const formResponse = { ...formState }
+            formResponse.location = loggedInUser.location
+            formResponse.user = loggedInUser
+            if (formResponse.photo) {
+                formData.set('photo', formResponse.photo)
             }
-            if (formState.neededDatetime) {
-                formData.set('neededDatetime', new Date(formState.neededDatetime).toISOString())
-            }
-            if (formState.photo) {
-                formData.set('photo', formState.photo)
-            }
+            delete formResponse.photo
 
+            formData.set('data', JSON.stringify(formResponse))
+            
             api.saveHelpRequest(formData)
                 .then(response => {
+                    setIsSubmitting(false)
                     props.history.push({
                         pathname: '/help-requests/' + response.data.uid,
                         state: response.data
                     })
                 })
-                .catch(e => console.log(e.response))
-                .finally(() => setIsSubmitting(false))
-        } else {
-            e.preventDefault()
+                .catch(e => {
+                    setIsSubmitting(false)
+                    console.log(e.response)
+                })
         }
     }
 

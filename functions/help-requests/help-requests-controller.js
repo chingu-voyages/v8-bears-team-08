@@ -15,17 +15,12 @@ router.post('/', createHelpRequest)
 
 // route handlers
 async function createHelpRequest(req, res, next) {
-    const helpRequest = req.body
+    const helpRequest = JSON.parse(req.body.data)
     helpRequest.uid = util.createRandomId()
-
-    // formdata doesnt send json so the user object has to be reconstructed
-    helpRequest.user = {}
-    helpRequest.user.uid = req.body.userUid
-    helpRequest.user.name = req.body.userName
-    helpRequest.user.photoURL = req.body.userPhotoURL
 
     if (req.files && req.files.length > 0) {
         try {
+            const file = req.files[0]
             const extension = path.extname(file.originalName.toLowerCase()) || file.mimeType.split('/')[1]
             helpRequest.photoURL = await firebaseHelper.saveFileToCloudStorage(file, 'help-request-photos/', `${helpRequest.uid}${extension}`)
         } catch(e) {
