@@ -15,7 +15,7 @@ function HelpRequestCard({ cardSize, helpRequest }) {
     if (helpRequest.neededAsap) {
         neededAt = 'ASAP'
     } else {
-        neededAt = 'on ' + util.getRelativeLocaleTime(new Date(helpRequest.neededDatetime))
+        neededAt = util.getRelativeLocaleTime(new Date(helpRequest.neededDatetime))
     }
 
     const tags = helpRequest.tags ? helpRequest.tags.slice(0, 2).join(', ') : ''

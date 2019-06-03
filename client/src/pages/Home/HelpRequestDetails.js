@@ -29,7 +29,8 @@ function HelpRequestDetails(props) {
                 <img src={helpRequest.photoURL || helpRequest.user.photoURL} alt='Help Request' />
 
                 <div className='d-flex flex-col'>
-                    <p><strong>Posted {util.getRelativeLocaleTime(helpRequest.created)}</strong> near {helpRequest.location}</p>
+                    {/* this shows up as "in a few seconds" when first posted - try to change to now */}
+                    <p><strong>Posted {util.getRelativeTime(helpRequest.created)}</strong> near {helpRequest.location}</p>
                     <p>{helpRequest.neededAsap || util.getRelativeLocaleTime(helpRequest.neededDatetime)}</p>
                     <br />
                     

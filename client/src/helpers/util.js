@@ -48,7 +48,7 @@ export function getRelativeLocaleTime(datetime) {
     if (now.diff(theDatetime, 'hours') <= 4) {
         return theDatetime.fromNow()
     } else {
-        return theDatetime.calendar()
+        return 'on ' + theDatetime.calendar()
     }
 }
 
