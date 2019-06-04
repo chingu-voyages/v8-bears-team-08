@@ -1,6 +1,5 @@
 .avatar {
     border-radius: 50%;
-    border: 1px solid #eee;
     object-fit: cover;
     
     &.tiny {
@@ -34,6 +33,7 @@
         min-height: 145px;
     }
     &.halo {
+        border: 1px solid #eee;
         padding: 4px;
     }
 }
