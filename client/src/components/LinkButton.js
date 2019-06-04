@@ -18,6 +18,7 @@ const LinkButton = (props) => {
         <Button
             {...rest}
             onClick={(event) => {
+                event.stopPropagation()
                 onClick && onClick(event)
                 history.push(to)
             }}
