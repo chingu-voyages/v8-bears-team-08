@@ -118,8 +118,28 @@ export async function registerUser(user) {
     return await axios.post(apiUrl + '/users', user, httpRequestConfig)
 }
 
+// Get a list of possible users that helped complete a help request.
+// List of users is based on any conversations that have a message after the posted date of the HelpRequest.
+export async function getPossibleHelpers(helpRequestCreatedDate, userUid) {
+    return db.collection('inbox')
+        .where('userIds', 'array-contains', userUid)
+        .where('lastMessageDatetime', '>', new Date(helpRequestCreatedDate).toISOString())
+        .orderBy('lastMessageDatetime', 'desc')
+        .get()
+        .then(querySnapshot => {
+            const possibleHelpers = []
+
+            querySnapshot.forEach(conversation => {
+                const user = conversation.data().users.filter(user => user.uid !== userUid)[0]
+                possibleHelpers.push(user)
+            })
+
+            return possibleHelpers
+        })
+}
+
 async function setAuthorizationHeader(httpRequestConfig) {
     const idToken = await firebase.getUserIdToken()
-    httpRequestConfig.headers.Authorization = "Bearer " + idToken
+    httpRequestConfig.headers.Authorization = 'Bearer ' + idToken
     return httpRequestConfig
 }
