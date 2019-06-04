@@ -5,7 +5,7 @@
     padding: 0px 16px;
     font-size: 14px;
     height: 36px;	
-    min-width: 68px;	
+    min-width: 64px;	
     border-radius: 4px;	
     font-weight: 600;
     outline: none;
@@ -25,7 +25,10 @@
         background-color: rgba(87, 165, 232, .8);
         @include Elevation(4);
     }
-    
+    &:focus {
+        background-color: rgba(87, 165, 232, .8);
+        @include Elevation(4);
+    }
     &:active {
         background-color: $blue;
         @include Elevation(8);
@@ -42,8 +45,29 @@
         background-color: rgba(110, 172, 228, 0.08);
     }
     &:active {
+        background-color: rgba(110, 172, 228, 0.15);
+    }
+    &:active {
         background-color: rgba(110, 172, 228, 0.25);
     }
+}
+
+.btn-text {
+    color: $blue;
+    background-color: transparent;
+    border: 0px;
+    padding: 0px 8px;
+
+    &:hover {
+        background-color: rgba(87, 165, 232, .08);
+    }
+    &:focus {
+        background-color: rgba(87, 165, 232, .15);
+    }
+    &:active {
+        background-color: rgba(87, 165, 232, .25);
+    }
+
 }
 
 .btn-disabled {

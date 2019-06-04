@@ -3,11 +3,13 @@ import './Button.scss'
 
 
 function Button(props) {
-    const { isLoading, type, children, ...rest } = props
+    const { isLoading, type, children, onClick, ...rest } = props
 
     let classes = 'btn'
     
-    if (type === 'outlined') {
+    if (type === 'text') {
+        classes += ' btn-text'
+    } else if (type === 'outlined') {
         classes += ' btn-outlined'
     } else {
         classes += ' btn-contained'
@@ -17,8 +19,13 @@ function Button(props) {
         classes += ' btn-disabled spinning'
     }
 
+    function handleOnClick(event) {
+        event.stopPropagation()
+        onClick && onClick(event)
+    }
+
     return (
-        <button className={classes} {...rest}>
+        <button className={classes} onClick={e => handleOnClick(e)} {...rest}>
             {children}
         </button>
     )
