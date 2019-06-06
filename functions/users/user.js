@@ -9,7 +9,7 @@ function User(userData) {
     user.email = userData.email
     user.location = userData.location
     user.emailVerifications = userData.emailVerifications
-    user.created = new Date().toISOString()
+    user.created = userData.created || new Date().toISOString()
     
     // optional
     user.photoURL = userData.picture || userData.photoURL

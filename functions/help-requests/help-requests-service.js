@@ -8,6 +8,9 @@ const HelpRequest = require('./help-request')
 async function create(data) {
     // const docRef = db.collection('help-requests').doc()
     // const helpRequest = HelpRequest({ ...data, uid: docRef.id })
+    
+    // Created date should be set by the server
+    delete data.created
     const helpRequest = HelpRequest(data)
 
     if (!helpRequest.hasRequiredFields()) {

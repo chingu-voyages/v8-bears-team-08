@@ -7,6 +7,9 @@ $card-info-padding: 16px;
     margin-bottom: 16px;
     color: #232F34;
     line-height: 1.5;
+    justify-content: space-between;
+    // max-width: 376px;
+    // flex: 1 1 326px;
     @include Elevation(1);
     transition: $elevation-transition-mobile;
     
@@ -54,8 +57,9 @@ $card-info-padding: 16px;
     .big-card {
         display: flex;
         flex-direction: column;
+        min-width: 326px;
+        max-width: 376px;
         min-height: 400px;
-        width: 376px;
         text-decoration: none;
         border-radius: 4px;
 
@@ -72,7 +76,7 @@ $card-info-padding: 16px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            flex: 1;
+            flex-grow: 1;
             padding: $card-info-padding;
             
             a > div {

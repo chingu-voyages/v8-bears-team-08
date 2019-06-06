@@ -21,7 +21,7 @@ function Header(props) {
             }
             
             {/* temporary to allow signout until this is built properly */}
-            <div style={{position: 'absolute', right: '10px'}}>
+            <div style={{position: 'absolute', right: '20px'}}>
                 <a href='/' onClick={() => firebase.signOut()}>Sign-out</a>
             </div>
         </header>

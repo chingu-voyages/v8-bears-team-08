@@ -5,7 +5,7 @@ import SyncLink from './SyncLink'
 import * as api from '../api'
 import './Navbar.scss'
 
-function Navbar({ location, loggedInUser, navHandler }) {
+function Navbar({ location, loggedInUser, navHandler, isUserAuthenticated }) {
     const [activeRoute, setActiveRoute] = useState('')
     const menuItems = [
         {
@@ -13,25 +13,29 @@ function Navbar({ location, loggedInUser, navHandler }) {
             icon: 'home',
             path: '/',
             otherMatches: ['/help-requests'],
-            isAsync: false
+            isAsync: false,
+            isPrivate: false
         },
         {
             name: 'Explore',
             icon: 'explore',
             path: '/explore',
-            isAsync: false
+            isAsync: false,
+            isPrivate: false
         },
         {
             name: 'Add New',
             icon: 'add_box',
             path: '/add-help-request',
-            isAsync: false
+            isAsync: false,
+            isPrivate: true
         },
         {
             name: 'Inbox',
             icon: 'email',
             path: '/inbox',
             isAsync: true,
+            isPrivate: true,
             delayMs: 1500,
             fetch: () => api.getConversationsForUser(loggedInUser.uid),
         },
@@ -40,6 +44,7 @@ function Navbar({ location, loggedInUser, navHandler }) {
             icon: 'account_circle',
             path: '/profile',
             isAsync: true,
+            isPrivate: true,
             delayMs: 2000,
             fetch: () => api.getUserProfile(loggedInUser.uid),
         }
@@ -60,11 +65,14 @@ function Navbar({ location, loggedInUser, navHandler }) {
     }, [location, menuItems])
 
     return (
+        // Since AsyncLinks fetch their data before rendering/changing route, for any private routes,
+        // we should check if the user is authenticated before rendering an AsyncLink.  If user is not auth,
+        // just render it as a normal SyncLink which goes straight to <PrivateRoute />.
         <div className='navbar'>
             <ul>
                 {menuItems.map(menuItem => (
                     <li key={menuItem.name} className={menuItem.name === activeRoute ? 'active' : ''}>
-                        { menuItem.isAsync ?
+                        { menuItem.isAsync && (!menuItem.isPrivate || (menuItem.isPrivate && isUserAuthenticated())) ?
                             <AsyncLink to={menuItem.path} navHandler={navHandler} fetch={menuItem.fetch} delayMs={menuItem.delayMs}>
                                 <i className='material-icons'>{menuItem.icon}</i>
                                 <span>{menuItem.name}</span>

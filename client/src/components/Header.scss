@@ -2,9 +2,9 @@
 
 #header {
     height: $header-mobile-height;
-    background-color: $pale-blue;
     width: 100%;
     margin-bottom: $header-bottom-margin;
+    background-color: $pale-blue;
     color: white;
     // these are if we want to elevate the header bar
     // margin-bottom: calc(#{$header-bottom-margin} + #{$header-height});
@@ -23,10 +23,6 @@
 @media all and (min-width: 768px) {
     #header {
         height: $header-height;
-
-        .title {
-            font-size: 32px;
-        }
     }
 }
 

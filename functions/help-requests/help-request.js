@@ -6,7 +6,7 @@ function HelpRequest(data) {
     helpRequest.title = data.title
     helpRequest.description = data.description
     helpRequest.location = data.location
-    helpRequest.created = new Date().toISOString()
+    helpRequest.created = data.created || new Date().toISOString()
     helpRequest.neededAsap = data.neededAsap ? true : false
     helpRequest.neededDatetime = data.neededAsap ? '0000-00-00T00:00:00.000Z' : new Date(data.neededDatetime).toISOString()
     helpRequest.photoURL = data.photoURL

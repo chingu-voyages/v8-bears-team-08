@@ -1,9 +1,9 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Route } from 'react-router-dom'
+import Guest from '../pages/Guest/Guest'
 
-function PrivateRoute({ render, component, isAuthenticated, redirectTo, ...rest }) {
+function PrivateRoute({ render, component, isUserAuthenticated, ...rest }) {
     const Component = render || component
-    const to = redirectTo || '/guest'
 
     return (
         <Route 
@@ -12,9 +12,9 @@ function PrivateRoute({ render, component, isAuthenticated, redirectTo, ...rest 
                 const referrer = createReferrer(props.location.pathname)
 
                 return (
-                    isAuthenticated() ?
-                        <Component {...props} />
-                        : <Redirect to={{ pathname: to, state: { referrer: referrer }}} />
+                    isUserAuthenticated()
+                        ? <Component {...props} />
+                        : <Guest {...props} referrer={referrer} />
                 )
             }} 
         />

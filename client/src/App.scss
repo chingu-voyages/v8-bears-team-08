@@ -6,20 +6,54 @@
     //padding-top: calc(#{$header-bottom-margin} + #{$header-height});
 }
 
-main {
-    max-width: 800px;
+.transition-container {
+    position: relative;
     height: 100%;
 }
 
+main {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+
+
 @media all and (min-width: 768px) {
+    // to help with issue of scrollbar causing content to jump when it appears/disappears
+    .container,
+    #header {
+        padding-left: calc(100vw - 100%);
+        padding-right: 0;
+    }
+
+    .transition-container {
+        width: 824px;
+    }
+    
     .container {
         display: flex;
         flex-direction: row-reverse;
         justify-content: center;
         height: calc(100% - #{$header-height} - #{$header-bottom-margin});
     }
-    
+
     main {
-        flex: 1;
+        padding-left: 24px;
     }
+}
+
+.route-transition-enter {
+    opacity: 0;
+}
+.route-transition-enter-active {
+    opacity: 1;
+    transition: opacity 250ms ease-in;
+}
+.route-transition-exit {
+    opacity: 1;
+}
+.route-transition-exit-active {
+    opacity: 0;
+    transition: opacity 150ms ease-out;
 }
