@@ -11,6 +11,7 @@ import './HelpRequestDetails.scss'
 function HelpRequestDetails(props) {
     const [shouldDisplayDialog, setShouldDisplayDialog] = useState(false)
     const [possibleHelpers, setPossibleHelpers] = useState([])
+    const [isMarkingDone, setIsMarkingDone] = useState(false)
     const helpRequest = props.location.state
     const loggedInUser = props.loggedInUser
 
@@ -25,6 +26,11 @@ function HelpRequestDetails(props) {
         }
     }, [helpRequest.created, helpRequest.user.uid, loggedInUser.uid])
 
+    function handleClickMarkDone() {
+        setIsMarkingDone(true)
+
+    }
+
     const conversationUid = util.createConversationUidFromUserUids(helpRequest.user.uid, loggedInUser.uid)
     return (
         <>
@@ -32,10 +38,10 @@ function HelpRequestDetails(props) {
                 shouldShow={shouldDisplayDialog}
                 hide={() => setShouldDisplayDialog(false)}
                 possibleHelpers={possibleHelpers}
+                onClickMarkDone={handleClickMarkDone}
             />
             
             <div className='help-request-details'>
-                
                 <h2 className='heading-2'>
                     <strong>
                         <AsyncLink to={`/users/${helpRequest.user.uid}/profile`} fetch={() => api.getUserProfile(helpRequest.user.uid)} navHandler={props.navHandler}>
@@ -78,7 +84,7 @@ function HelpRequestDetails(props) {
                         </LinkButton>
                     </>
                         : 
-                        <Button onClick={() => setShouldDisplayDialog(true)}>
+                        <Button isLoading={isMarkingDone} onClick={() => setShouldDisplayDialog(true)}>
                             Close this Request
                         </Button>
                     }
@@ -89,8 +95,28 @@ function HelpRequestDetails(props) {
 }
 
 function MarkHelpRequestDoneDialog(props) {
+    const [personWhoHelped, setPersonWhoHelped] = useState(null)
+
+    function setHelper(helper) {
+        if ((personWhoHelped || {}).uid === helper.uid) {
+            setPersonWhoHelped(null)
+        } else {
+            setPersonWhoHelped(helper)
+        }
+    }
+
+    function handleCancel() {
+        props.hide()
+        setPersonWhoHelped(null)
+    }
+
+    function handleMarkDone() {
+        props.hide()
+        props.onClickMarkDone()
+    }
+
     return (
-        <Dialog shouldShow={props.shouldShow} hide={props.hide}>
+        <Dialog shouldShow={props.shouldShow} hide={handleCancel}>
             <div className='close-help-request'>
                 <div className='top'>
                     <p>Congratulations!</p>
@@ -101,10 +127,15 @@ function MarkHelpRequestDoneDialog(props) {
                     <div className='middle'>
                         <p>Select who helped you</p>
                         <ul>
-                            {props.possibleHelpers.map(
+                            { props.possibleHelpers.map(
                                 helper => (
                                     <li key={helper.uid}>
-                                        <Avatar url={helper.photoURL} size='small' />
+                                        <Avatar 
+                                            onClick={() => setHelper(helper)}
+                                            url={helper.photoURL} 
+                                            size='small'
+                                            className={(personWhoHelped || {}).uid === helper.uid ? 'selected' : ''}
+                                        />
                                         <p>{util.getDisplayName(helper.name)}</p>
                                     </li>
                                 )
@@ -114,8 +145,8 @@ function MarkHelpRequestDoneDialog(props) {
                 }
 
                 <div className='bottom'>
-                    <Button type='text' onClick={props.hide}>Cancel</Button>
-                    <Button type='text'>Mark Done</Button>
+                    <Button style='text' onClick={handleCancel}>Cancel</Button>
+                    <Button style='text' onClick={handleMarkDone}>Mark Done</Button>
                 </div>
 
             </div>
