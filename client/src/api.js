@@ -125,6 +125,7 @@ export async function getPossibleHelpers(helpRequestCreatedDate, userUid) {
         .where('userIds', 'array-contains', userUid)
         .where('lastMessageDatetime', '>', new Date(helpRequestCreatedDate).toISOString())
         .orderBy('lastMessageDatetime', 'desc')
+        .limit(10)
         .get()
         .then(querySnapshot => {
             const possibleHelpers = []
