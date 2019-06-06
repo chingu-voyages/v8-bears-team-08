@@ -12,6 +12,9 @@ async function create(userData) {
         throw UserAlreadyExistsException(userData.uid)
     }
 
+    // Created date should be set by the server
+    delete userData.created
+    
     const user = User(userData)
     await db.collection('users').doc(user.uid).set(user.getFieldsOnly())
     return user
