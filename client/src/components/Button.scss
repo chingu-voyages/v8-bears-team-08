@@ -73,10 +73,12 @@
 .btn-disabled {
     background-color: #aaa;
     cursor: not-allowed;
+    @include Elevation(0);
 
     &:hover {
         color: white;
         background-color: #aaa;
+        @include Elevation(0);
     }
 }
 

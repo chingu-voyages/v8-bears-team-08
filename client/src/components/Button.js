@@ -25,7 +25,7 @@ function Button(props) {
     }
 
     return (
-        <button type={type} className={classes} onClick={e => handleOnClick(e)} {...rest}>
+        <button type={type} disabled={isLoading} className={classes} onClick={e => handleOnClick(e)} {...rest}>
             {children}
         </button>
     )
