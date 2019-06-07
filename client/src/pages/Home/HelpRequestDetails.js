@@ -12,7 +12,7 @@ function HelpRequestDetails(props) {
     const [shouldDisplayDialog, setShouldDisplayDialog] = useState(false)
     const [possibleHelpers, setPossibleHelpers] = useState([])
     const [isMarkingDone, setIsMarkingDone] = useState(false)
-    const helpRequest = props.location.state
+    const [helpRequest, setHelpRequest] = useState(props.location.state)
     const loggedInUser = props.loggedInUser
 
     if (!helpRequest) {
@@ -26,12 +26,26 @@ function HelpRequestDetails(props) {
         }
     }, [helpRequest.created, helpRequest.user.uid, loggedInUser.uid])
 
-    function handleClickMarkDone() {
+    function handleClickMarkDone(personWhoHelped) {
         setIsMarkingDone(true)
 
+        api.markHelpRequestDone(helpRequest.uid, personWhoHelped)
+            .then(updatedFields => {
+                setIsMarkingDone(false)
+                setHelpRequest({ ...helpRequest, ...updatedFields })
+            })
+            .catch(e => {
+                setIsMarkingDone(false)
+                console.log(e)
+            })
     }
 
     const conversationUid = util.createConversationUidFromUserUids(helpRequest.user.uid, loggedInUser.uid)
+    if (helpRequest.status === 'complete') {
+        console.log(helpRequest)
+        return <h1>Complete</h1>
+    }
+
     return (
         <>
             <MarkHelpRequestDoneDialog 
@@ -112,7 +126,7 @@ function MarkHelpRequestDoneDialog(props) {
 
     function handleMarkDone() {
         props.hide()
-        props.onClickMarkDone()
+        props.onClickMarkDone(personWhoHelped)
     }
 
     return (
