@@ -36,7 +36,7 @@ function getProfileById(req, res, next) {
 
 function updateUser(req, res, next) {
     usersService.update(req.params.uid, req.body)
-        .then(user => res.status(200).json(user))
+        .then(() => res.status(200).send())
         .catch(e => e instanceof UserNotFoundException ?
             next(Response(404, `${e.message}: ${e.value}`)) : next(Response(500, e)))
 }

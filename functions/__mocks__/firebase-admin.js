@@ -88,7 +88,7 @@ function data(data) {
 function set(collection, docId) {
     return function(data) {
         dbCollections[collection].set(docId, data)
-        return Promise.resolve(data)
+        return Promise.resolve()
     }
 }
 
