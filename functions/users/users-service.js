@@ -40,7 +40,7 @@ async function getProfileById(uid, includePrivateInfo = false) {
     const hrQuerySnapshot = await db.collection('help-requests').where('user.uid', '==', user.uid).get()
     const helpRequests = []
     hrQuerySnapshot.forEach(doc => {
-        const helpRequest = HelpRequest(doc.data())
+        const helpRequest = HelpRequest.createFromStore(doc.data())
         helpRequests.push(helpRequest)
     })
 
