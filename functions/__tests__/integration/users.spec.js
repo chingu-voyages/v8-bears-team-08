@@ -105,15 +105,22 @@ test('PUT /users/:uid should update the user', async () => {
     const newPhotoURL = "http://photourl..."
     const about = "About me"
 
-    return request(app)
+    await request(app)
         .put('/users/' + user1.uid)
         .set('Authorization', 'Bearer ' + validToken)
         .set('Content-Type', 'application/json')
-        .set('Accept', 'application/json')
         .send({
             photoURL: newPhotoURL,
             about: about
         })
+        .expect(200)
+        .then()
+
+    return request(app)
+        .get(`/users/${user1.uid}`)
+        .set('Authorization', 'Bearer ' + validToken)
+        .set('Content-Type', 'application/json')
+        .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {

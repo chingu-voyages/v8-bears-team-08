@@ -1,9 +1,10 @@
 'use strict'
 
 const Response = require('../http-response')
+const { user1 } = require('../../test-global-data')
 
 let requestingUser = {
-    "uid": "user-id1",
+    "uid": user1.uid,
     "name": "John Doe",
     "picture": "https://pbs.twimg.com/profile_images/1055263632861343745/vIqzOHXj.jpg",
     "email": "johndoe@fake-email.com",

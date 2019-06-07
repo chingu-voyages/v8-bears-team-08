@@ -13,9 +13,9 @@ const app = express()
 app.use(express.json())
 app.use(cors)
 app.use(firebaseHelper.validateFirebaseIdToken)
-app.use(canRequestorAccessResource)
 app.use(addRawbodyToRequest)
 app.use(convertRawbodyToBody)
+app.use(canRequestorWriteToResource)
 
 app.use('/users', require('./users/users-controller'))
 app.use('/help-requests', require('./help-requests/help-requests-controller'))
@@ -37,22 +37,44 @@ function errorHandler(err, req, res, next) {
     res.status(err.code).json(err.message)
 }
 
-function canRequestorAccessResource(req, res, next) {
-    const requestorId = req.user.uid
+function canRequestorWriteToResource(req, res, next) {
+    if (req.method === 'POST' || req.method === 'PUT' || req.method === 'PATCH') {
+        if (req.user.firebase.sign_in_provider === 'anonymous') {
+            return next(Response(403, 'Guest user cannot write to this resource'))
+        }
 
-    if (req.params.uid && requestorId !== req.params.uid && (req.method == "POST" || req.method == "PUT" || req.method == "DELETE")) {
-        return next(Response(403))
+        const requestorId = req.user.uid
+        if (!requestorId) {
+            return next(Reponse(403, 'User not logged in or unable to verify user'))
+        }
+
+        let incomingDataUid
+
+        // Creating/updating a help-request is done via a form and the data is sent as JSON in the "data" field.
+        // Marking a help-request as complete will not be via a form
+        if (req.originalUrl.startsWith('/help-requests')) {
+            if (req.body.data) {
+                incomingDataUid = JSON.parse(req.body.data).user.uid
+            } else {
+                // Can't check this yet... I need to have the help request creator's uid to match it but 
+                // that would need to be pulled out of the DB.
+                // Help Requests should be moved to the /users/:uid/help-requets collection and then use a collection group query
+                // to list all help requests. https://cloud.google.com/firestore/docs/query-data/queries#collection-group-query
+                return next()
+            }
+        } 
+        else if (req.originalUrl.startsWith('/users')) {
+            incomingDataUid = req.body.uid || req.originalUrl.split('/')[2]
+        }
+
+        if (incomingDataUid === requestorId) {
+            return next()
+        } else {
+            return next(Response(403))
+        }
+    } else {
+        return next()
     }
-
-    if (req.user.firebase.sign_in_provider === 'anonymous' && (req.method == "POST" || req.method == "PUT" || req.method == "DELETE")) {
-        return next(Response(403, 'Guest user cannot perform this action'))
-    }
-
-    // if (req.params.uid && requestorId !== req.params.uid && req.path.includes('/private')) {
-    //     return next(Response(403))
-    // }
-    
-    return next()
 }
 
 function addRawbodyToRequest(req, res, next) {
