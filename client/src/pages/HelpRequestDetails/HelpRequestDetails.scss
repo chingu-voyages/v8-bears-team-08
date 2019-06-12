@@ -1,0 +1,150 @@
+@import "../../styles/variables";
+
+.help-request-details-complete {
+    padding: $main-default-padding;
+    margin-bottom: $navbar-mobile-height;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+        padding-bottom: 96px;
+    }
+
+    .image-container {
+        position: relative;
+        margin-bottom: 50px;
+    }
+
+    p {
+        font-size: 20px;
+        margin-bottom: 36px;
+    }
+
+    img {
+        width: 150px;
+        height: 150px;
+        min-width: 150px;
+        min-height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    i {
+        position: absolute;
+        font-size: 64px;
+        color: $pale-blue;
+        bottom: -10px;
+        right: -30px;
+    }
+}
+
+.help-request-details {
+    padding: $main-default-padding;
+    margin-bottom: $navbar-mobile-height;
+    word-wrap: break-word;
+
+    a {
+        color: inherit;
+    }
+    
+    img {
+        width: 150px;
+        height: 150px;
+        min-width: 150px;
+        min-height: 150px;
+        object-fit: cover;
+        margin-right: 24px;
+    }
+
+    p {
+        line-height: 115%;
+    }
+
+    .help-request-details__info {
+        font-size: 14px;
+        align-items: flex-end;
+        line-height: 120%;
+    }
+}
+
+.close-help-request {
+    padding-top: 24px;
+    color: #232F34;
+    min-width: 336px;
+    //background-color: $pale-blue;
+
+    div,
+    ul {
+        text-align: center;
+    }
+    
+    .top {
+        margin-bottom: 24px;
+        padding: 0 8px;
+    }
+
+    .middle {
+        padding: 0 8px;
+
+        ul {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 12px;
+        }
+
+        li {
+            display: flex;
+            flex-direction: column;
+            list-style: none;
+            margin: 0 8px;
+            
+            p {
+                font-size: 12px;
+                padding-top: 6px;
+            }
+    
+            img {
+                margin: 0;
+                cursor: pointer;
+                transition: transform 100ms;
+                -webkit-tap-highlight-color: transparent;
+            }
+
+            img.selected {
+                transform: scale(1.25);
+            }
+        }
+    }
+
+    .bottom {
+        margin-top: 28px;
+        height: 52px;
+        padding: 8px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        //background-color: white;
+
+        button {
+            margin-left: 8px;
+        }
+    }
+}
+
+@media all and (min-width: 768px) {
+    .help-request-details {
+        margin-bottom: 0;
+    }
+
+    .help-request-details-complete {
+        margin-bottom: 0;
+        margin-right: 245px;
+    }
+
+    .close-help-request {
+        min-width: 436px;
+    }
+}

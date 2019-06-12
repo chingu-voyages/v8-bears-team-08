@@ -150,6 +150,17 @@ body {
     color: #303030;
 }
 
+input[type=text],
+textarea {
+    font-family: $primary-font-family;
+    font-size: 14px;
+    padding: 8px;
+}
+
+input {
+    padding: 8px;
+}
+
 .section-separator-space {
     display: block;
     content: "";

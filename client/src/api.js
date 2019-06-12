@@ -123,8 +123,9 @@ export async function registerUser(user) {
 export async function getPossibleHelpers(helpRequestCreatedDate, userUid) {
     return db.collection('inbox')
         .where('userIds', 'array-contains', userUid)
-        .where('lastMessageDatetime', '>', new Date(helpRequestCreatedDate).toISOString())
+        .where('lastMessageDatetime', '>', helpRequestCreatedDate)
         .orderBy('lastMessageDatetime', 'desc')
+        .limit(10)
         .get()
         .then(querySnapshot => {
             const possibleHelpers = []
@@ -136,6 +137,25 @@ export async function getPossibleHelpers(helpRequestCreatedDate, userUid) {
 
             return possibleHelpers
         })
+}
+
+export async function markHelpRequestDone(helpRequestUid, helpedByUser) {
+    await setAuthorizationHeader(httpRequestConfig)
+
+    const fieldsToUpdate = {
+        status: 'complete'
+    }
+    if (helpedByUser && helpedByUser.uid && helpedByUser.name) {
+        fieldsToUpdate.helpedByUser = helpedByUser
+    }
+    
+    await axios.put(`${apiUrl}/help-requests/${helpRequestUid}`, fieldsToUpdate, httpRequestConfig)
+    return fieldsToUpdate
+}
+
+export async function saveCompliment(compliment, complimenteeUid) {
+    await setAuthorizationHeader(httpRequestConfig)
+    return await axios.post(`${apiUrl}/compliments`, { compliment, complimenteeUid }, httpRequestConfig)
 }
 
 async function setAuthorizationHeader(httpRequestConfig) {

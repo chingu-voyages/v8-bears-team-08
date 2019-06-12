@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Route, Switch, withRouter, Redirect } from 'react-router-dom'
 import Home from './pages/Home/Home'
-import HelpRequestDetails from './pages/Home/HelpRequestDetails'
+import HelpRequestDetails from './pages/HelpRequestDetails/HelpRequestDetails'
 import UserProfile from './pages/Profile/Profile'
 import AddHelpRequest from './pages/AddNew/AddHelpRequest'
 import Inbox from './pages/Inbox/Inbox'

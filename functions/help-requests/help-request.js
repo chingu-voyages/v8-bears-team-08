@@ -6,17 +6,12 @@ function HelpRequest(data) {
     helpRequest.title = data.title
     helpRequest.description = data.description
     helpRequest.location = data.location
-    helpRequest.created = data.created || new Date().toISOString()
+    helpRequest.created = new Date().toISOString()
     helpRequest.neededAsap = data.neededAsap ? true : false
     helpRequest.neededDatetime = data.neededAsap ? '0000-00-00T00:00:00.000Z' : new Date(data.neededDatetime).toISOString()
     helpRequest.photoURL = data.photoURL
-    helpRequest.status = data.status ? data.status : 'active'
-    if (data.user) {
-        helpRequest.user = {}
-        helpRequest.user.uid = data.user.uid
-        helpRequest.user.name = data.user.name
-        helpRequest.user.photoURL = data.user.photoURL
-    }
+    helpRequest.status = 'active'
+    helpRequest.user = data.user
     
     if (data.tags) {
         if (Array.isArray(data.tags)) {
@@ -25,17 +20,36 @@ function HelpRequest(data) {
             helpRequest.tags = data.tags.split(',').map(tag => tag.trim()).filter(tag => tag.len > 0)
         }
     }
-    
+
     return helpRequest
 }
 
-HelpRequest.prototype.update = function({title, description, location, neededAsap, neededDatetime, photoURL}) {
+HelpRequest.createFromStore = function(dataFromStore) {
+    return Object.assign(Object.create(HelpRequest.prototype), dataFromStore)
+}
+
+HelpRequest.prototype.update = function({title, description, location, neededAsap, neededDatetime, photoURL, status, helpedByUser}) {
+    const beforeUpdate = Object.assign({}, this)
+
     if (title) this.title = title
     if (location) this.location = location
     if (description) this.description = description
     if (neededAsap) this.neededAsap = neededAsap
     if (neededDatetime) this.neededDatetime = neededDatetime
     if (photoURL) this.photoURL = photoURL
+
+    if (status === 'complete' && this.status === 'active') {
+        // This update is to mark a help request as complete
+        if (helpedByUser && helpedByUser.uid && helpedByUser.name) {
+            this.helpedByUser = helpedByUser
+        }
+        this.status = 'complete'
+        this.completedDatetime = new Date().toISOString()
+    }
+
+    if (JSON.stringify(beforeUpdate) !== JSON.stringify(this.getFieldsOnly())) {
+        this.updatedDatetime = new Date().toISOString()
+    }
 }
 
 HelpRequest.prototype.hasRequiredFields = function() {
@@ -64,15 +78,16 @@ HelpRequest.prototype.getFieldsOnly = function() {
         neededAsap: this.neededAsap,
         neededDatetime: this.neededDatetime,
         ...(this.tags && { tags: this.tags }),
-        ...(this.photoURL && { photoURL: this.photoURL })
+        ...(this.photoURL && { photoURL: this.photoURL }),
+        ...(this.updatedDatetime && { updatedDatetime: this.updatedDatetime }),
+        ...(this.helpedByUser && { helpedByUser: this.helpedByUser }),
+        ...(this.completedDatetime && { completedDatetime: this.completedDatetime })
     }
 
-    if (this.user) {
-        helpRequest.user = {
-            uid: this.user.uid,
-            name: this.user.name,
-            ...(this.user.photoURL && { photoURL: this.user.photoURL })
-        }
+    helpRequest.user = {
+        uid: this.user.uid,
+        name: this.user.name,
+        ...(this.user.photoURL && { photoURL: this.user.photoURL })
     }
 
     return helpRequest

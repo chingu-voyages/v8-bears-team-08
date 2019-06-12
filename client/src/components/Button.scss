@@ -73,21 +73,23 @@
 .btn-disabled {
     background-color: #aaa;
     cursor: not-allowed;
+    @include Elevation(0);
 
     &:hover {
         color: white;
         background-color: #aaa;
+        @include Elevation(0);
     }
 }
 
 .btn.spinning {
-    padding-right: 32px;
+    padding-right: 48px;
 }
 
 .btn.spinning:before {
     content: "";
     border-radius: 50%;
-    right: 16px;
+    right: 8px;
     position: absolute;
     border: 2px solid transparent;
     border-top-color: white;
@@ -97,7 +99,7 @@
 .btn.spinning:after {
     content: "";
     border-radius: 50%;
-    right: 16px;
+    right: 8px;
     position: absolute;
     border: 2px solid transparent;
     border-top-color: $light-blue;

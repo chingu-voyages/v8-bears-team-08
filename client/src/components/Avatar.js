@@ -1,15 +1,15 @@
 import React from 'react'
 import './Avatar.scss'
 
-function Avatar({ url, size, showHalo }) {
-    let classes = `avatar ${size}`
+function Avatar({ url, size, showHalo, className, ...rest }) {
+    let classes = `avatar ${size} ${className}`
 
     if (showHalo) {
         classes += ' halo'
     }
-    
+
     return (
-        <img className={classes} src={url} alt='User avatar' />
+        <img {...rest} className={classes} src={url} alt='User avatar' />
     )
 }
 

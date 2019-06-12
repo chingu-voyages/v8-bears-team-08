@@ -7,9 +7,6 @@ function UserAlreadyExistsException(uid) {
     
     return e
 }
-UserAlreadyExistsException.prototype.toString = function() {
-    return `${this.value}: ${this.message}`
-}
 
 function UserNotFoundException(uid) {
     const e = Object.create(UserNotFoundException.prototype)
@@ -26,8 +23,25 @@ function InvalidDataException(message) {
     return e
 }
 
+function HelpRequestNotFoundException(uid) {
+    const e = Object.create(HelpRequestNotFoundException)
+    e.value = uid
+    e.message = 'HelpRequest not found'
+
+    return e
+}
+
+function FailedToUploadFileException(message) {
+    const e = Object.create(FailedToUploadFileException.prototype)
+    e.message = message
+
+    return e
+}
+
 module.exports = {
     UserAlreadyExistsException,
     UserNotFoundException,
-    InvalidDataException
+    InvalidDataException,
+    HelpRequestNotFoundException,
+    FailedToUploadFileException
 }
