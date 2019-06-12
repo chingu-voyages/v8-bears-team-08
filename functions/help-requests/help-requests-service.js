@@ -40,7 +40,8 @@ async function create(data) {
 
 async function update(uid, incomingData) {
     const helpRequest = await getById(uid)
-    
+
+    // TODO: update firebase-admin mock to handle batches
     if (helpRequest.status === 'active' && incomingData.status === 'complete') {
         // This update is to mark a help request as complete.
         // We need to add the help request to the helping user's document.

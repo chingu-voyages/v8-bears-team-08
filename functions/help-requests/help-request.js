@@ -80,7 +80,8 @@ HelpRequest.prototype.getFieldsOnly = function() {
         ...(this.tags && { tags: this.tags }),
         ...(this.photoURL && { photoURL: this.photoURL }),
         ...(this.updatedDatetime && { updatedDatetime: this.updatedDatetime }),
-        ...(this.helpedByUser && { helpedByUser: this.helpedByUser })
+        ...(this.helpedByUser && { helpedByUser: this.helpedByUser }),
+        ...(this.completedDatetime && { completedDatetime: this.completedDatetime })
     }
 
     helpRequest.user = {
