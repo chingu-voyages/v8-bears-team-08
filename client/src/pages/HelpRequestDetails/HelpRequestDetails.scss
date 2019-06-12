@@ -1,5 +1,44 @@
 @import "../../styles/variables";
 
+.help-request-details-complete {
+    padding: $main-default-padding;
+    margin-bottom: $navbar-mobile-height;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+        padding-bottom: 96px;
+    }
+
+    .image-container {
+        position: relative;
+        margin-bottom: 50px;
+    }
+
+    p {
+        font-size: 20px;
+        margin-bottom: 36px;
+    }
+
+    img {
+        width: 150px;
+        height: 150px;
+        min-width: 150px;
+        min-height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    i {
+        position: absolute;
+        font-size: 64px;
+        color: $pale-blue;
+        bottom: -10px;
+        right: -30px;
+    }
+}
+
 .help-request-details {
     padding: $main-default-padding;
     margin-bottom: $navbar-mobile-height;
@@ -98,6 +137,11 @@
 @media all and (min-width: 768px) {
     .help-request-details {
         margin-bottom: 0;
+    }
+
+    .help-request-details-complete {
+        margin-bottom: 0;
+        margin-right: 245px;
     }
 
     .close-help-request {

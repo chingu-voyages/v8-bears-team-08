@@ -19,6 +19,7 @@ app.use(canRequestorWriteToResource)
 
 app.use('/users', require('./users/users-controller'))
 app.use('/help-requests', require('./help-requests/help-requests-controller'))
+app.use('/compliments', require('./compliments/compliments-controller'))
 
 app.use(function catchAll404(req, res, next) {
     next(Response(404))
@@ -65,6 +66,9 @@ function canRequestorWriteToResource(req, res, next) {
         } 
         else if (req.originalUrl.startsWith('/users')) {
             incomingDataUid = req.body.uid || req.originalUrl.split('/')[2]
+        } 
+        else if (req.originalUrl.startsWith('/compliments')) {
+            incomingDataUid = req.user.uid
         }
 
         if (incomingDataUid === requestorId) {

@@ -153,6 +153,11 @@ export async function markHelpRequestDone(helpRequestUid, helpedByUser) {
     return fieldsToUpdate
 }
 
+export async function saveCompliment(compliment, complimenteeUid) {
+    await setAuthorizationHeader(httpRequestConfig)
+    return await axios.post(`${apiUrl}/compliments`, { compliment, complimenteeUid }, httpRequestConfig)
+}
+
 async function setAuthorizationHeader(httpRequestConfig) {
     const idToken = await firebase.getUserIdToken()
     httpRequestConfig.headers.Authorization = 'Bearer ' + idToken

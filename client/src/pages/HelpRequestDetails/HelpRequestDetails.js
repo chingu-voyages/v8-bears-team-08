@@ -4,15 +4,18 @@ import AsyncLink from '../../components/AsyncLink'
 import Button from '../../components/Button'
 import Avatar from '../../components/Avatar'
 import Dialog from '../../components/Dialog'
+import LeaveComplimentDialog from '../../components/LeaveComplimentDialog'
 import * as util from '../../helpers/util'
 import * as api from '../../api'
 import './HelpRequestDetails.scss'
 
 function HelpRequestDetails(props) {
     const [shouldDisplayDialog, setShouldDisplayDialog] = useState(false)
+    const [shouldDisplayLeaveComplimentDialog, setShoulDisplayLeaveComplimentDialog] = useState(false)
     const [possibleHelpers, setPossibleHelpers] = useState([])
     const [isMarkingDone, setIsMarkingDone] = useState(false)
     const [helpRequest, setHelpRequest] = useState(props.location.state)
+    const [personWhoHelped, setPersonWhoHelped] = useState()
     const loggedInUser = props.loggedInUser
 
     if (!helpRequest) {
@@ -32,6 +35,9 @@ function HelpRequestDetails(props) {
         api.markHelpRequestDone(helpRequest.uid, personWhoHelped)
             .then(updatedFields => {
                 setIsMarkingDone(false)
+                if (personWhoHelped) {
+                    setPersonWhoHelped(personWhoHelped)
+                }
                 setHelpRequest({ ...helpRequest, ...updatedFields })
             })
             .catch(e => {
@@ -40,12 +46,52 @@ function HelpRequestDetails(props) {
             })
     }
 
-    const conversationUid = util.createConversationUidFromUserUids(helpRequest.user.uid, loggedInUser.uid)
-    if (helpRequest.status === 'complete') {
-        console.log(helpRequest)
-        return <h1>Complete</h1>
+    function handleComplimentSaved() {
+        setPersonWhoHelped(null)
     }
 
+    // We marked a help request as complete and chose someone who helped, display screen to leave them a compliment.
+    if (personWhoHelped) {
+        return (
+            <>
+                <LeaveComplimentDialog
+                    shouldShow={shouldDisplayLeaveComplimentDialog}
+                    hide={() => setShoulDisplayLeaveComplimentDialog(false)}
+                    onComplimentSaved={handleComplimentSaved}
+                    personWhoHelped={personWhoHelped}
+                />
+                
+                <div className='help-request-details-complete'>
+                    <h2 className='heading-2'>Great!</h2>
+
+                    <div className='image-container'>
+                        <Avatar url={personWhoHelped.photoURL} size='xl' />
+                        <i className='material-icons'>check</i>
+                    </div>
+                    <p>Would you like to leave a compliment?</p>
+                    <Button onClick={() => setShoulDisplayLeaveComplimentDialog(true)}>Write a Compliment</Button>
+                </div>
+            </>
+        )
+    }
+
+    // The help request is marked as complete
+    if (helpRequest.status === 'complete') {
+        return (
+            <div className='help-request-details-complete'>
+                <h2 className='heading-2'>Alright!</h2>
+
+                <div className='image-container'>
+                    <img src={helpRequest.photoURL || helpRequest.user.photoURL} alt='Help Request' />
+                    <i className='material-icons'>check</i>
+                </div>
+                <p>This request is marked as done.</p>
+            </div>
+        )
+    }
+
+    // details page for the help request
+    const conversationUid = util.createConversationUidFromUserUids(helpRequest.user.uid, loggedInUser.uid)
     return (
         <>
             <MarkHelpRequestDoneDialog 

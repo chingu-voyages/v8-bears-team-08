@@ -1,0 +1,45 @@
+@import '../styles/variables';
+
+.leave-compliment-dialog {
+    padding-top: 24px;
+    color: #232F34;
+    min-width: 336px;
+
+    div {
+        text-align: center;
+    }
+    
+    .top {
+        margin-bottom: 24px;
+        padding: 0 8px;
+    }
+
+    textarea {
+        height: 120px;
+        width: 300px;
+    }
+
+    .bottom {
+        margin-top: 28px;
+        height: 52px;
+        padding: 8px;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        //background-color: white;
+
+        button {
+            margin-left: 8px;
+        }
+    }
+}
+
+@media all and (min-width: 768px) {
+    .leave-compliment-dialog {
+        min-width: 436px;
+
+        textarea {
+            width: 400px;
+        }
+    }
+}

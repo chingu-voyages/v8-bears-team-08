@@ -3,7 +3,7 @@ import './Button.scss'
 
 
 function Button(props) {
-    const { type, style, isLoading, onClick, children, ...rest } = props
+    const { type, style, isLoading, onClick, children, disabled, ...rest } = props
 
     let classes = 'btn'
     
@@ -17,6 +17,9 @@ function Button(props) {
 
     if (isLoading) {
         classes += ' btn-disabled spinning'
+    }
+    if (disabled) {
+        classes += ' btn-disabled'
     }
 
     function handleOnClick(event) {
