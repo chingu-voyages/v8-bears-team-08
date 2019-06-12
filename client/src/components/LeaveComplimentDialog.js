@@ -35,6 +35,7 @@ function LeaveComplimentDialog(props) {
     return (
         <Dialog shouldShow={props.shouldShow} hide={handleCancel}>
             <div className='leave-compliment-dialog'>
+                
                 <div className='top'>
                     <p>Write a compliment for {util.getDisplayName(props.personWhoHelped.name)}</p>
                 </div>
