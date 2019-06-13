@@ -1,6 +1,7 @@
 @import "../styles/variables";
 
 #header {
+    position: relative;
     height: $header-mobile-height;
     width: 100%;
     margin-bottom: $header-bottom-margin;
@@ -18,11 +19,76 @@
     .title {
         font-size: 24px;
     }
+
+    .user-menu {
+        position: absolute;
+        right: 0;
+        top: 0;
+        right: 16px;
+        z-index: 99;
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            padding: 12px;
+            width: 100%;
+        }
+        
+        i,
+        img {
+            position: absolute;
+            cursor: pointer;
+            top: 9px;
+        }
+        
+        img {
+            right: 22px;
+        }
+        
+        i {
+            right: 0px;
+        }
+
+        .dropdown {
+            position: absolute;
+            background-color: #fff;
+            min-width: 220px;
+            border-radius: 4px;
+            top: 36px;
+            right: 0;
+            @include Elevation(8);
+            
+            li {
+                display: flex;
+                color: #232F34;
+                font-size: 14px;
+                cursor: pointer;
+            }
+    
+            hr {
+                margin: 0;
+                padding: 0;
+                border: 0;
+                height: 1px;
+                background-color: #dedede;
+            }
+        }
+    }
 }
 
 @media all and (min-width: 768px) {
     #header {
         height: $header-height;
+
+        .user-menu {
+            i, img {
+                top: 16px;
+            }
+    
+            .dropdown {
+                top: 44px;
+            }
+        }
     }
 }
 
