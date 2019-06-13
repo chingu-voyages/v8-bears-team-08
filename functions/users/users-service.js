@@ -37,14 +37,22 @@ async function getById(uid, includePrivateInfo = false) {
 async function getProfileById(uid, includePrivateInfo = false) {
     const user = await getById(uid, includePrivateInfo)
 
-    const hrQuerySnapshot = await db.collection('help-requests').where('user.uid', '==', user.uid).get()
+    const hrQuerySnapshot = await db.collection('help-requests')
+                                .where('user.uid', '==', user.uid)
+                                .where('status', '==', 'active')
+                                .orderBy('neededDatetime', 'asc')
+                                .get()
     const helpRequests = []
     hrQuerySnapshot.forEach(doc => {
         const helpRequest = HelpRequest.createFromStore(doc.data())
         helpRequests.push(helpRequest)
     })
 
-    const coQuerySnapshot = await db.collection('compliments').where('complimenteeUid', '==', user.uid).get()
+    const coQuerySnapshot = await db.collection('compliments')
+                                .where('complimenteeUid', '==', user.uid)
+                                .orderBy('created', 'desc')
+                                .limit(5)
+                                .get()
     const compliments = []
     coQuerySnapshot.forEach(doc => {
         const compliment = doc.data()

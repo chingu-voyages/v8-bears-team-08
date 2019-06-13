@@ -10,6 +10,7 @@ function User(userData) {
     user.location = userData.location
     user.emailVerifications = userData.emailVerifications
     user.created = userData.created || new Date().toISOString()
+    user.numTimesHelped = userData.helpRequestsHelpedOn ? userData.helpRequestsHelpedOn.length : 0
     
     // optional
     user.photoURL = userData.picture || userData.photoURL
@@ -40,6 +41,7 @@ User.prototype.getFieldsOnly = function() {
         firstName: this.firstName,
         lastName: this.lastName,
         emailVerifications: this.emailVerifications,
+        numTimesHelped: this.numTimesHelped,
         ...(this.photoURL && { photoURL: this.photoURL }),
         ...(this.about && { about: this.about })
     }

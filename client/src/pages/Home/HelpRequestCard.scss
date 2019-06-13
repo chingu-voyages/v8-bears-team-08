@@ -2,17 +2,13 @@
 
 $card-info-padding: 16px;
 
-.help-request-card {
-    display: flex;
-    margin-bottom: 16px;
+.small-card,
+.big-card {
     color: #232F34;
     line-height: 1.5;
-    justify-content: space-between;
-    // max-width: 376px;
-    // flex: 1 1 326px;
+    margin-bottom: 16px;
     @include Elevation(1);
-    transition: $elevation-transition-mobile;
-    
+
     @media all and (min-width: 768px) {
         border: 1px solid rgba(0,0,0,.125);
         transition: $elevation-transition;
@@ -21,6 +17,7 @@ $card-info-padding: 16px;
         &:hover {
             @include Elevation(8);
         }
+
     }
 
     &:active {
@@ -51,81 +48,83 @@ $card-info-padding: 16px;
         text-decoration: none;
         color: inherit;
     }
+}
 
+.big-card {
+    display: flex;
+    flex-direction: column;
+    min-width: 326px;
+    max-width: 376px;
+    min-height: 400px;
+    text-decoration: none;
+    border-radius: 4px;
 
-    // Big Cards
-    .big-card {
-        display: flex;
-        flex-direction: column;
-        min-width: 326px;
-        max-width: 376px;
-        min-height: 400px;
-        text-decoration: none;
-        border-radius: 4px;
-
-        .header {
-            height: 194px;
-            
-            img {
-                width: 100%;
-                height: 100%;
-            }
-        }
+    .header {
+        height: 194px;
         
-        .info {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            flex-grow: 1;
-            padding: $card-info-padding;
-            
-            a > div {
-                margin-bottom: 20px;
-            }
-        }
-
-        .bottom {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: flex-end;
+        img {
+            width: 100%;
+            height: 100%;
         }
     }
-
     
-    // Small Cards    
-    .small-card {
+    .info {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        height: 152px;
-        width: 364px;
-        border-radius: 4px;
+        flex-grow: 1;
         padding: $card-info-padding;
         
-        .card-link {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
+        a > div {
+            margin-bottom: 20px;
         }
-        
-        .info {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+    }
 
-        .bottom {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            width: 100%;
-        }
-        
-        img {
-            margin-left: 8px;
-            width: 80px;
-            height: 80px;
-        }
+    .bottom {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+    }
+}
+
+.small-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 152px;
+    border-radius: 4px;
+    padding: $card-info-padding;
+    width: 100%;
+    max-width: 500px;
+    transition: $elevation-transition-mobile;
+    
+    @media all and (min-width: 768px) {
+        width: 364px;
+    }
+    
+    .card-link {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    
+    .info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .bottom {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    img {
+        margin-left: 8px;
+        width: 80px;
+        height: 80px;
     }
 }
