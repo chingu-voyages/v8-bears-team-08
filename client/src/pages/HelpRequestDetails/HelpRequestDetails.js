@@ -92,6 +92,13 @@ function HelpRequestDetails(props) {
 
     // details page for the help request
     const conversationUid = util.createConversationUidFromUserUids(helpRequest.user.uid, loggedInUser.uid)
+    let neededAt
+    if (helpRequest.neededAsap) {
+        neededAt = 'ASAP'
+    } else {
+        neededAt = util.getRelativeCalendarTime(new Date(helpRequest.neededDatetime))
+    }
+
     return (
         <>
             <MarkHelpRequestDoneDialog 
@@ -116,7 +123,7 @@ function HelpRequestDetails(props) {
 
                     <div className='d-flex flex-col'>
                         <p><strong>Posted {util.getRelativeTime(helpRequest.created)}</strong> near {helpRequest.location}</p>
-                        <p>{helpRequest.neededAsap || util.getRelativeCalendarTime(helpRequest.neededDatetime)}</p>
+                        <p>Needed {neededAt}</p>
                         <br />
                         
                         {helpRequest.tags && <p><strong>Tags:</strong></p>}
