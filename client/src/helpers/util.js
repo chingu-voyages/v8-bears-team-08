@@ -7,6 +7,9 @@ moment.updateLocale('en', {
         lastWeek: 'L, LT',
         nextWeek: 'L, LT',
         sameElse: 'L, LT'
+    },
+    relativeTime: {
+        s: 'now'
     }
 })
 
@@ -41,7 +44,7 @@ export function getCalendarLocaleTime(datetime) {
     return moment(new Date(datetime)).calendar()
 }
 
-export function getRelativeLocaleTime(datetime) {
+export function getRelativeCalendarTime(datetime) {
     const now = moment(new Date())
     const theDatetime = moment(new Date(datetime))
     
@@ -54,7 +57,13 @@ export function getRelativeLocaleTime(datetime) {
 
 export function getRelativeTime(datetime) {
     const theDatetime = moment(new Date(datetime))
-    return theDatetime.fromNow()
+    const relativeTime = theDatetime.fromNow()
+    
+    if (relativeTime.includes('now')) {
+        return 'now'
+    } else {
+        return relativeTime
+    }
 }
 
 export function createGuestUser(uid) {
