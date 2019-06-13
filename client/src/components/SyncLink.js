@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { withRouter } from 'react-router-dom'
+import { NavHandlerContext } from '../App';
 
 function SyncLink(props) {
+    const navHandler = useContext(NavHandlerContext)
     
     function handleClick(e) {
         e.preventDefault()
 
-        props.navHandler.syncNavClicked(props.to)
+        navHandler.syncNavClicked(props.to)
         props.history.push({
             pathname: props.to
         })

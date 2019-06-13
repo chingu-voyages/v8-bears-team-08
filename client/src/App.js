@@ -7,7 +7,7 @@ import AddHelpRequest from './pages/AddNew/AddHelpRequest'
 import Inbox from './pages/Inbox/Inbox'
 import Conversation from './pages/Inbox/Conversation'
 import Guest from './pages/Guest/Guest'
-import Explore from './pages/Explore/Explore'
+import Discover from './pages/Discover/Discover'
 import Header from './components/Header'
 import Navbar from './components/Navbar'
 import PrivateRoute from './components/PrivateRoute'
@@ -25,6 +25,7 @@ import NavHandler from './components/NavHandler'
 import { TransitionGroup, CSSTransition } from 'react-transition-group'
 
 export const LoggedInUserContext = React.createContext()
+export const NavHandlerContext = React.createContext()
 
 function App(props) {
     const [isRouteLoading, setIsRouteLoading] = useState(false)
@@ -140,74 +141,75 @@ function App(props) {
 
             return (
                 <LoggedInUserContext.Provider value={user}>
-                    <>
-                        <LoaderBar isLoading={isRouteLoading} />
-                        <Header pathname={props.location.pathname} routeState={props.location.state} isMobile={isMobile} />
+                    <NavHandlerContext.Provider value={navHandler}>
+                        <>
+                            <LoaderBar isLoading={isRouteLoading} />
+                            <Header pathname={props.location.pathname} routeState={props.location.state} isMobile={isMobile} />
 
-                        <div className='container'>
-                            <TransitionGroup className='transition-container' component='div'>
-                                <CSSTransition timeout={250} classNames='route-transition' key={props.location.pathname}>
-                                    <main>
-                                        <Switch location={props.location}>
-                                            <Route exact path='/' 
-                                                render={props => 
-                                                        <Home
-                                                            {...props} {...defaultProps} {...home}
-                                                            userLocation={user.location} onHelpRequestsResponse={handleHelpRequestsResponse} 
-                                                        />
-                                                }
-                                            />
-                                            <Route exact path='/help-requests/:uid'
-                                                render={props => <HelpRequestDetails {...props} {...defaultProps} navHandler={navHandler} />}
-                                            />
-                                            <Route exact path='/users/:uid/profile'
-                                                render={props => <UserProfile {...props} {...defaultProps} />}
-                                            />
-                                            <Route exact path='/guest' 
-                                                render={props => <Guest {...props} />}
-                                            />
-                                            <Route exact path='/explore'
-                                                render={props => <Explore {...props} />}
-                                            />
+                            <div className='container'>
+                                <TransitionGroup className='transition-container' component='div'>
+                                    <CSSTransition timeout={250} classNames='route-transition' key={props.location.pathname}>
+                                        <main>
+                                            <Switch location={props.location}>
+                                                <Route exact path='/' 
+                                                    render={props => 
+                                                            <Home
+                                                                {...props} {...defaultProps} {...home}
+                                                                userLocation={user.location} onHelpRequestsResponse={handleHelpRequestsResponse} 
+                                                            />
+                                                    }
+                                                />
+                                                <Route exact path='/help-requests/:uid'
+                                                    render={props => <HelpRequestDetails {...props} {...defaultProps} navHandler={navHandler} />}
+                                                />
+                                                <Route exact path='/users/:uid/profile'
+                                                    render={props => <UserProfile {...props} {...defaultProps} />}
+                                                />
+                                                <Route exact path='/guest' 
+                                                    render={props => <Guest {...props} />}
+                                                />
+                                                <Route exact path='/discover'
+                                                    render={props => <Discover {...props} />}
+                                                />
 
-                                            <PrivateRoute exact path='/add-help-request'
-                                                isUserAuthenticated={isUserAuthenticated}
-                                                render={props => <AddHelpRequest {...props} {...defaultProps} />}
-                                            />
-                                            <PrivateRoute exact path='/inbox'
-                                                isUserAuthenticated={isUserAuthenticated}
-                                                render={props => <Inbox {...props} {...defaultProps} />}
-                                            />
-                                            <PrivateRoute exact path='/inbox/:uid'
-                                                isUserAuthenticated={isUserAuthenticated}
-                                                render={props => <Conversation {...props} {...defaultProps} />}
-                                            />
-                                            <PrivateRoute exact path='/profile'
-                                                isUserAuthenticated={isUserAuthenticated}
-                                                render={props => <UserProfile {...props} {...defaultProps} />}
-                                            />
+                                                <PrivateRoute exact path='/add-help-request'
+                                                    isUserAuthenticated={isUserAuthenticated}
+                                                    render={props => <AddHelpRequest {...props} {...defaultProps} />}
+                                                />
+                                                <PrivateRoute exact path='/inbox'
+                                                    isUserAuthenticated={isUserAuthenticated}
+                                                    render={props => <Inbox {...props} {...defaultProps} />}
+                                                />
+                                                <PrivateRoute exact path='/inbox/:uid'
+                                                    isUserAuthenticated={isUserAuthenticated}
+                                                    render={props => <Conversation {...props} {...defaultProps} />}
+                                                />
+                                                <PrivateRoute exact path='/profile'
+                                                    isUserAuthenticated={isUserAuthenticated}
+                                                    render={props => <UserProfile {...props} {...defaultProps} />}
+                                                />
 
-                                            <Route 
-                                                render={props => 
-                                                        <Home
-                                                            {...props} {...defaultProps} {...home}
-                                                            userLocation={user.location} onHelpRequestsResponse={handleHelpRequestsResponse} 
-                                                        />
-                                                }/>
-                                        </Switch>
-                                    </main>
-                                </CSSTransition>
-                            </TransitionGroup>
+                                                <Route 
+                                                    render={props => 
+                                                            <Home
+                                                                {...props} {...defaultProps} {...home}
+                                                                userLocation={user.location} onHelpRequestsResponse={handleHelpRequestsResponse} 
+                                                            />
+                                                    }/>
+                                            </Switch>
+                                        </main>
+                                    </CSSTransition>
+                                </TransitionGroup>
 
-                            <Navbar
-                                loggedInUser={user}
-                                isUserAuthenticated={isUserAuthenticated}
-                                onLoad={() => setIsRouteLoading(true)}
-                                onLoadComplete={() => setIsRouteLoading(false)}
-                                navHandler={navHandler}
-                            />
-                        </div>
-                    </>
+                                <Navbar
+                                    loggedInUser={user}
+                                    isUserAuthenticated={isUserAuthenticated}
+                                    onLoad={() => setIsRouteLoading(true)}
+                                    onLoadComplete={() => setIsRouteLoading(false)}
+                                />
+                            </div>
+                        </>
+                    </NavHandlerContext.Provider>
                 </LoggedInUserContext.Provider>
             )
         } else {

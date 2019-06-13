@@ -85,7 +85,7 @@ function Profile({ loggedInUser, location, match }) {
                         <HelpRequestList cardSize='small' helpRequests={userProfile.helpRequests} />
 
                         <hr className='profile-separator' />
-                        <h2 className='profile-section-text'>Recent Compliments</h2>
+                        <h2 className='profile-section-text'>Latest Compliments</h2>
                         <ul className='compliments'>
                             { userProfile.compliments.map(compliment => (
                                 <Compliment key={compliment.uid} compliment={compliment} />

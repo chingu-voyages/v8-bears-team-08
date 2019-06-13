@@ -120,7 +120,7 @@ export async function registerUser(user) {
 
 // Get a list of possible users that helped complete a help request.
 // List of users is based on any conversations that have a message after the posted date of the HelpRequest.
-export async function getPossibleHelpers(helpRequestCreatedDate, userUid) {
+export function getPossibleHelpers(helpRequestCreatedDate, userUid) {
     return db.collection('inbox')
         .where('userIds', 'array-contains', userUid)
         .where('lastMessageDatetime', '>', helpRequestCreatedDate)
@@ -156,6 +156,25 @@ export async function markHelpRequestDone(helpRequestUid, helpedByUser) {
 export async function saveCompliment(compliment, complimenteeUid) {
     await setAuthorizationHeader(httpRequestConfig)
     return await axios.post(`${apiUrl}/compliments`, { compliment, complimenteeUid }, httpRequestConfig)
+}
+
+export function getDiscoverFeed() {
+    return db.collection('help-requests')
+        .where('status', '==', 'complete')
+        .orderBy('completedDatetime', 'desc')
+        .limit(30)
+        .get()
+        .then(querySnapshot => {
+            const feed = []
+
+            querySnapshot.forEach(document => {
+                if (document.data().helpedByUser) {
+                    feed.push({ uid: document.id, ...document.data()})
+                }
+            })
+
+            return feed
+        })
 }
 
 async function setAuthorizationHeader(httpRequestConfig) {

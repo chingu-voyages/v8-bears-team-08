@@ -5,7 +5,7 @@ import SyncLink from './SyncLink'
 import * as api from '../api'
 import './Navbar.scss'
 
-function Navbar({ location, loggedInUser, navHandler, isUserAuthenticated }) {
+function Navbar({ location, loggedInUser, isUserAuthenticated }) {
     const [activeRoute, setActiveRoute] = useState('')
     const menuItems = [
         {
@@ -17,11 +17,13 @@ function Navbar({ location, loggedInUser, navHandler, isUserAuthenticated }) {
             isPrivate: false
         },
         {
-            name: 'Explore',
+            name: 'Discover',
             icon: 'explore',
-            path: '/explore',
-            isAsync: false,
-            isPrivate: false
+            path: '/discover',
+            isAsync: true,
+            isPrivate: false,
+            delayMs: 1500,
+            fetch: api.getDiscoverFeed
         },
         {
             name: 'Add New',
@@ -73,12 +75,12 @@ function Navbar({ location, loggedInUser, navHandler, isUserAuthenticated }) {
                 {menuItems.map(menuItem => (
                     <li key={menuItem.name} className={menuItem.name === activeRoute ? 'active' : ''}>
                         { menuItem.isAsync && (!menuItem.isPrivate || (menuItem.isPrivate && isUserAuthenticated())) ?
-                            <AsyncLink to={menuItem.path} navHandler={navHandler} fetch={menuItem.fetch} delayMs={menuItem.delayMs}>
+                            <AsyncLink to={menuItem.path} fetch={menuItem.fetch} delayMs={menuItem.delayMs}>
                                 <i className='material-icons'>{menuItem.icon}</i>
                                 <span>{menuItem.name}</span>
                             </AsyncLink>
                         :
-                            <SyncLink to={menuItem.path} navHandler={navHandler}>
+                            <SyncLink to={menuItem.path}>
                                 <i className='material-icons'>{menuItem.icon}</i>
                                 <span>{menuItem.name}</span>
                             </SyncLink>
