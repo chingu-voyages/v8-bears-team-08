@@ -15,9 +15,9 @@ function HelpRequest(data) {
     
     if (data.tags) {
         if (Array.isArray(data.tags)) {
-            helpRequest.tags = data.tags
+            helpRequest.tags = data.tags.map(tag => tag.trim()).filter(tag => tag.length > 0)
         } else {
-            helpRequest.tags = data.tags.split(',').map(tag => tag.trim()).filter(tag => tag.len > 0)
+            helpRequest.tags = data.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
         }
     }
 

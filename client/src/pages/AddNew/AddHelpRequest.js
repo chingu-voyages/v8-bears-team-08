@@ -35,15 +35,21 @@ function AddHelpRequest(props) {
             //const formData = new FormData(formRef.current)
             const formData = new FormData()
             const formResponse = { ...formState }
+
             formResponse.location = loggedInUser.location
             formResponse.user = { uid: loggedInUser.uid, name: loggedInUser.name, photoURL: loggedInUser.photoURL }
+            
+            if (formResponse.tags) {
+                formResponse.tags = formResponse.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+            }
+
             if (formResponse.photo) {
                 formData.set('photo', formResponse.photo)
             }
             delete formResponse.photo
 
             formData.set('data', JSON.stringify(formResponse))
-            
+
             api.saveHelpRequest(formData)
                 .then(response => {
                     setIsSubmitting(false)
