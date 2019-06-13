@@ -27,13 +27,6 @@
         right: 16px;
         z-index: 99;
 
-        a {
-            text-decoration: none;
-            color: inherit;
-            padding: 12px;
-            width: 100%;
-        }
-        
         i,
         img {
             position: absolute;
@@ -61,7 +54,30 @@
             li {
                 display: flex;
                 color: #232F34;
+            }
+            
+            li, 
+            li > button {
                 font-size: 14px;
+            }
+            
+            a, button {
+                width: 100%;
+                padding: 12px;
+                color: inherit;
+            }
+            
+            a {
+                text-decoration: none;
+            }
+
+
+            li > button {
+                background-color: transparent;
+                border: 0;
+                text-align: left;
+                line-height: 1;
+                font-family: $primary-font-family;
                 cursor: pointer;
             }
     

@@ -6,17 +6,16 @@ import './Welcome.scss'
 
 
 function RegisterUser(props) {
-    if (!props.location.state || !props.location.state.user) {
-        return <Redirect to='/login' />
-    }
-
     const user = props.location.state.user
     const referrer = props.location.state.referrer || ''
-
     const [firstName, setFirstName] = useState(user.firstName || '')
     const [lastName, setLastName] = useState(user.lastName || '')
     const [location, setLocation] = useState(user.location || '')
     const [isLoading, setIsLoading] = useState(false)
+
+    if (!props.location.state || !props.location.state.user) {
+        return <Redirect to='/login' />
+    }
 
     function handleSubmit(e) {
         e.preventDefault()

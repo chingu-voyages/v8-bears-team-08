@@ -18,16 +18,12 @@ function HelpRequestDetails(props) {
     const [personWhoHelped, setPersonWhoHelped] = useState()
     const loggedInUser = props.loggedInUser
 
-    if (!helpRequest) {
-        return <h1>404</h1>
-    }
-
     useEffect(() => {
-        if (helpRequest.user.uid === loggedInUser.uid) {
+        if (helpRequest && helpRequest.user.uid === loggedInUser.uid) {
             api.getPossibleHelpers(helpRequest.created, loggedInUser.uid)
                 .then(helpers => setPossibleHelpers(helpers))
         }
-    }, [helpRequest.created, helpRequest.user.uid, loggedInUser.uid])
+    }, [helpRequest, helpRequest.created, helpRequest.user.uid, loggedInUser.uid])
 
     function handleClickMarkDone(personWhoHelped) {
         setIsMarkingDone(true)
@@ -50,6 +46,10 @@ function HelpRequestDetails(props) {
         setPersonWhoHelped(null)
     }
 
+    if (!helpRequest) {
+        return <h1>404</h1>
+    }
+    
     // We marked a help request as complete and chose someone who helped, display screen to leave them a compliment.
     if (personWhoHelped) {
         return (

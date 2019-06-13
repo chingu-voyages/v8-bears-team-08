@@ -38,7 +38,7 @@ function Header(props) {
                             </li>
                             <hr />
                             <li onClick={() => setShowDropdownMenu(false)}>
-                                <a href='#' onClick={() => firebase.signOut()}>Sign out</a>
+                                <button onClick={() => firebase.signOut()}>Sign out</button>
                             </li>
                         </ul>
                     </div>
