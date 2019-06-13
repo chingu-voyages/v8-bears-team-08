@@ -37,6 +37,7 @@ function Login(props) {
             const verified_email = authResult.additionalUserInfo.profile.verified_email
             const providerId = authResult.additionalUserInfo.providerId
             const userDetails = {
+                uid: user.uid,
                 location: '',
                 email: profile.email,
                 name: profile.name,
