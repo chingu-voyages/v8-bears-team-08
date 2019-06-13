@@ -7,7 +7,7 @@ import AddHelpRequest from './pages/AddNew/AddHelpRequest'
 import Inbox from './pages/Inbox/Inbox'
 import Conversation from './pages/Inbox/Conversation'
 import Guest from './pages/Guest/Guest'
-import Explore from './pages/Explore/Explore'
+import Discover from './pages/Discover/Discover'
 import Header from './components/Header'
 import Navbar from './components/Navbar'
 import PrivateRoute from './components/PrivateRoute'
@@ -166,8 +166,8 @@ function App(props) {
                                             <Route exact path='/guest' 
                                                 render={props => <Guest {...props} />}
                                             />
-                                            <Route exact path='/explore'
-                                                render={props => <Explore {...props} />}
+                                            <Route exact path='/discover'
+                                                render={props => <Discover {...props} />}
                                             />
 
                                             <PrivateRoute exact path='/add-help-request'

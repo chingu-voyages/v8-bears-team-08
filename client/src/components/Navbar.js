@@ -17,11 +17,13 @@ function Navbar({ location, loggedInUser, navHandler, isUserAuthenticated }) {
             isPrivate: false
         },
         {
-            name: 'Explore',
+            name: 'Discover',
             icon: 'explore',
-            path: '/explore',
-            isAsync: false,
-            isPrivate: false
+            path: '/discover',
+            isAsync: true,
+            isPrivate: false,
+            delayMs: 1500,
+            fetch: api.getDiscoverFeed
         },
         {
             name: 'Add New',
