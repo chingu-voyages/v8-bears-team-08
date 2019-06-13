@@ -92,6 +92,27 @@ test('marking a help request done', async () => {
     expect(response.body.updatedDatetime).toBeDefined()
 })
 
+test('marking a help request done without a helping user', async () => {
+    const createdHelpRequest = await createHelpRequest(helpRequest3)
+    const uid = createdHelpRequest.body.uid
+
+    // updating HelpRequest3 to mark it as complete
+    const fieldsToUpdate = {
+        status: 'complete'
+    }
+
+    // update
+    await put(`/help-requests/${uid}`, fieldsToUpdate).expect(200)
+
+    // read back and verify
+    const response = await get(`/help-requests/${uid}`).expect(200)
+    expect(response.body.uid).toEqual(uid)
+    expect(response.body.status).toEqual('complete')
+    expect(response.body.helpedByUser).not.toBeDefined()
+    expect(response.body.completedDatetime).toBeDefined()
+    expect(response.body.updatedDatetime).toBeDefined()
+})
+
 // helper functions
 function post(url, body) {
     const httpRequest = request(app).post(url)

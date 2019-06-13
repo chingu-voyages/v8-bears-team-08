@@ -22,12 +22,12 @@ function getById(req, res, next) {
 
 async function createHelpRequest(req, res, next) {
     // Help Requests are created via a form.  The form data is sent in the "data" field as JSON
-    const helpRequest = JSON.parse(req.body.data)
+    const formData = JSON.parse(req.body.data)
     if (req.files && req.files.length > 0) {
-        helpRequest.photoFile = req.files[0]
+        formData.photoFile = req.files[0]
     }
 
-    helpRequestsService.create(helpRequest)
+    helpRequestsService.create(formData)
         .then(helpRequest => res.status(201).json(helpRequest))
         .catch(e => e instanceof InvalidDataException ? 
             next(Response(400, e.message)) : next(Response(500, e)))

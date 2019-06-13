@@ -31,17 +31,53 @@ function clear() {
 function collection(collection) {
     return { 
         doc: doc(collection),
-        where: (field, operator, value) => {
-            const matchingDocuments = []
-            dbCollections[collection].forEach(v => {
-                if (evaluateBy[operator](leaf(v, field), value)) {
-                    matchingDocuments.push(v)
-                }
-            })
+        where: where(collection)
+    }
+}
 
-            return { 
-                get: getMultipleDocs(matchingDocuments)
+function where(collection) {
+    return function(field, operator, value) {
+        let dataToCheck
+        if (dbCollections[collection]) {
+            dataToCheck = dbCollections[collection]
+        } else {
+            // This is a nested where clause so 'collection' is actually an array of previously matched documents
+            const documents = new Map()
+            collection.forEach(item => documents.set(item.uid, item))
+            dataToCheck = documents
+        }
+
+        const matchingDocuments = []
+        dataToCheck.forEach(v => {
+            if (evaluateBy[operator](leaf(v, field), value)) {
+                matchingDocuments.push(v)
             }
+        })
+
+        return {
+            where: where(matchingDocuments),
+            get: getMultipleDocs(matchingDocuments),
+            orderBy: orderBy(matchingDocuments)
+        }
+    }
+}
+
+function orderBy(documents) {
+    return function(field, direction) {
+        // TODO: implement sorting if needed
+        
+        return {
+            get: getMultipleDocs(documents),
+            limit: limit(documents)
+        }
+    }
+}
+
+function limit(documents) {
+    return function(numResults) {
+
+        return {
+            get: getMultipleDocs(documents.slice(0, numResults))
         }
     }
 }
