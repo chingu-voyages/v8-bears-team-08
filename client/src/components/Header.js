@@ -1,10 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Avatar from '../components/Avatar'
+import AsyncLink from '../components/AsyncLink'
 import * as firebase from '../helpers/firebase'
 import * as util from '../helpers/util'
+import * as api from '../api'
 import './Header.scss'
 
 
 function Header(props) {
+    const [showDropdownMenu, setShowDropdownMenu] = useState(false)
     const title = getTitleText(props.pathname, props.routeState)
     const isMobile = props.isMobile
 
@@ -20,9 +24,25 @@ function Header(props) {
                     </div>
             }
             
-            {/* temporary to allow signout until this is built properly */}
-            <div style={{position: 'absolute', right: '20px'}}>
-                <a href='/' onClick={() => firebase.signOut()}>Sign-out</a>
+            <div className='user-menu'>
+                <div onClick={() => setShowDropdownMenu(curr => !curr)}>
+                    <Avatar size='xxs' url={props.loggedInUser.photoURL} alt={util.getDisplayName(props.loggedInUser.name)} />
+                    <i className='material-icons'>arrow_drop_down</i>
+                </div>
+
+                { showDropdownMenu &&
+                    <div className='dropdown'>
+                        <ul>
+                            <li onClick={() => setShowDropdownMenu(false)}>
+                                <AsyncLink to='/profile' fetch={() => api.getUserProfile(props.loggedInUser.uid)}>Nektarios H.</AsyncLink>
+                            </li>
+                            <hr />
+                            <li onClick={() => setShowDropdownMenu(false)}>
+                                <a href='#' onClick={() => firebase.signOut()}>Sign out</a>
+                            </li>
+                        </ul>
+                    </div>
+                }
             </div>
         </header>
     )

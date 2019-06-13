@@ -144,7 +144,7 @@ function App(props) {
                     <NavHandlerContext.Provider value={navHandler}>
                         <>
                             <LoaderBar isLoading={isRouteLoading} />
-                            <Header pathname={props.location.pathname} routeState={props.location.state} isMobile={isMobile} />
+                            <Header pathname={props.location.pathname} routeState={props.location.state} isMobile={isMobile} loggedInUser={user} />
 
                             <div className='container'>
                                 <TransitionGroup className='transition-container' component='div'>

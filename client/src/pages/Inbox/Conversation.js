@@ -166,7 +166,7 @@ function Message({ message }) {
                 {message.text}
                 <span className='conversation__message-text--small'>{util.getCalendarLocaleTime(message.created)}</span>
             </div>
-            <Avatar url={message.photoURL} size='tiny' />
+            <Avatar url={message.photoURL} size='xs' />
         </li>
     )
 }
