@@ -67,7 +67,7 @@ function Profile({ loggedInUser, location, match }) {
                                 </span>
                                 <span className='profile-about'>"{userProfile.about}"</span>
                             </div>
-                            {userProfile.uid !== loggedInUser.uid && <Button onClick={() => setShoulDisplayLeaveComplimentDialog(true)}>Write Compliment</Button>}
+                            {userProfile.uid !== loggedInUser.uid && !loggedInUser.isGuest && <Button onClick={() => setShoulDisplayLeaveComplimentDialog(true)}>Write Compliment</Button>}
                         </div>
                     </div>
 
