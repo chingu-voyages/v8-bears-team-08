@@ -42,7 +42,7 @@ function Inbox(props) {
                             }}
                         >
                             <div className='d-flex flex-row'>
-                                <Avatar url={conversation.receivingUser.photoURL} showHalo='true' size='medium' />
+                                <Avatar url={conversation.receivingUser.photoURL} showHalo='true' size='large' alt={util.getDisplayName(conversation.receivingUser.name)} />
                                 <div className='inbox__converation-details'>
                                     <div className='top'>
                                         <div className='inbox__conversation-username'>{util.getDisplayName(conversation.receivingUser.name)}</div>

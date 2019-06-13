@@ -56,7 +56,7 @@ function Profile({ loggedInUser, location, match }) {
             
                 <div className='user-profile'>
                     <div className='profile'>
-                        <Avatar url={userProfile.photoURL} showHalo={true} size='xl' />
+                        <Avatar url={userProfile.photoURL} showHalo={true} size='xxl' alt={userProfile.displayName} />
 
                         <div className='profile-details'>
                             <div className='profile-name-about'>
@@ -118,10 +118,10 @@ function Verification({ verification }) {
 function Compliment({ compliment }) {
     return (
         <li className='compliment-list-item d-flex flex-row'>
-            <img className='compliment-user-pic' src={compliment.complimenter.photoURL} alt={compliment.complimenter.name} />
-            <div className='d-flex flex-col'>
+            <Avatar url={compliment.complimenter.photoURL} alt={util.getDisplayName(compliment.complimenter.name)} size='medium' kind='square' />
+            <div className='d-flex flex-col flex-center-vertical'>
                 <div className='d-flex flex-row'>
-                    <div className='compliment-user-name'>{ compliment.complimenter.name }</div>
+                    <div className='compliment-user-name'>{ util.getDisplayName(compliment.complimenter.name) }</div>
                     <div className='compliment-date'>{ util.getRelativeTime(compliment.created) }</div>
                 </div>
                 <div className='compliment-text'>{ compliment.compliment }</div>

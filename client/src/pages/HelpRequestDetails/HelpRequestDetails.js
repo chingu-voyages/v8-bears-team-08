@@ -65,7 +65,7 @@ function HelpRequestDetails(props) {
                     <h2 className='heading-2'>Great!</h2>
 
                     <div className='image-container'>
-                        <Avatar url={personWhoHelped.photoURL} size='xl' />
+                        <Avatar url={personWhoHelped.photoURL} size='xxl' alt={util.getDisplayName(personWhoHelped.name)} />
                         <i className='material-icons'>check</i>
                     </div>
                     <p>Would you like to leave a compliment?</p>
@@ -201,6 +201,7 @@ function MarkHelpRequestDoneDialog(props) {
                                             url={helper.photoURL} 
                                             size='small'
                                             className={(personWhoHelped || {}).uid === helper.uid ? 'selected' : ''}
+                                            alt={util.getDisplayName(helper.name)}
                                         />
                                         <p>{util.getDisplayName(helper.name)}</p>
                                     </li>

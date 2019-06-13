@@ -1,6 +1,18 @@
 .avatar {
-    border-radius: 50%;
     object-fit: cover;
+    
+    &.round {
+        border-radius: 50%;
+    }
+
+    &.square {
+        border-radius: 0;
+    }
+
+    &.halo {
+        border: 1px solid #eee;
+        padding: 4px;
+    }
     
     &.tiny {
         width: 40px;
@@ -15,25 +27,27 @@
         min-height: 64px;
     }
     &.medium {
+        width: 70px;
+        height: 70px;
+        min-width: 70px;
+        min-height: 70px;
+    }
+    &.large {
         width: 92px;
         height: 92px;
         min-width: 92px;
         min-height: 92px;
     }
-    &.large {
+    &.xl {
         width: 120px;
         height: 120px;
         min-width: 120px;
         min-height: 120px;
     }
-    &.xl {
+    &.xxl {
         width: 150px;
         height: 150px;
         min-width: 150px;
         min-height: 150px;
-    }
-    &.halo {
-        border: 1px solid #eee;
-        padding: 4px;
     }
 }

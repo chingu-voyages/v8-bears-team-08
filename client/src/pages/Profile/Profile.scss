@@ -116,12 +116,7 @@
 }
 
 .compliments {
-    .compliment-user-pic {
-        width: 75px;
-        height: 75px;
-        min-width: 75px;
-        min-height: 75px;
-        object-fit: cover;
+    img {
         margin-right: 12px;
     }
     
@@ -143,8 +138,5 @@
     
     .compliment-list-item:not(:last-child) {
         margin-bottom: 24px;
-    }
-
-    .compliment-list-item {
     }
 }
