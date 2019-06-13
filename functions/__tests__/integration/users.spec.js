@@ -145,6 +145,7 @@ test('GET /users/:uid/profile should get the full user profile including helpreq
         .expect(200)
         .then(response => {
             expect(response.body.uid).toBe(user2.uid)
+            expect(response.body.numTimesHelped).toBe(0)
             expect(response.body.email).toBeUndefined()
             expect(response.body.helpRequests[0]).toEqual({
                 uid: helpRequest2.uid,
