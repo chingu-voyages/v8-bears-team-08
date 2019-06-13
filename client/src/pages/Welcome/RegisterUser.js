@@ -11,6 +11,7 @@ function RegisterUser(props) {
     const [firstName, setFirstName] = useState(user.firstName || '')
     const [lastName, setLastName] = useState(user.lastName || '')
     const [location, setLocation] = useState(user.location || '')
+    const [about, setAbout] = useState(user.about || '')
     const [isLoading, setIsLoading] = useState(false)
 
     if (!props.location.state || !props.location.state.user) {
@@ -24,6 +25,7 @@ function RegisterUser(props) {
         user.firstName = firstName
         user.lastName = lastName
         user.location = location
+        user.about = about
 
         api.registerUser(user)
             .then(response => {
@@ -64,6 +66,14 @@ function RegisterUser(props) {
                     placeholder='Your Zip Code'
                     value={location}
                     onChange={e => setLocation(e.target.value)}
+                    required
+                />
+                <input
+                    type='text'
+                    id='about'
+                    placeholder='About you'
+                    value={about}
+                    onChange={e => setAbout(e.target.value)}
                     required
                 />
             </section>
