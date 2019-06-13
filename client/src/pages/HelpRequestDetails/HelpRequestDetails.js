@@ -204,8 +204,8 @@ function MarkHelpRequestDoneDialog(props) {
                 }
 
                 <div className='bottom'>
-                    <Button style='text' onClick={handleCancel}>Cancel</Button>
-                    <Button style='text' onClick={handleMarkDone}>Mark Done</Button>
+                    <Button kind='text' onClick={handleCancel}>Cancel</Button>
+                    <Button kind='text' onClick={handleMarkDone}>Mark Done</Button>
                 </div>
 
             </div>

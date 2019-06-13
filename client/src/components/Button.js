@@ -3,13 +3,13 @@ import './Button.scss'
 
 
 function Button(props) {
-    const { type, style, isLoading, onClick, children, disabled, ...rest } = props
+    const { type, kind, isLoading, onClick, children, disabled, ...rest } = props
 
     let classes = 'btn'
     
-    if (style === 'text') {
+    if (kind === 'text') {
         classes += ' btn-text'
-    } else if (style === 'outlined') {
+    } else if (kind === 'outlined') {
         classes += ' btn-outlined'
     } else {
         classes += ' btn-contained'
