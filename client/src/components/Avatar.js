@@ -23,7 +23,7 @@ function Avatar({ url, size, showHalo, kind, className, alt, width, height, ...r
     }
 
     return (
-        <img src={url} className={classes} alt={alt || 'User avatar'} style={style} {...rest} />
+        <img src={url || '/images/blank-profile-pic.png'} className={classes} alt={alt || 'User avatar'} style={style} {...rest} />
     )
 }
 
