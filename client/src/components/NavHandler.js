@@ -1,5 +1,3 @@
-'use strict'
-
 /*
  * Singleton.
  * This class works in conjunction with AsyncLink and SyncLink and handles the current state of the navigation.
