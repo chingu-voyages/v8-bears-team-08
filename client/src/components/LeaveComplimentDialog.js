@@ -20,10 +20,10 @@ function LeaveComplimentDialog(props) {
         e.preventDefault()
 
         setIsSubmitting(true)
-        api.saveCompliment(complimentText, props.personWhoHelped.uid)
-            .then(() => {
+        api.saveCompliment(complimentText, props.complimentee.uid)
+            .then(response => {
                 setIsSubmitting(false)
-                props.onComplimentSaved()
+                props.onComplimentSaved(response.data)
                 props.hide()
             })
             .catch(e => {
@@ -37,7 +37,7 @@ function LeaveComplimentDialog(props) {
             <div className='leave-compliment-dialog'>
                 
                 <div className='top'>
-                    <p>Write a compliment for {util.getDisplayName(props.personWhoHelped.name)}</p>
+                    <p>Write a compliment for {util.getDisplayName(props.complimentee.name)}</p>
                 </div>
 
                 <form onSubmit={handleSaveCompliment}>

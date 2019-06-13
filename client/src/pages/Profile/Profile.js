@@ -3,6 +3,7 @@ import HelpRequestList from '../Home/HelpRequestList'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import Loader from '../../components/Loader'
+import LeaveComplimentDialog from '../../components/LeaveComplimentDialog'
 import * as api from '../../api'
 import * as util from '../../helpers/util'
 import './Profile.scss'
@@ -11,6 +12,7 @@ import './Profile.scss'
  * This component renders the logged in user's profile, or any other user's profile, but from different routes.
  */
 function Profile({ loggedInUser, location, match }) {
+    const [shouldDisplayLeaveComplimentDialog, setShoulDisplayLeaveComplimentDialog] = useState(false)
     const [userProfile, setuserProfile] = useState(null)
     const [isLoaded, setIsLoaded] = useState(false)
     const [isError, setIsError] = useState(false)
@@ -35,43 +37,63 @@ function Profile({ loggedInUser, location, match }) {
         }
     }, [location, loggedInUser, match.params.uid])
 
+    function handleComplimentSaved(compliment) {
+        const compliments = userProfile.compliments
+        compliments.unshift(compliment)
+        console.log(compliments)
+        setuserProfile({ ...userProfile, compliments })
+    }
+
     if (isLoaded) {
         return (
-            <div className='user-profile'>
-                <div className='profile'>
-                    <Avatar url={userProfile.photoURL} showHalo={true} size='xl' />
+            <>
+                <LeaveComplimentDialog
+                    shouldShow={shouldDisplayLeaveComplimentDialog}
+                    hide={() => setShoulDisplayLeaveComplimentDialog(false)}
+                    onComplimentSaved={handleComplimentSaved}
+                    complimentee={userProfile}
+                />
+            
+                <div className='user-profile'>
+                    <div className='profile'>
+                        <Avatar url={userProfile.photoURL} showHalo={true} size='xl' />
 
-                    <div className='profile-details'>
-                        <div className='profile-name-about'>
-                            <span className='profile-name'>{userProfile.displayName}</span>
-                            <span className='profile-about'>"{userProfile.about}"</span>
+                        <div className='profile-details'>
+                            <div className='profile-name-about'>
+                                <span className='profile-name'>{userProfile.displayName}</span>
+                                <span className='profile-num-helped'>
+                                    <p>I've helped <strong>{userProfile.numTimesHelped}</strong> {userProfile.numTimesHelped === 1 ? 'neighbor' : 'neighbors'} in</p>
+                                    <p className='profile-location'>&nbsp;{userProfile.location}</p>
+                                </span>
+                                <span className='profile-about'>"{userProfile.about}"</span>
+                            </div>
+                            {userProfile.uid !== loggedInUser.uid && <Button onClick={() => setShoulDisplayLeaveComplimentDialog(true)}>Write Compliment</Button>}
                         </div>
-                        {userProfile.uid !== loggedInUser.uid && <Button>Write Compliment</Button>}
+                    </div>
+
+                    <div>
+                        <hr className='profile-separator' />
+                        <h2 className='profile-section-text'>Verifications</h2>
+                        <ul className='verifications'>
+                            { userProfile.emailVerifications.map(verification => (
+                            <Verification key={verification.providerId} verification={verification} />  
+                            ))}
+                        </ul>
+                        
+                        <hr className='profile-separator' />
+                        <h2 className='profile-section-text'>Active Requests</h2>
+                        <HelpRequestList cardSize='small' helpRequests={userProfile.helpRequests} />
+
+                        <hr className='profile-separator' />
+                        <h2 className='profile-section-text'>Recent Compliments</h2>
+                        <ul className='compliments'>
+                            { userProfile.compliments.map(compliment => (
+                                <Compliment key={compliment.uid} compliment={compliment} />
+                            ))}
+                        </ul>
                     </div>
                 </div>
-
-                <div>
-                    <hr className='profile-separator' />
-                    <h2 className='profile-section-text'>Verifications</h2>
-                    <ul className='verifications'>
-                        { userProfile.emailVerifications.map(verification => (
-                          <Verification key={verification.providerId} verification={verification} />  
-                        ))}
-                    </ul>
-                    
-                    <hr className='profile-separator' />
-                    <h2 className='profile-section-text'>Requests</h2>
-                    <HelpRequestList cardSize='small' helpRequests={userProfile.helpRequests} />
-
-                    <hr className='profile-separator' />
-                    <h2 className='profile-section-text'>Compliments</h2>
-                    <ul className='compliments'>
-                        { userProfile.compliments.map(compliment => (
-                            <Compliment key={compliment.uid} compliment={compliment} />
-                        ))}
-                    </ul>
-                </div>
-            </div>
+            </>
         )
     } else if (isError) {
         return <div>Error</div>
@@ -98,8 +120,11 @@ function Compliment({ compliment }) {
         <li className='compliment-list-item d-flex flex-row'>
             <img className='compliment-user-pic' src={compliment.complimenter.photoURL} alt={compliment.complimenter.name} />
             <div className='d-flex flex-col'>
-                <span className='compliment-user-name'>{ compliment.complimenter.name }</span>
-                <span className='compliment-text'>{ compliment.compliment }</span>
+                <div className='d-flex flex-row'>
+                    <div className='compliment-user-name'>{ compliment.complimenter.name }</div>
+                    <div className='compliment-date'>{ util.getRelativeTime(compliment.created) }</div>
+                </div>
+                <div className='compliment-text'>{ compliment.compliment }</div>
             </div>
         </li>
     )

@@ -58,7 +58,7 @@ function HelpRequestDetails(props) {
                     shouldShow={shouldDisplayLeaveComplimentDialog}
                     hide={() => setShoulDisplayLeaveComplimentDialog(false)}
                     onComplimentSaved={handleComplimentSaved}
-                    personWhoHelped={personWhoHelped}
+                    complimentee={personWhoHelped}
                 />
                 
                 <div className='help-request-details-complete'>
@@ -115,9 +115,8 @@ function HelpRequestDetails(props) {
                     <img src={helpRequest.photoURL || helpRequest.user.photoURL} alt='Help Request' />
 
                     <div className='d-flex flex-col'>
-                        {/* this shows up as "in a few seconds" when first posted - try to change to now */}
                         <p><strong>Posted {util.getRelativeTime(helpRequest.created)}</strong> near {helpRequest.location}</p>
-                        <p>{helpRequest.neededAsap || util.getRelativeLocaleTime(helpRequest.neededDatetime)}</p>
+                        <p>{helpRequest.neededAsap || util.getRelativeCalendarTime(helpRequest.neededDatetime)}</p>
                         <br />
                         
                         {helpRequest.tags && <p><strong>Tags:</strong></p>}
