@@ -36,7 +36,7 @@ function AddHelpRequest(props) {
             const formData = new FormData()
             const formResponse = { ...formState }
             formResponse.location = loggedInUser.location
-            formResponse.user = loggedInUser
+            formResponse.user = { uid: loggedInUser.uid, name: loggedInUser.name, photoURL: loggedInUser.photoURL }
             if (formResponse.photo) {
                 formData.set('photo', formResponse.photo)
             }
