@@ -50,6 +50,9 @@ function getTitleText(pathname, routeState) {
         }
         return undefined
     }
+    if (pathname.startsWith('/discover')) {
+        return 'Discover'
+    }
 
     return undefined
 }
