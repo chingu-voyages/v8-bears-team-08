@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { withRouter } from 'react-router-dom'
+import { NavHandlerContext } from '../App';
 
 function AsyncLink(props) {
+    const navHandler = useContext(NavHandlerContext)
 
     // function timeout(ms) {
     //     return new Promise(resolve => setTimeout(resolve, ms))
@@ -10,13 +12,13 @@ function AsyncLink(props) {
     async function handleClick(e) {
         e.preventDefault()
 
-        props.navHandler.asyncNavClicked(props.to, props.delayMs || undefined)
+        navHandler.asyncNavClicked(props.to, props.delayMs || undefined)
         //await timeout(5000)
 
         props.fetch()
             .then(response => {
                 // only route if the user hasn't already clicked on another link while this one was loading
-                if (props.navHandler.shouldRouteTo(props.to)) {
+                if (navHandler.shouldRouteTo(props.to)) {
                     props.history.push(
                         {
                             pathname: props.to,
@@ -26,7 +28,7 @@ function AsyncLink(props) {
                 }
             })
             .catch(e => console.log(e))
-            .finally(() => props.navHandler.setLoadingComplete(props.to))
+            .finally(() => navHandler.setLoadingComplete(props.to))
     }
 
     return <a href={props.to} onClick={handleClick}>{props.children}</a>
