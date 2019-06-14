@@ -55,7 +55,7 @@ function LeaveComplimentDialog(props) {
                     </div>
 
                     <div className='bottom'>
-                        <Button kind='text' disabled={isSubmitting} onClick={handleCancel}>Cancel</Button>
+                        <Button kind='text' type='button' disabled={isSubmitting} onClick={handleCancel}>Cancel</Button>
                         <Button kind='text' type='submit' isLoading={isSubmitting}>Save Compliment</Button>
                     </div>
                 </form>
