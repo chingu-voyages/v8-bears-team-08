@@ -34,7 +34,7 @@ function Header(props) {
                     <div className='dropdown'>
                         <ul>
                             <li onClick={() => setShowDropdownMenu(false)}>
-                                <AsyncLink to='/profile' fetch={() => api.getUserProfile(props.loggedInUser.uid)}>Nektarios H.</AsyncLink>
+                                <AsyncLink to='/profile' fetch={() => api.getUserProfile(props.loggedInUser.uid)}>{util.getDisplayName(props.loggedInUser.name)}</AsyncLink>
                             </li>
                             <hr />
                             <li onClick={() => setShowDropdownMenu(false)}>
