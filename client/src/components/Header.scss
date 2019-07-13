@@ -11,6 +11,16 @@
     // margin-bottom: calc(#{$header-bottom-margin} + #{$header-height});
     // @include Elevation(2);
 
+    #fullscreen-cover {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 98;
+        background-color: transparent;
+    }
+
     .logo img {
         height: 28px;
         width: 246px;
@@ -54,6 +64,15 @@
             li {
                 display: flex;
                 color: #232F34;
+                &:hover {
+                    background-color: $light-blue;
+                }
+                &:first-child:hover {
+                    border-radius: 4px 4px 0 0;
+                }
+                &:last-child:hover {
+                    border-radius: 0 0 4px 4px;
+                }
             }
             
             li, 

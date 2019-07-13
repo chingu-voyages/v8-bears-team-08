@@ -12,8 +12,16 @@ function Header(props) {
     const title = getTitleText(props.pathname, props.routeState)
     const isMobile = props.isMobile
 
+    function handleOutsideMenuClick(e) {
+        if (e.target.id === 'fullscreen-cover') {
+            setShowDropdownMenu(false)
+        }
+    }
+    
     return (
         <header id='header' className='d-flex flex-row flex-center'>
+            { showDropdownMenu && <div id='fullscreen-cover' onClick={handleOutsideMenuClick}></div> }
+
             { title && isMobile ?
                     <div className='title'>
                         {title}
